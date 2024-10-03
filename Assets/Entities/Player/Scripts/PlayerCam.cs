@@ -1,22 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 /*
  * Derived from a tutorial by Dave / GameDevelopment.
  * https://www.youtube.com/watch?v=f473C43s8nE&list=PLh9SS5jRVLAleXEcDTWxBF39UjyrFc6Nb&index=7
  */
 
+using UnityEngine;
+
 public class PlayerCam : MonoBehaviour
 {
 	// Sensitivity values for both the X & Y axes.
-	public float sensitivityX;
-	public float sensitivityY;
+	[SerializeField] private float sensitivityX = 450.0f;
+	[SerializeField] private float sensitivityY = 450.0f;
 
 	public Transform playerOrientation;
 
-	float cameraXRotation;
-	float cameraYRotation;
+	private float cameraXRotation;
+	private float cameraYRotation;
 
 	private void Start()
 	{

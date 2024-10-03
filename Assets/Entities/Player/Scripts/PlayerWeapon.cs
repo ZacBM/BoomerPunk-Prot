@@ -1,26 +1,57 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    [SerializeField] GameObject weapon;
-    private GameObject potentialWeapon;
-    public LayerMask weaponLayer;
+    [SerializeField] private Weapon currentWeapon;
+    [SerializeField] private GameObject weaponHolder;
+    [SerializeField] private Transform cameraTransform;
     
-    void OnTriggerEnter(Collider collider)
+    [SerializeField] private float maximumPickUpDistance = 3.0f;
+    [SerializeField] private float throwStrength = 20.0f;
+    
+    [SerializeField] private KeyCode pickupKey = KeyCode.LeftControl;
+    [SerializeField] private KeyCode shootKey = KeyCode.LeftShift;
+
+    void Update()
     {
-        if (collider.gameObject.layer == weaponLayer)
+        bool holdingAWeapon = currentWeapon != null;
+        
+        if (Input.GetKeyDown(pickupKey))
         {
-            potentialWeapon = collider.gameObject;
+            if (holdingAWeapon) ThrowCurrentWeapon(); //DropCurrentWeapon();
+            else PickUpANearbyWeapon();
+        }
+
+        if (Input.GetKeyDown(shootKey) && holdingAWeapon)
+        {
+            currentWeapon.Shoot();
         }
     }
-    
-    void OnTriggerExit(Collider collider)
+
+    void PickUpANearbyWeapon()
     {
-        if (collider.gameObject == potentialWeapon)
+        Weapon[] nearbyObjects = FindObjectsOfType<Weapon>();
+        foreach (Weapon weapon in nearbyObjects)
         {
-            potentialWeapon = null;
+            if (Vector3.Distance(weapon.gameObject.transform.position, transform.position) < maximumPickUpDistance)
+            {
+                weapon.GetPickedUp(weaponHolder);
+                currentWeapon = weapon;
+                break;
+            }
         }
+    }
+
+    void DropCurrentWeapon()
+    {
+        currentWeapon.GetDropped();
+        currentWeapon = null;
+    }
+    
+    void ThrowCurrentWeapon()
+    {
+        currentWeapon.GetThrown(cameraTransform.forward * throwStrength);
+        currentWeapon = null;
     }
 }
