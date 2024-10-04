@@ -3,7 +3,9 @@
  * https://www.youtube.com/watch?v=f473C43s8nE&list=PLh9SS5jRVLAleXEcDTWxBF39UjyrFc6Nb&index=7
  */
 
+using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -33,6 +35,10 @@ public class PlayerMovement : MonoBehaviour
 	Vector3 moveDirection;
 
 	Rigidbody rb;
+	
+	public LayerMask exitLayer;
+	
+	[SerializeField] private HPComponent hpc;
 
 	private void Start()
 	{
@@ -53,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
 		//Handling the drag.
 		if (grounded) rb.drag = groundDrag;
 		else rb.drag = 0;
+		
+		if (hpc.health <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	private void FixedUpdate()

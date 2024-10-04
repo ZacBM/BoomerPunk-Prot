@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -18,10 +19,13 @@ public class Weapon : MonoBehaviour
 
     public void Shoot()
     {
+        ammo--;
         RaycastHit hit;
         Physics.Raycast(bulletOrigin.position, bulletOrigin.forward, out hit, shotRange);
-        if (hit.collider != null) Destroy(hit.collider.gameObject); // Right now, this only deletes what it hits.
-
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.TryGetComponent<HPComponent>(out HPComponent hpc)) hpc.ChangeHealth(-1);
+        }
         //Debug.DrawRay(bulletOrigin.position, bulletOrigin.forward * shotRange, Color.red, 1.0f);
         InstantiateBullet();
     }
@@ -78,5 +82,10 @@ public class Weapon : MonoBehaviour
                 //Debug.Log("Bullet instantiated and force applied.");
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(bulletOrigin.position, shotRange);
     }
 }

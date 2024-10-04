@@ -13,8 +13,6 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private KeyCode pickupKey = KeyCode.LeftControl;
     [SerializeField] private KeyCode shootKey = KeyCode.Mouse0;
 
-    
-
     void Update()
     {
         bool holdingAWeapon = currentWeapon != null;
@@ -25,11 +23,7 @@ public class PlayerWeapon : MonoBehaviour
             else PickUpANearbyWeapon();
         }
 
-        if (Input.GetKeyDown(shootKey) && holdingAWeapon)
-        {
-            currentWeapon.Shoot();
-
-        }
+        if (Input.GetKeyDown(shootKey) && holdingAWeapon) currentWeapon.Shoot();
     }
 
     void PickUpANearbyWeapon()
@@ -57,6 +51,9 @@ public class PlayerWeapon : MonoBehaviour
         currentWeapon.GetThrown(cameraTransform.forward * throwStrength);
         currentWeapon = null;
     }
-
     
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, maximumPickUpDistance);
+    }
 }
