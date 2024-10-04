@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] private Transform bulletOrigin;
-    
+    [SerializeField] public Transform bulletOrigin;
+    [SerializeField] private GameObject bullet;
     [SerializeField] private int ammo = 10;
     [SerializeField] private float shotRange = 10.0f;
-    
+    [SerializeField] private float bulletForce = 50.0f;
+
     void Start()
     {
         ActivateRigidbody();
@@ -20,8 +21,16 @@ public class Weapon : MonoBehaviour
         RaycastHit hit;
         Physics.Raycast(bulletOrigin.position, bulletOrigin.forward, out hit, shotRange);
         if (hit.collider != null) Destroy(hit.collider.gameObject); // Right now, this only deletes what it hits.
+
+        //Debug.DrawRay(bulletOrigin.position, bulletOrigin.forward * shotRange, Color.red, 1.0f);
+        InstantiateBullet();
     }
-    
+
+    public float GetBulletForce()
+    {
+        return bulletForce;
+    }
+
     void ActivateRigidbody()
     {
         GetComponent<Rigidbody>().detectCollisions = true;
@@ -52,5 +61,22 @@ public class Weapon : MonoBehaviour
         transform.SetParent(null);
         ActivateRigidbody();
         GetComponent<Rigidbody>().AddForce(throwDirection, ForceMode.Impulse);
+    }
+
+    public void InstantiateBullet()
+    {
+        if (bullet != null)
+        {
+            // Instantiate the bullet at correct, origin position and rotation
+            GameObject spawnedBullet = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
+
+            // Apply force to the bullet in the correct direction
+            Rigidbody bulletRb = spawnedBullet.GetComponent<Rigidbody>();
+            if (bulletRb != null)
+            {
+                bulletRb.AddForce(bulletOrigin.forward * GetBulletForce(), ForceMode.Impulse);
+                //Debug.Log("Bullet instantiated and force applied.");
+            }
+        }
     }
 }

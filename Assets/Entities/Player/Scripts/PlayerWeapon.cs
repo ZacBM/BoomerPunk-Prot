@@ -11,7 +11,9 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private float throwStrength = 20.0f;
     
     [SerializeField] private KeyCode pickupKey = KeyCode.LeftControl;
-    [SerializeField] private KeyCode shootKey = KeyCode.LeftShift;
+    [SerializeField] private KeyCode shootKey = KeyCode.Mouse0;
+
+    
 
     void Update()
     {
@@ -26,6 +28,7 @@ public class PlayerWeapon : MonoBehaviour
         if (Input.GetKeyDown(shootKey) && holdingAWeapon)
         {
             currentWeapon.Shoot();
+
         }
     }
 
@@ -54,4 +57,6 @@ public class PlayerWeapon : MonoBehaviour
         currentWeapon.GetThrown(cameraTransform.forward * throwStrength);
         currentWeapon = null;
     }
+
+    
 }

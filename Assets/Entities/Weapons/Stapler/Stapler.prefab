@@ -191,7 +191,7 @@ Transform:
   m_GameObject: {fileID: 7144474753532018077}
   serializedVersion: 2
   m_LocalRotation: {x: -0.052264173, y: -0.052264173, z: -0.002739046, w: 0.9972609}
-  m_LocalPosition: {x: 0, y: 0.175, z: 0.527}
+  m_LocalPosition: {x: 0, y: 0.085, z: 0.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -246,8 +246,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletOrigin: {fileID: 7512944021397190666}
+  bullet: {fileID: 7779226012565987470, guid: 00d9100596a182948bbc5b27b0b0a3f5, type: 3}
   ammo: 10
   shotRange: 10
+  bulletForce: 20
 --- !u!54 &7473863221773972429
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
 	[Header("Ground Check")]
 	public float playerHeight;
 	public LayerMask groundLayer;
-	bool grounded;
+	public bool grounded;
 
 	public Transform orientation;
 
@@ -76,9 +76,9 @@ public class PlayerMovement : MonoBehaviour
 		}
 		else
 		{
-			if (!Input.GetKey(jumpKey)) Debug.Log("Jump key is not being pressed.");
-			if (!readyToJump) Debug.Log("Jump boolean is false.");
-			if (!grounded) Debug.Log("Player is not on ground.");
+			//if (!Input.GetKey(jumpKey)) Debug.Log("Jump key is not being pressed.");
+			//if (!readyToJump) Debug.Log("Jump boolean is false.");
+			//if (!grounded) Debug.Log("Player is not on ground.");
 		}
 	}
 
