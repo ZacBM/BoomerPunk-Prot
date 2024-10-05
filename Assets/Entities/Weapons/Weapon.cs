@@ -51,6 +51,9 @@ public class Weapon : MonoBehaviour
     {
         DectivateRigidbody();
         transform.SetParent(parent.transform, false);
+        //Jake
+        parent.SetActive(false);
+        //Jake
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
     }
 

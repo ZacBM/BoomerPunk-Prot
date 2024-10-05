@@ -299,6 +299,8 @@ MonoBehaviour:
   throwStrength: 20
   pickupKey: 306
   shootKey: 323
+  _armStapler: {fileID: 0}
+  _armEmpty: {fileID: 0}
 --- !u!114 &5006956171214102736
 MonoBehaviour:
   m_ObjectHideFlags: 0
