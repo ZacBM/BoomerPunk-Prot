@@ -14,13 +14,14 @@ public class EnemyAi : MonoBehaviour
 
     float shuffleSpeed;
     float shuffleAmplitude;
-
-
+    [SerializeField] float force;
+    Rigidbody rb;
+    [SerializeField] float timeToDie;
 
     // Start is called before the first frame update
     void Awake()
     {
-
+        rb = GetComponent<Rigidbody>();
         player = GameObject.FindWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
         shuffleSpeed = Random.Range(1.0f, 3.0f);
@@ -91,6 +92,17 @@ public class EnemyAi : MonoBehaviour
     }
 
 
+    public void OnDeath()
+    {
+        rb.isKinematic = true;
+        rb.AddForce((player.transform.position - transform.position).normalized * force, ForceMode.Impulse);
+        Invoke("DestroySelf", timeToDie);
+    }
+
+    void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
 
     void OnDestroy()
     {
