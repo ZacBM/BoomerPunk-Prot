@@ -35,6 +35,10 @@ public class PlayerCam : MonoBehaviour
 
 		//Rotatation of cam and orientation.
 		transform.rotation = Quaternion.Euler(cameraXRotation, cameraYRotation, 0f);
-		playerOrientation.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
+		if (playerOrientation == null)
+		{
+			playerOrientation = GameObject.FindGameObjectWithTag("Player Orientation").transform;
+		}
+		if (playerOrientation != null) playerOrientation.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
 	}
 }

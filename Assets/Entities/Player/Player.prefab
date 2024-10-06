@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3770954358651270031}
   m_Layer: 11
   m_Name: Camera Position
-  m_TagString: Untagged
+  m_TagString: Camera Position
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 4272264828166274068}
   m_Layer: 11
   m_Name: Orientation
-  m_TagString: Untagged
+  m_TagString: Player Orientation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 7844489650151907763}
   m_Layer: 11
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -279,7 +279,7 @@ MonoBehaviour:
   exitLayer:
     serializedVersion: 2
     m_Bits: 512
-  hpc: {fileID: 8803936039236597799}
+  hpComponent: {fileID: 8803936039236597799}
 --- !u!114 &8209671683749069461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +299,8 @@ MonoBehaviour:
   throwStrength: 20
   pickupKey: 306
   shootKey: 323
+  _armStapler: {fileID: 0}
+  _armEmpty: {fileID: 0}
 --- !u!114 &5006956171214102736
 MonoBehaviour:
   m_ObjectHideFlags: 0

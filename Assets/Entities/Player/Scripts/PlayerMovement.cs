@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 	
 	public LayerMask exitLayer;
 	
-	[SerializeField] private HPComponent hpc;
+	[SerializeField] private HPComponent hpComponent;
 
 	private void Start()
 	{
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
 		if (grounded) rb.drag = groundDrag;
 		else rb.drag = 0;
 		
-		if (hpc.health <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		if (hpComponent.health <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	private void FixedUpdate()
@@ -81,12 +81,6 @@ public class PlayerMovement : MonoBehaviour
 			Jump();
 
 			Invoke(nameof(ResetJump), jumpCooldown);
-		}
-		else
-		{
-			//if (!Input.GetKey(jumpKey)) Debug.Log("Jump key is not being pressed.");
-			//if (!readyToJump) Debug.Log("Jump boolean is false.");
-			//if (!grounded) Debug.Log("Player is not on ground.");
 		}
 	}
 

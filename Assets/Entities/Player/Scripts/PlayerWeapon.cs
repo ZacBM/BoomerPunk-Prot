@@ -13,6 +13,10 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private KeyCode pickupKey = KeyCode.LeftControl;
     [SerializeField] private KeyCode shootKey = KeyCode.Mouse0;
 
+    //Jake IN CASE I FUCKED SOMETHING UP LMK
+    public GameObject _armStapler;
+    public GameObject _armEmpty;
+
     void Update()
     {
         bool holdingAWeapon = currentWeapon != null;
@@ -35,6 +39,10 @@ public class PlayerWeapon : MonoBehaviour
             {
                 weapon.GetPickedUp(weaponHolder);
                 currentWeapon = weapon;
+                //Jake
+                _armEmpty?.SetActive(false);
+                _armStapler?.SetActive(true);
+                //Jake
                 break;
             }
         }
@@ -44,12 +52,21 @@ public class PlayerWeapon : MonoBehaviour
     {
         currentWeapon.GetDropped();
         currentWeapon = null;
+        //Jake
+        _armEmpty?.SetActive(true);
+        _armStapler?.SetActive(false);
+        //Jake
     }
     
     void ThrowCurrentWeapon()
     {
-        currentWeapon.GetThrown(cameraTransform.forward * throwStrength);
+        if (cameraTransform == null) cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        if (cameraTransform != null) currentWeapon.GetThrown(cameraTransform.forward * throwStrength);
         currentWeapon = null;
+        //Jake
+        _armEmpty?.SetActive(true);
+        _armStapler?.SetActive(false);
+        //Jake
     }
     
     private void OnDrawGizmos()

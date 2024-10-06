@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.VFX;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
@@ -11,6 +12,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int ammo = 10;
     [SerializeField] private float shotRange = 10.0f;
     [SerializeField] private float bulletForce = 50.0f;
+    
+    [SerializeField] private VisualEffect shotVisualEffect;
 
     void Start()
     {
@@ -28,6 +31,12 @@ public class Weapon : MonoBehaviour
         }
         //Debug.DrawRay(bulletOrigin.position, bulletOrigin.forward * shotRange, Color.red, 1.0f);
         InstantiateBullet();
+        if (shotVisualEffect != null) CreateVisualEffect();
+    }
+
+    void CreateVisualEffect()
+    {
+        shotVisualEffect.Play();
     }
 
     public float GetBulletForce()
@@ -51,7 +60,11 @@ public class Weapon : MonoBehaviour
     {
         DectivateRigidbody();
         transform.SetParent(parent.transform, false);
+        
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        //Jake
+        //parent.SetActive(false);
+        //Jake
     }
 
     public void GetDropped()

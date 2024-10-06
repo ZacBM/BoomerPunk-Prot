@@ -8,7 +8,7 @@ public class ExitDoor : MonoBehaviour
 
     void Update()
     {
-        if (player == null) player = GameObject.Find("Player").transform;
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
         
         if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z),
                 new Vector2(player.position.x, player.position.z)) <= exitDistance)
