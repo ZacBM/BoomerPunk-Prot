@@ -45,6 +45,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Desk
       objectReference: {fileID: 0}
+    - target: {fileID: 4176268883235598778, guid: c87bcb2401d0b7646972d6ee581c67e9, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8800943370753344843, guid: c87bcb2401d0b7646972d6ee581c67e9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.7589238

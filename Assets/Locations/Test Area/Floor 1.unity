@@ -854,6 +854,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2071021036768950471, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5315215114889585934, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
       propertyPath: m_Name
       value: Player Camera Holder
@@ -1332,6 +1336,26 @@ PrefabInstance:
     - target: {fileID: 3250547225214105307, guid: e24ae0bcd538b27f4a3888c4e47735b2, type: 3}
       propertyPath: bulletForce
       value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7512944021397190666, guid: e24ae0bcd538b27f4a3888c4e47735b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9986295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7512944021397190666, guid: e24ae0bcd538b27f4a3888c4e47735b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.052335896
+      objectReference: {fileID: 0}
+    - target: {fileID: 7512944021397190666, guid: e24ae0bcd538b27f4a3888c4e47735b2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7512944021397190666, guid: e24ae0bcd538b27f4a3888c4e47735b2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7512944021397190666, guid: e24ae0bcd538b27f4a3888c4e47735b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7532239549994541435, guid: e24ae0bcd538b27f4a3888c4e47735b2, type: 3}
       propertyPath: m_Name
