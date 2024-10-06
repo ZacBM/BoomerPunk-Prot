@@ -10,27 +10,29 @@ public class EnemyAi : MonoBehaviour
     [SerializeField] float stoppingDistance;
     [SerializeField] float stayAwayDistance;
     public static List<EnemyAi> enemiesInAttackRange = new List<EnemyAi>();
-    public static int maxAttackers = 6;
+    public static int maxAttackers = 4;
 
     float shuffleSpeed;
     float shuffleAmplitude;
 
 
+
     // Start is called before the first frame update
     void Awake()
     {
+
         player = GameObject.FindWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
         shuffleSpeed = Random.Range(1.0f, 3.0f);
         shuffleAmplitude = Random.Range(1.0f, 3.0f); ;
 
-
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Chase();
+
     }
 
     void Chase()
@@ -38,29 +40,35 @@ public class EnemyAi : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
 
-        if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count < maxAttackers) {
+        if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
+        {
             navMeshAgent.SetDestination(player.transform.position);
         }
 
 
-        else if(distanceToPlayer <= stoppingDistance)
+        else if (distanceToPlayer <= stoppingDistance)
         {
 
-            if(!enemiesInAttackRange.Contains(this) && enemiesInAttackRange.Count < maxAttackers)
+            if (!enemiesInAttackRange.Contains(this) && enemiesInAttackRange.Count < maxAttackers)
             {
                 enemiesInAttackRange.Add(this);
-                Debug.Log(enemiesInAttackRange);
+                //player.GetComponent<HPComponent>().ChangeHealth(-1);
+                //deal damage on timer
             }
-            navMeshAgent.SetDestination(transform.position);
+            else if(enemiesInAttackRange.Contains(this))
+                navMeshAgent.SetDestination(transform.position);
         }
 
 
-        else if (distanceToPlayer > stoppingDistance && distanceToPlayer < stayAwayDistance && enemiesInAttackRange.Count >= maxAttackers)
+        else if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
         {
             StayAway();
+
         }
 
-        if (enemiesInAttackRange.Contains(this) && distanceToPlayer > stoppingDistance + 1.0f)
+
+        //if player moves out of range then remove from list
+        if (enemiesInAttackRange.Contains(this) && distanceToPlayer > stoppingDistance)
         {
             enemiesInAttackRange.Remove(this);
         }
@@ -69,6 +77,7 @@ public class EnemyAi : MonoBehaviour
 
     void StayAway()
     {
+
         Vector3 positionAwayFromPlayer = (transform.position - player.transform.position).normalized;
         Vector3 stayAwayPosition = player.transform.position + positionAwayFromPlayer * stayAwayDistance;
 
@@ -80,6 +89,7 @@ public class EnemyAi : MonoBehaviour
 
         navMeshAgent.SetDestination(shufflePosition);
     }
+
 
 
     void OnDestroy()
