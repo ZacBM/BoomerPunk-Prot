@@ -40,7 +40,8 @@ public class PlayerWeapon : MonoBehaviour
                 weapon.GetPickedUp(weaponHolder);
                 currentWeapon = weapon;
                 //Jake
-                _armEmpty.SetActive(false); _armStapler.SetActive(true);
+                _armEmpty?.SetActive(false);
+                _armStapler?.SetActive(true);
                 //Jake
                 break;
             }
@@ -50,19 +51,22 @@ public class PlayerWeapon : MonoBehaviour
     void DropCurrentWeapon()
     {
         currentWeapon.GetDropped();
-        //Jake
-        _armEmpty.SetActive(true); _armStapler.SetActive(false);
-        //Jake
         currentWeapon = null;
+        //Jake
+        _armEmpty?.SetActive(true);
+        _armStapler?.SetActive(false);
+        //Jake
     }
     
     void ThrowCurrentWeapon()
     {
-        currentWeapon.GetThrown(cameraTransform.forward * throwStrength);
-        //Jake
-        _armEmpty.SetActive(true); _armStapler.SetActive(false);
-        //Jake
+        if (cameraTransform == null) cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        if (cameraTransform != null) currentWeapon.GetThrown(cameraTransform.forward * throwStrength);
         currentWeapon = null;
+        //Jake
+        _armEmpty?.SetActive(true);
+        _armStapler?.SetActive(false);
+        //Jake
     }
     
     private void OnDrawGizmos()
