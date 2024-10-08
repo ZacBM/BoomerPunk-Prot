@@ -125,8 +125,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stoppingDistance: 2
   stayAwayDistance: 4
-  force: 6.17
-  timeToDie: 0
+  force: 47.83
+  timeToDie: 1
   deathSounds:
   - {fileID: 8300000, guid: 82bbb82cf2530f2408eff6dc720c0f5e, type: 3}
   - {fileID: 8300000, guid: c916fa621b547e94ea85dace9a258279, type: 3}
@@ -196,7 +196,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   maxHealth: 100
-  behaviorOnDeath: 0
+  behaviorOnDeath: 2
+  healthChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &6115434864214159168
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HPComponent : MonoBehaviour
 {
@@ -12,9 +13,13 @@ public class HPComponent : MonoBehaviour
 
     private EnemyAi enemyAi;
 
+    public UnityEvent healthChange;
+
+
     private void Awake()
     {
         enemyAi = GetComponent<EnemyAi>();
+        healthChange.AddListener(enemyAi.OnDeath);
     }
 
     public int ChangeHealth(int changeInHealth)
@@ -30,6 +35,7 @@ public class HPComponent : MonoBehaviour
         if (enemyAi != null)
         {
             enemyAi.PlayDeathSound();
+            healthChange.Invoke();
         }
         if (behaviorOnDeath == BehaviorsOnDeath.DEACTIVATE) gameObject.SetActive(false);
         else if (behaviorOnDeath == BehaviorsOnDeath.DELETE) Destroy(gameObject);

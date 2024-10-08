@@ -25,6 +25,7 @@ public class EnemyAi : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        //rb.isKinematic = false;
         player = GameObject.FindWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
         shuffleSpeed = Random.Range(1.0f, 3.0f);
@@ -97,10 +98,15 @@ public class EnemyAi : MonoBehaviour
 
     public void OnDeath()
     {
-        rb.isKinematic = true;
-        rb.AddForce((player.transform.position - transform.position).normalized * force, ForceMode.Impulse);
-        //PlayDeathSound();
+        GetComponent<NavMeshAgent>().enabled = false;
+        rb.isKinematic = false;
+
+        Vector3 forceDirection = (transform.position - player.transform.position).normalized;
+
+        rb.AddForce(forceDirection * force, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * force * 0.2f, ForceMode.Impulse);
         Invoke("DestroySelf", timeToDie);
+
     }
 
     public void PlayDeathSound()
