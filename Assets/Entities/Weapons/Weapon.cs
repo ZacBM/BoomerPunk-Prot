@@ -16,12 +16,12 @@ public class Weapon : MonoBehaviour
     [SerializeField] private VisualEffect shotVisualEffect;
 
     private Recoil recoil;
+    
     void Start()
     {
         ActivateRigidbody();
         //recoil = GetComponent<Recoil>();
         recoil = FindObjectOfType<Recoil>();
-
     }
 
     public void Shoot()

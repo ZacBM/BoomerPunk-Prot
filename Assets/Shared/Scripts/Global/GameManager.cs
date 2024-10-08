@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,10 +8,18 @@ public class GameManager : MonoBehaviour
     // Allows for Singleton.
     public static GameManager gameManager;
     
-    [SerializeField] GameObject playerPrefab;
-    [SerializeField] GameObject playerCameraHolderPrefab;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject playerCameraHolderPrefab;
     
-    int currentScene;
+    [SerializeField] private GameObject exitDoorPrefab;
+    
+    private int currentScene;
+    
+    private GameObject[] enemies;
+    [SerializeField] private float percentOfEnemiesToLeaveAliveToProgress;
+    [SerializeField] private int numberOfEnemiesToLeaveAliveToProgress;
+    public int numberOfEnemiesLeft;
+    public bool canProgressToNextFloor = false;
     
     void Awake()
     {
@@ -21,6 +31,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentScene = SceneManager.GetActiveScene().buildIndex;
+
+        //StartCoroutine(DetermineAmountOfEnemiesToLeaveAlive());
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        numberOfEnemiesLeft = enemies.Length;
+        numberOfEnemiesToLeaveAliveToProgress = Mathf.CeilToInt((float)numberOfEnemiesLeft * (percentOfEnemiesToLeaveAliveToProgress / 100f));
     }
 
     void Update()
@@ -32,5 +47,20 @@ public class GameManager : MonoBehaviour
             Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
             Instantiate(playerCameraHolderPrefab, Vector3.zero, Quaternion.identity);
         }
+
+        if (!canProgressToNextFloor && numberOfEnemiesLeft <= numberOfEnemiesToLeaveAliveToProgress)
+        {
+            canProgressToNextFloor = true;
+            Instantiate(exitDoorPrefab, Vector3.zero, Quaternion.identity);
+        }
+    }
+    
+    IEnumerator DetermineAmountOfEnemiesToLeaveAlive()
+    {
+        yield return new WaitForSeconds(0.1f);
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        numberOfEnemiesLeft = enemies.Length;
+        yield return new WaitForSeconds(1f);
+        numberOfEnemiesToLeaveAliveToProgress = Mathf.CeilToInt((float)numberOfEnemiesLeft * (percentOfEnemiesToLeaveAliveToProgress / 100f));
     }
 }

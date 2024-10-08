@@ -19,6 +19,8 @@ public class PlayerWeapon : MonoBehaviour
 
     void Update()
     {
+        if (weaponHolder == null) weaponHolder = GameObject.FindGameObjectWithTag("Weapon Holder");
+            
         bool holdingAWeapon = currentWeapon != null;
         
         if (Input.GetKeyDown(pickupKey))

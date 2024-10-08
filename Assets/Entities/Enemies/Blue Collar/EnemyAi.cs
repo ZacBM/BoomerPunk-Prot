@@ -132,6 +132,7 @@ public class EnemyAi : MonoBehaviour
 
     void OnDisable()
     {
+        GameManager.gameManager.numberOfEnemiesLeft--;
         if (enemiesInAttackRange.Contains(this))
         {
             enemiesInAttackRange.Remove(this);

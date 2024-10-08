@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/UI/Title Screen.unity
+    path: Assets/UI/Title Screen/Title Screen.unity
     guid: 7d24ceae60eaa6cc49697cdc1cb86ff1
   - enabled: 1
-    path: Assets/Locations/Test Area/Floor 1.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Locations/Office/Floor 1.unity
+    guid: 99286c7e5042b477aa258083f276398e
   - enabled: 1
-    path: Assets/Locations/Office/Greybox Room.unity
-    guid: 96c8c8d345675ad4e8ab9ee1d91de81b
+    path: Assets/UI/End Screen/End Screen.unity
+    guid: 418ab740c7da01445b895ab4a171ec1f
   m_configObjects: {}
