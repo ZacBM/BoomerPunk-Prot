@@ -18,6 +18,9 @@ public class EnemyAi : MonoBehaviour
     Rigidbody rb;
     [SerializeField] float timeToDie;
 
+    [Header("Death Sounds")]
+    public AudioClip[] deathSounds;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -96,7 +99,22 @@ public class EnemyAi : MonoBehaviour
     {
         rb.isKinematic = true;
         rb.AddForce((player.transform.position - transform.position).normalized * force, ForceMode.Impulse);
+        //PlayDeathSound();
         Invoke("DestroySelf", timeToDie);
+    }
+
+    public void PlayDeathSound()
+    {
+        if (deathSounds != null)
+        {
+            if (deathSounds.Length > 0)
+            {
+                int randomIndex = Random.Range(0, deathSounds.Length);
+                AudioSource.PlayClipAtPoint(deathSounds[randomIndex], transform.position);
+                Debug.Log("Death Sound");
+            }
+        }
+        
     }
 
     void DestroySelf()

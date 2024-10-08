@@ -15,9 +15,13 @@ public class Weapon : MonoBehaviour
     
     [SerializeField] private VisualEffect shotVisualEffect;
 
+    private Recoil recoil;
     void Start()
     {
         ActivateRigidbody();
+        //recoil = GetComponent<Recoil>();
+        recoil = FindObjectOfType<Recoil>();
+
     }
 
     public void Shoot()
@@ -32,6 +36,8 @@ public class Weapon : MonoBehaviour
         //Debug.DrawRay(bulletOrigin.position, bulletOrigin.forward * shotRange, Color.red, 1.0f);
         InstantiateBullet();
         if (shotVisualEffect != null) CreateVisualEffect();
+
+        recoil.recoil();
     }
 
     void CreateVisualEffect()

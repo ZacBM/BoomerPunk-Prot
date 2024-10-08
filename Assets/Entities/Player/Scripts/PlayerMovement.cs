@@ -40,13 +40,17 @@ public class PlayerMovement : MonoBehaviour
 	
 	[SerializeField] private HPComponent hpComponent;
 
-	private void Start()
+	private Sliding sliding;
+
+    private void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 		rb.freezeRotation = true;
 		
 		readyToJump = true;
-	}
+
+        sliding = GetComponent<Sliding>();
+    }
 	
 	private void Update()
 	{
@@ -59,9 +63,12 @@ public class PlayerMovement : MonoBehaviour
 		//Handling the drag.
 		if (grounded) rb.drag = groundDrag;
 		else rb.drag = 0;
-		
-		if (hpComponent.health <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-	}
+
+        if (hpComponent != null && hpComponent.health <= 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
 
 	private void FixedUpdate()
 	{
@@ -89,12 +96,19 @@ public class PlayerMovement : MonoBehaviour
 		// Calculate movement direction.
 		moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-		//On Ground
-		if (grounded) rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        float appliedMoveSpeed = moveSpeed;
+
+        if (sliding != null && sliding.sliding)
+        {
+            appliedMoveSpeed *= sliding.GetCurrentSpeedMultiplier();
+        }
+
+        //On Ground
+        if (grounded) rb.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f, ForceMode.Force);
 
 		//in air
-		else if (!grounded) rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
-	}
+		else if (!grounded) rb.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f * airMultiplier, ForceMode.Force);
+    }
 
 	private void SpeedControl()
 	{

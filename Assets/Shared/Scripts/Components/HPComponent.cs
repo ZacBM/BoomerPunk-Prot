@@ -10,6 +10,13 @@ public class HPComponent : MonoBehaviour
     [SerializeField] enum BehaviorsOnDeath {DEACTIVATE, DELETE, NOTHING}
     [SerializeField] BehaviorsOnDeath behaviorOnDeath = BehaviorsOnDeath.DELETE;
 
+    private EnemyAi enemyAi;
+
+    private void Awake()
+    {
+        enemyAi = GetComponent<EnemyAi>();
+    }
+
     public int ChangeHealth(int changeInHealth)
     {
         health += changeInHealth;
@@ -20,6 +27,10 @@ public class HPComponent : MonoBehaviour
 
     void Die()
     {
+        if (enemyAi != null)
+        {
+            enemyAi.PlayDeathSound();
+        }
         if (behaviorOnDeath == BehaviorsOnDeath.DEACTIVATE) gameObject.SetActive(false);
         else if (behaviorOnDeath == BehaviorsOnDeath.DELETE) Destroy(gameObject);
     }

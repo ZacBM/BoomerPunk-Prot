@@ -125,6 +125,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stoppingDistance: 2
   stayAwayDistance: 4
+  force: 6.17
+  timeToDie: 0
+  deathSounds:
+  - {fileID: 8300000, guid: 82bbb82cf2530f2408eff6dc720c0f5e, type: 3}
+  - {fileID: 8300000, guid: c916fa621b547e94ea85dace9a258279, type: 3}
+  - {fileID: 8300000, guid: 8c68be61be7f69c47805271023fb5ab9, type: 3}
+  - {fileID: 8300000, guid: f15c900d8a0c3d94387ee82babf7d5be, type: 3}
+  - {fileID: 8300000, guid: cfc087644434e6242a807d690f9e9532, type: 3}
+  - {fileID: 8300000, guid: a71645804e9b5084e9108056f3fd84ce, type: 3}
+  - {fileID: 8300000, guid: 5472de55b62563d4cbd4ac271241d7ea, type: 3}
+  - {fileID: 8300000, guid: 09a6fcbd97ebc46419313aa3e6af9355, type: 3}
+  - {fileID: 8300000, guid: bb24d19fd6d952d4c8bda8fe3dbcc53d, type: 3}
+  - {fileID: 8300000, guid: 32117083f0f8f3a46b1ea93668049f4e, type: 3}
+  - {fileID: 8300000, guid: f58a1549bfaafc142b2347ce81c212ca, type: 3}
+  - {fileID: 8300000, guid: 407b85012145e6546897bc5b1e4e5da4, type: 3}
+  - {fileID: 8300000, guid: bd91d22325bc4b84bbdc8a529e2d78b5, type: 3}
+  - {fileID: 8300000, guid: 36981de2bbdfb9740904fc0f7185378e, type: 3}
+  - {fileID: 8300000, guid: 002d85f9bd024eb42882879c372f6cef, type: 3}
+  - {fileID: 8300000, guid: 67c54af77705f9b4784e816b4c398785, type: 3}
+  - {fileID: 8300000, guid: 0fa5961167af0174aa72bc346ed156cf, type: 3}
+  - {fileID: 8300000, guid: 5646e3b95e7fb1349b3c68d6a599db77, type: 3}
+  - {fileID: 8300000, guid: 2a88efa6d325da949b32018896f7c98d, type: 3}
+  - {fileID: 8300000, guid: db305f4b81f4b8f4ea1c91c8637bbe50, type: 3}
+  - {fileID: 8300000, guid: f0f16745edeb2b34aaa9e7f0dfd9616a, type: 3}
+  - {fileID: 8300000, guid: 03ecfbb85dad862409b389ad522e89ea, type: 3}
+  - {fileID: 8300000, guid: 9343f0e2ed99d0443a6b1e7628f3d8be, type: 3}
+  - {fileID: 8300000, guid: 15b8379a079f8a347a425afdadaf2410, type: 3}
+  - {fileID: 8300000, guid: d60bba27f3e69f7428d9845e21e350a0, type: 3}
+  - {fileID: 8300000, guid: c9cab9bf4bb7e3e41b1d699b51530489, type: 3}
+  - {fileID: 8300000, guid: ad248cff5dd4977478b0140c96a95dcf, type: 3}
+  - {fileID: 8300000, guid: db86ee189e7523c45b36a1904e2b0140, type: 3}
+  - {fileID: 8300000, guid: 215cecefb2a784c4a962959fb1500e23, type: 3}
+  - {fileID: 8300000, guid: 6d11ff5abdcd5ba4580ac36250e1dbea, type: 3}
+  - {fileID: 8300000, guid: e469c1f261e163b48b80e8e3b45629f7, type: 3}
+  - {fileID: 8300000, guid: 92fa088c0b9238749a0341f90f7ab934, type: 3}
 --- !u!195 &1777708967342217538
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -185,7 +220,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

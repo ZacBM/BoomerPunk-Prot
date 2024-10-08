@@ -23,7 +23,14 @@ public class Sliding : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+    [Header("Speed Change")]
+    public float initialSpeedMultiplier = 15f;
+    public float speedDecay = 0.1f;
+    private float currentSpeedMultiplier;
+
     public bool sliding;
+
+    private PlayerMovement PlayerMovement;
 
     void Start()
     {
@@ -60,7 +67,8 @@ public class Sliding : MonoBehaviour
         playerObj.localScale = new Vector3(playerObj.localScale.x, slideYScale, playerObj.localScale.z);
         rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
 
-        slideTimer = maxSlideTime;  
+        slideTimer = maxSlideTime;
+        currentSpeedMultiplier = initialSpeedMultiplier;
     }
 
     void SlidingMovement()
@@ -68,14 +76,23 @@ public class Sliding : MonoBehaviour
         Vector3 inputDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         rb.AddForce(inputDirection.normalized * slideForce, ForceMode.Force);
         slideTimer -= Time.deltaTime;
+        currentSpeedMultiplier -= speedDecay * Time.deltaTime;
 
         if (slideTimer <= 0)
             StopSlide();
+    }
+
+    public float GetCurrentSpeedMultiplier()
+    {
+        currentSpeedMultiplier = Mathf.Max(1.0f, currentSpeedMultiplier - (speedDecay * Time.deltaTime));
+
+        return currentSpeedMultiplier;
     }
 
     void StopSlide()
     {
         sliding = false;
         playerObj.localScale = new Vector3(playerObj.localScale.x, startYScale, playerObj.localScale.z);
+        currentSpeedMultiplier = 1.0f;
     }
 }
