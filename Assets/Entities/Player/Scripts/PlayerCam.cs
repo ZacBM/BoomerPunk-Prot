@@ -16,7 +16,7 @@ public class PlayerCam : MonoBehaviour
 	private float cameraXRotation;
 	private float cameraYRotation;
 
-	private void Start()
+	private void Awake()
 	{
 		Cursor.lockState = CursorLockMode.Locked; // Locks mouse to the middle of the screen.
 		Cursor.visible = false;

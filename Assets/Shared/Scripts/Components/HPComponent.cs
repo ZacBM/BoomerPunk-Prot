@@ -19,7 +19,7 @@ public class HPComponent : MonoBehaviour
     private void Awake()
     {
         enemyAi = GetComponent<EnemyAi>();
-        healthChange.AddListener(enemyAi.OnDeath);
+        if (enemyAi != null) healthChange.AddListener(enemyAi.OnDeath);
     }
 
     public int ChangeHealth(int changeInHealth)

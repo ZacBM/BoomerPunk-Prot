@@ -5,6 +5,7 @@ public class PlayerWeapon : MonoBehaviour
 {
     [SerializeField] private Weapon currentWeapon;
     [SerializeField] private GameObject weaponHolder;
+    [SerializeField] private GameObject gunHolder;
     [SerializeField] private Transform cameraTransform;
     
     [SerializeField] private float maximumPickUpDistance = 3.0f;
@@ -17,10 +18,19 @@ public class PlayerWeapon : MonoBehaviour
     public GameObject _armStapler;
     public GameObject _armEmpty;
 
+    public isShooting_animScript _shootingAnim;
+
+    void Start()
+    {
+        _armEmpty.SetActive(true);
+        _armStapler.SetActive(false);
+        _shootingAnim = _armStapler.GetComponent<isShooting_animScript>();
+    }
+
     void Update()
     {
         if (weaponHolder == null) weaponHolder = GameObject.FindGameObjectWithTag("Weapon Holder");
-            
+        if (gunHolder == null) gunHolder = GameObject.Find("Gun Holder");
         bool holdingAWeapon = currentWeapon != null;
         
         if (Input.GetKeyDown(pickupKey))
@@ -29,7 +39,14 @@ public class PlayerWeapon : MonoBehaviour
             else PickUpANearbyWeapon();
         }
 
-        if (Input.GetKeyDown(shootKey) && holdingAWeapon) currentWeapon.Shoot();
+        if (Input.GetKeyDown(shootKey) && holdingAWeapon)
+        {
+            currentWeapon.Shoot();
+            if (_armStapler.activeSelf)
+            {
+                _shootingAnim.TriggerShootAnimation();
+            }
+        }
     }
 
     void PickUpANearbyWeapon()
@@ -39,11 +56,11 @@ public class PlayerWeapon : MonoBehaviour
         {
             if (Vector3.Distance(weapon.gameObject.transform.position, transform.position) < maximumPickUpDistance)
             {
-                weapon.GetPickedUp(weaponHolder);
+                weapon.GetPickedUp(gunHolder);
                 currentWeapon = weapon;
                 //Jake
-                _armEmpty?.SetActive(false);
-                _armStapler?.SetActive(true);
+                _armEmpty.SetActive(false);
+                _armStapler.SetActive(true);
                 //Jake
                 break;
             }
@@ -55,8 +72,8 @@ public class PlayerWeapon : MonoBehaviour
         currentWeapon.GetDropped();
         currentWeapon = null;
         //Jake
-        _armEmpty?.SetActive(true);
-        _armStapler?.SetActive(false);
+        _armEmpty.SetActive(true);
+        _armStapler.SetActive(false);
         //Jake
     }
     
@@ -66,7 +83,7 @@ public class PlayerWeapon : MonoBehaviour
         if (cameraTransform != null) currentWeapon.GetThrown(cameraTransform.forward * throwStrength);
         currentWeapon = null;
         //Jake
-        _armEmpty?.SetActive(true);
+        _armEmpty.SetActive(true);
         _armStapler?.SetActive(false);
         //Jake
     }

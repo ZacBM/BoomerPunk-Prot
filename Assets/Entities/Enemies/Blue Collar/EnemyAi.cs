@@ -36,8 +36,10 @@ public class EnemyAi : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Chase();
-
+        if (navMeshAgent != null)
+        {
+            Chase();
+        }
     }
 
     void Chase()
@@ -47,7 +49,12 @@ public class EnemyAi : MonoBehaviour
 
         if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
         {
-            navMeshAgent.SetDestination(player.transform.position);
+            if (navMeshAgent != null)
+            {
+                navMeshAgent.SetDestination(player.transform.position);
+                return;
+            }
+                
         }
 
 
@@ -117,7 +124,7 @@ public class EnemyAi : MonoBehaviour
             {
                 int randomIndex = Random.Range(0, deathSounds.Length);
                 AudioSource.PlayClipAtPoint(deathSounds[randomIndex], transform.position);
-                Debug.Log("Death Sound");
+                //Debug.Log("Death Sound");
             }
         }
         

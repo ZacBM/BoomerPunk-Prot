@@ -28,8 +28,7 @@ public class Recoil : MonoBehaviour
         transform.localRotation = Quaternion.Euler(currentRotation);
 
         // interpolate camera rotation speed
-        cam.localRotation = Quaternion.Slerp(cam.localRotation, Quaternion.Euler(currentRotation), Time.deltaTime * snappiness);
-        cam.localRotation = Quaternion.Euler(cam.localRotation.eulerAngles + currentRotation);
+        //cam.localRotation = Quaternion.Slerp(cam.localRotation, Quaternion.Euler(currentRotation), Time.deltaTime * snappiness);
 
 
         kickBack();

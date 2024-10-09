@@ -14,18 +14,16 @@ public class isShooting_animScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void TriggerShootAnimation()
     {
         if (Input.GetButtonDown("Fire1"))
         {
             StartCoroutine(WaitForAnimationToPlay());
-
-            animator.SetBool("isShooting", true);
-
         }
     }
     IEnumerator WaitForAnimationToPlay()
     {
+        animator.SetBool("isShooting", true);
         yield return new WaitForSeconds(0.001f);
         animator.SetBool("isShooting", false);
 

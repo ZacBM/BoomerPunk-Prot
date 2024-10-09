@@ -15,6 +15,10 @@ public class Weapon : MonoBehaviour
     
     [SerializeField] private VisualEffect shotVisualEffect;
 
+    public AudioSource audioSource;
+    public AudioClip shootAudio;
+    public AudioClip pickupAudio;
+
     private Recoil recoil;
     
     void Start()
@@ -22,6 +26,12 @@ public class Weapon : MonoBehaviour
         ActivateRigidbody();
         //recoil = GetComponent<Recoil>();
         recoil = FindObjectOfType<Recoil>();
+
+        audioSource = GetComponent<AudioSource>(); 
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>(); // Ensure AudioSource exists
+        }
     }
 
     public void Shoot()
@@ -38,6 +48,7 @@ public class Weapon : MonoBehaviour
         if (shotVisualEffect != null) CreateVisualEffect();
 
         recoil.recoil();
+        if (shootAudio != null) audioSource.PlayOneShot(shootAudio);
     }
 
     void CreateVisualEffect()
@@ -66,8 +77,10 @@ public class Weapon : MonoBehaviour
     {
         DectivateRigidbody();
         transform.SetParent(parent.transform, false);
-        
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+        if (pickupAudio != null) audioSource.PlayOneShot(pickupAudio);
+
         //Jake
         //parent.SetActive(false);
         //Jake

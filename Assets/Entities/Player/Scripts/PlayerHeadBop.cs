@@ -17,16 +17,28 @@ public class PlayerHeadBop : MonoBehaviour
     private float defaultBobbingSpeed;
     private Vector3 originalCameraPosition;
 
+    private PlayerMovement playerMovement;
+    private Sliding sliding;
+
     private void Start()
     {
         originalCameraPosition = cameraRig.transform.localPosition;
 
         defaultBobbingAmount = bobbingAmount;
         defaultBobbingSpeed = bobbingSpeed;
+
+        playerMovement = GetComponent<PlayerMovement>();
+        sliding = GetComponent<Sliding>();
     }
 
     void Update()
     {
+        if (sliding.sliding == true || !playerMovement.grounded)
+        {
+            cameraRig.transform.localPosition = originalCameraPosition;
+            return;
+        }
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
