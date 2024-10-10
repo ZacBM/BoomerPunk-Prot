@@ -1,4 +1,6 @@
-using UnityEngine;
+// Base weapon class removed; to be fully replace with components & interfaces.
+
+/*using UnityEngine;
 using UnityEngine.VFX;
 
 [RequireComponent(typeof(AudioSource))]
@@ -105,4 +107,4 @@ public abstract class Weapon : MonoBehaviour
     {
         Gizmos.DrawWireSphere(bulletOrigin.position, shotRange);
     }
-}
+}*/
