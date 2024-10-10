@@ -1,15 +1,23 @@
 using UnityEngine;
 using UnityEngine.VFX;
 
+[RequireComponent(typeof(AmmoComponent))]
+[RequireComponent(typeof(HitComponent))]
+[RequireComponent(typeof(RigidbodyHelperComponent))]
+[RequireComponent(typeof(SpawnComponent))]
+
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(Rigidbody))]
 
-public abstract class Weapon : MonoBehaviour
+public class Stapler : MonoBehaviour, RangedWeapon
 {
+    // Custom components.
+    private AmmoComponent ammoHolder;
+    private HitComponent hitbox;
+    private RigidbodyHelperComponent rigidbodyHelper;
+    
     [SerializeField] public Transform bulletOrigin;
     [SerializeField] protected GameObject bullet;
-    [SerializeField] protected int ammo = 10;
     [SerializeField] protected float shotRange = 10.0f;
     [SerializeField] protected float bulletForce = 50.0f;
     
@@ -23,7 +31,14 @@ public abstract class Weapon : MonoBehaviour
     
     void Start()
     {
-        ActivateRigidbody();
+        // Initialize components.
+        ammoHolder = GetComponent<AmmoComponent>();
+        hitbox = GetComponent<HitComponent>();
+        rigidbodyHelper = GetComponent<RigidbodyHelperComponent>();
+        
+        hitbox.isActive = false;
+        
+        rigidbodyHelper.ActivateRigidbody();
         //recoil = GetComponent<Recoil>();
         recoil = FindObjectOfType<Recoil>();
 
@@ -36,7 +51,7 @@ public abstract class Weapon : MonoBehaviour
 
     public void Shoot()
     {
-        ammo--;
+        ammoHolder.UseAmmo();
         RaycastHit hit;
         Physics.Raycast(bulletOrigin.position, bulletOrigin.forward, out hit, shotRange);
         if (hit.collider != null)
@@ -60,22 +75,16 @@ public abstract class Weapon : MonoBehaviour
     {
         return bulletForce;
     }
-
-    void ActivateRigidbody()
+    
+    public void Drop()
     {
-        GetComponent<Rigidbody>().detectCollisions = true;
-        GetComponent<Rigidbody>().isKinematic = false;
+        transform.SetParent(null);
+        rigidbodyHelper.ActivateRigidbody();
     }
     
-    void DectivateRigidbody()
+    public void PickUp(GameObject parent)
     {
-        GetComponent<Rigidbody>().detectCollisions = false;
-        GetComponent<Rigidbody>().isKinematic = true;
-    }
-    
-    public void GetPickedUp(GameObject parent)
-    {
-        DectivateRigidbody();
+        rigidbodyHelper.DectivateRigidbody();
         transform.SetParent(parent.transform, false);
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
@@ -85,21 +94,25 @@ public abstract class Weapon : MonoBehaviour
         //parent.SetActive(false);
         //Jake
     }
-
-    public void GetDropped()
-    {
-        transform.SetParent(null);
-        ActivateRigidbody();
-    }
     
-    public void GetThrown(Vector3 throwDirection)
+    public void Throw(Vector3 throwDirection)
     {
         transform.SetParent(null);
-        ActivateRigidbody();
+        rigidbodyHelper.ActivateRigidbody();
         GetComponent<Rigidbody>().AddForce(throwDirection, ForceMode.Impulse);
     }
+    
+    public void InstantiateBullet()
+    {
+        if (bullet != null)
+        {
+            GameObject spawnedBullet = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
 
-    public abstract void InstantiateBullet();
+            // Apply force to the bullet in the correct direction
+            Rigidbody bulletRigidbody = spawnedBullet?.GetComponent<Rigidbody>();
+            bulletRigidbody?.AddForce(bulletOrigin.forward * bulletForce, ForceMode.Impulse);
+        }
+    }
 
     private void OnDrawGizmos()
     {
