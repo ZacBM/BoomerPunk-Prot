@@ -234,6 +234,9 @@ MonoBehaviour:
   health: 12
   maxHealth: 100
   behaviorOnDeath: 2
+  healthChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1343769782201260372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,10 +268,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  groundDrag: 5
+  groundDrag: 12
   jumpForce: 12
   jumpCooldown: 0.25
-  airMultiplier: 0.9
+  airMultiplier: 1
   jumpKey: 32
   playerHeight: 2
   groundLayer:
@@ -280,6 +283,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   hpComponent: {fileID: 8803936039236597799}
+  gravityScale: 2
 --- !u!114 &8209671683749069461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentWeapon: {fileID: 0}
   weaponHolder: {fileID: 0}
+  gunHolder: {fileID: 0}
   cameraTransform: {fileID: 0}
   maximumPickUpDistance: 3
   throwStrength: 20
@@ -301,6 +306,7 @@ MonoBehaviour:
   shootKey: 323
   _armStapler: {fileID: 0}
   _armEmpty: {fileID: 0}
+  _shootingAnim: {fileID: 0}
 --- !u!114 &5006956171214102736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +325,8 @@ MonoBehaviour:
   slideForce: 200
   slideYScale: 0.5
   slideKey: 306
+  initialSpeedMultiplier: 15
+  speedDecay: 0.1
   sliding: 0
 --- !u!54 &8617928023657092579
 Rigidbody:
@@ -342,7 +350,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
@@ -354,7 +362,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4104473781823650616}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e69fd2311bd1ab1bf8046222c6de6ab3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -377,7 +385,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4104473781823650616}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e69fd2311bd1ab1bf8046222c6de6ab3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

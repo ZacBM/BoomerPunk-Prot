@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
 	Vector3 moveDirection;
 
-	Rigidbody rb;
+	Rigidbody rigidbody;
 	
 	public LayerMask exitLayer;
 	
@@ -42,10 +42,12 @@ public class PlayerMovement : MonoBehaviour
 
 	private Sliding sliding;
 
+	[SerializeField] private float gravityScale;
+
     private void Start()
 	{
-		rb = GetComponent<Rigidbody>();
-		rb.freezeRotation = true;
+		rigidbody = GetComponent<Rigidbody>();
+		rigidbody.freezeRotation = true;
 		
 		readyToJump = true;
 
@@ -61,8 +63,8 @@ public class PlayerMovement : MonoBehaviour
 		SpeedControl();
 
 		//Handling the drag.
-		if (grounded) rb.drag = groundDrag;
-		else rb.drag = 0;
+		if (grounded) rigidbody.drag = groundDrag;
+		else rigidbody.drag = 0f;
 
         if (hpComponent != null && hpComponent.health <= 0)
         {
@@ -91,6 +93,12 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
+	private void ApplyGravity()
+	{
+		Vector3 gravity = Physics.gravity * gravityScale;
+		rigidbody.AddForce(gravity, ForceMode.Acceleration);
+	}
+
 	private void MovePlayer()
 	{
 		// Calculate movement direction.
@@ -98,37 +106,36 @@ public class PlayerMovement : MonoBehaviour
 
         float appliedMoveSpeed = moveSpeed;
 
-        if (sliding != null && sliding.sliding)
-        {
-            appliedMoveSpeed *= sliding.GetCurrentSpeedMultiplier();
-        }
+        if (sliding != null && sliding.sliding) appliedMoveSpeed *= sliding.GetCurrentSpeedMultiplier();
 
         //On Ground
-        if (grounded) rb.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f, ForceMode.Force);
+        if (grounded) rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f, ForceMode.Force);
 
 		//in air
-		else if (!grounded) rb.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f * airMultiplier, ForceMode.Force);
+		else if (!grounded) rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f * airMultiplier, ForceMode.Force);
+        
+        ApplyGravity();
     }
 
 	private void SpeedControl()
 	{
-		Vector3 flatVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+		Vector3 flatVelocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
 
 		// Limits the velocity if needed.
 		if (flatVelocity.magnitude > moveSpeed)
 		{
 			Vector3 limitedVelocity = flatVelocity.normalized * moveSpeed;
-			rb.velocity = new Vector3(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
+			rigidbody.velocity = new Vector3(limitedVelocity.x, rigidbody.velocity.y, limitedVelocity.z);
 		}
 	}
 
 	private void Jump()
 	{
 		// Reset vertical velocity.
-		rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+		rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
 		
 		// Send player upwards.
-		rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+		rigidbody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 	}
 
 	private void ResetJump()
