@@ -206,10 +206,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1020254298368612229}
-  - component: {fileID: 3250547225214105307}
   - component: {fileID: 7473863221773972429}
   - component: {fileID: 5690640155803808376}
   - component: {fileID: 8740199670998951337}
+  - component: {fileID: 417470127307761878}
   m_Layer: 12
   m_Name: Stapler
   m_TagString: Untagged
@@ -237,27 +237,6 @@ Transform:
   - {fileID: 5650634372257376366}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3250547225214105307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7532239549994541435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f7df3b047b64938bcb7e5c51cba0147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletOrigin: {fileID: 7512944021397190666}
-  bullet: {fileID: 7779226012565987470, guid: 00d9100596a182948bbc5b27b0b0a3f5, type: 3}
-  ammo: 10
-  shotRange: 10
-  bulletForce: 120
-  shotVisualEffect: {fileID: 6209863461567415625}
-  audioSource: {fileID: 8740199670998951337}
-  shootAudio: {fileID: 8300000, guid: 1bb8ebcb0d1305449b77ce0faf7b9fc1, type: 3}
-  pickupAudio: {fileID: 8300000, guid: f3d9fe73e3ac7ee4dbeba1591a72eab8, type: 3}
 --- !u!54 &7473863221773972429
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -402,6 +381,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &417470127307761878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7532239549994541435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 718647e10b4d4ef9b636dbc81a380cdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletOrigin: {fileID: 7512944021397190666}
+  bullet: {fileID: 7779226012565987470, guid: 00d9100596a182948bbc5b27b0b0a3f5, type: 3}
+  ammo: 10
+  shotRange: 10
+  bulletForce: 50
+  shotVisualEffect: {fileID: 0}
+  audioSource: {fileID: 8740199670998951337}
+  shootAudio: {fileID: 8300000, guid: 1bb8ebcb0d1305449b77ce0faf7b9fc1, type: 3}
+  pickupAudio: {fileID: 8300000, guid: f3d9fe73e3ac7ee4dbeba1591a72eab8, type: 3}
 --- !u!1 &7898763166752291387
 GameObject:
   m_ObjectHideFlags: 0

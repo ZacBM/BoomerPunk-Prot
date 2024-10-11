@@ -3,7 +3,6 @@
  * https://www.youtube.com/watch?v=f473C43s8nE&list=PLh9SS5jRVLAleXEcDTWxBF39UjyrFc6Nb&index=7
  */
 
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    [SerializeField] private Weapon currentWeapon;
+    [SerializeField] private RangedWeapon currentWeapon;
     [SerializeField] private GameObject weaponHolder;
     [SerializeField] private GameObject gunHolder;
     [SerializeField] private Transform cameraTransform;
@@ -14,7 +14,7 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private KeyCode pickupKey = KeyCode.LeftControl;
     [SerializeField] private KeyCode shootKey = KeyCode.Mouse0;
 
-    //Jake IN CASE I FUCKED SOMETHING UP LMK
+    // Jake: IN CASE I FUCKED SOMETHING UP LMK
     public GameObject _armStapler;
     public GameObject _armEmpty;
 
@@ -51,25 +51,28 @@ public class PlayerWeapon : MonoBehaviour
 
     void PickUpANearbyWeapon()
     {
-        Weapon[] nearbyObjects = FindObjectsOfType<Weapon>();
-        foreach (Weapon weapon in nearbyObjects)
+        GameObject[] allGameObjects = GameObject.FindObjectsOfType<GameObject>();
+        foreach (GameObject nearbyObject in allGameObjects)
         {
-            if (Vector3.Distance(weapon.gameObject.transform.position, transform.position) < maximumPickUpDistance)
+            if (nearbyObject.TryGetComponent<RangedWeapon>(out RangedWeapon rangedWeapon))
             {
-                weapon.GetPickedUp(gunHolder);
-                currentWeapon = weapon;
-                //Jake
-                _armEmpty.SetActive(false);
-                _armStapler.SetActive(true);
-                //Jake
-                break;
+                if (Vector3.Distance(nearbyObject.transform.position, transform.position) < maximumPickUpDistance)
+                {
+                    rangedWeapon.PickUp(gunHolder);
+                    currentWeapon = rangedWeapon;
+                    //Jake
+                    _armEmpty.SetActive(false);
+                    _armStapler.SetActive(true);
+                    //Jake
+                    break;
+                }
             }
         }
     }
 
     void DropCurrentWeapon()
     {
-        currentWeapon.GetDropped();
+        currentWeapon.Drop();
         currentWeapon = null;
         //Jake
         _armEmpty.SetActive(true);
@@ -80,7 +83,7 @@ public class PlayerWeapon : MonoBehaviour
     void ThrowCurrentWeapon()
     {
         if (cameraTransform == null) cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
-        if (cameraTransform != null) currentWeapon.GetThrown(cameraTransform.forward * throwStrength);
+        if (cameraTransform != null) currentWeapon.Throw(cameraTransform.forward * throwStrength);
         currentWeapon = null;
         //Jake
         _armEmpty.SetActive(true);

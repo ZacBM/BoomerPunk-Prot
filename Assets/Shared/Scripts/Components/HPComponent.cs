@@ -15,7 +15,6 @@ public class HPComponent : MonoBehaviour
 
     public UnityEvent healthChange;
 
-
     private void Awake()
     {
         enemyAi = GetComponent<EnemyAi>();
