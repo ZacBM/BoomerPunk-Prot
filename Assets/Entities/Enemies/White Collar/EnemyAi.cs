@@ -36,7 +36,7 @@ public class EnemyAi : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (navMeshAgent != null)
+        if (navMeshAgent != null && GetComponent<NavMeshAgent>().enabled == true)
         {
             Chase();
         }
