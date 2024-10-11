@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 1060198148117019877}
   m_Layer: 12
   m_Name: Printer
-  m_TagString: Untagged
+  m_TagString: Thrown Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitboxCollider: {fileID: 0}
   isActive: 1
+  hitStrength: 1
 --- !u!114 &1508746259586563969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,7 +300,7 @@ GameObject:
   - component: {fileID: 8875913804893815786}
   m_Layer: 12
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Thrown Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -382,7 +383,7 @@ GameObject:
   - component: {fileID: 1563582294584126728}
   m_Layer: 12
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Thrown Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -465,7 +466,7 @@ GameObject:
   - component: {fileID: 608161145608836685}
   m_Layer: 12
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Thrown Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -546,7 +547,7 @@ GameObject:
   - component: {fileID: 1190383073109263450}
   m_Layer: 12
   m_Name: Graphics
-  m_TagString: Untagged
+  m_TagString: Thrown Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

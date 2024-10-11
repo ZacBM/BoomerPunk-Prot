@@ -9,6 +9,8 @@ TagManager:
   - Player Orientation
   - Weapon Holder
   - Enemy
+  - Melee Weapon
+  - Thrown Weapon
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerCameraHolderPrefab;
     
     [SerializeField] private GameObject exitDoorPrefab;
-    
+    [SerializeField] private Vector3 exitDoorLocation;
     private int currentScene;
     
     private GameObject[] enemies;
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         if (!canProgressToNextFloor && numberOfEnemiesLeft <= numberOfEnemiesToLeaveAliveToProgress)
         {
             canProgressToNextFloor = true;
-            Instantiate(exitDoorPrefab, Vector3.zero, Quaternion.identity);
+            Instantiate(exitDoorPrefab, exitDoorLocation, Quaternion.identity);
         }
     }
     

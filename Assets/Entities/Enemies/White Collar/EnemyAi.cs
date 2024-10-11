@@ -183,5 +183,11 @@ public class EnemyAi : MonoBehaviour
             PlayDeathSound();
             Invoke("TrackAgain", (timeToDie / 2f));
         }
+        if (otherCollider.gameObject.tag == "Thrown Weapon")
+        {
+            SmallKnockback();
+            PlayDeathSound();
+            Invoke("TrackAgain", (timeToDie / 2f));
+        }
     }
 }
