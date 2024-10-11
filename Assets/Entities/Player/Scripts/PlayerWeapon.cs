@@ -1,17 +1,18 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
     [SerializeField] private RangedWeapon currentWeapon;
     [SerializeField] private GameObject weaponHolder;
-    [SerializeField] private GameObject gunHolder;
+    //[SerializeField] private GameObject gunHolder;
     [SerializeField] private Transform cameraTransform;
+    private GameObject meleeRuler;
     
     [SerializeField] private float maximumPickUpDistance = 3.0f;
     [SerializeField] private float throwStrength = 20.0f;
     
-    [SerializeField] private KeyCode pickupKey = KeyCode.LeftControl;
+    [SerializeField] private KeyCode pickupKey = KeyCode.E;
     [SerializeField] private KeyCode shootKey = KeyCode.Mouse0;
 
     // Jake: IN CASE I FUCKED SOMETHING UP LMK
@@ -25,12 +26,15 @@ public class PlayerWeapon : MonoBehaviour
         _armEmpty.SetActive(true);
         _armStapler.SetActive(false);
         _shootingAnim = _armStapler.GetComponent<isShooting_animScript>();
+
+        meleeRuler = GameObject.FindGameObjectWithTag("Melee Weapon");
+        meleeRuler.SetActive(false);
     }
 
     void Update()
     {
         if (weaponHolder == null) weaponHolder = GameObject.FindGameObjectWithTag("Weapon Holder");
-        if (gunHolder == null) gunHolder = GameObject.Find("Gun Holder");
+        //if (gunHolder == null) gunHolder = GameObject.Find("Gun Holder");
         bool holdingAWeapon = currentWeapon != null;
         
         if (Input.GetKeyDown(pickupKey))
@@ -39,12 +43,19 @@ public class PlayerWeapon : MonoBehaviour
             else PickUpANearbyWeapon();
         }
 
-        if (Input.GetKeyDown(shootKey) && holdingAWeapon)
+        if (Input.GetKeyDown(shootKey))
         {
-            currentWeapon.Shoot();
-            if (_armStapler.activeSelf)
+            if (holdingAWeapon)
             {
-                _shootingAnim.TriggerShootAnimation();
+                currentWeapon.Shoot();
+                if (_armStapler.activeSelf)
+                {
+                    _shootingAnim.TriggerShootAnimation();
+                }
+            }
+            else
+            {
+                StartCoroutine(UseMeleeWeapon());
             }
         }
     }
@@ -58,7 +69,7 @@ public class PlayerWeapon : MonoBehaviour
             {
                 if (Vector3.Distance(nearbyObject.transform.position, transform.position) < maximumPickUpDistance)
                 {
-                    rangedWeapon.PickUp(gunHolder);
+                    rangedWeapon.PickUp(weaponHolder);//rangedWeapon.PickUp(gunHolder);
                     currentWeapon = rangedWeapon;
                     //Jake
                     _armEmpty.SetActive(false);
@@ -75,8 +86,8 @@ public class PlayerWeapon : MonoBehaviour
         currentWeapon.Drop();
         currentWeapon = null;
         //Jake
-        _armEmpty.SetActive(true);
-        _armStapler.SetActive(false);
+        _armEmpty?.SetActive(true);
+        _armStapler?.SetActive(false);
         //Jake
     }
     
@@ -86,9 +97,23 @@ public class PlayerWeapon : MonoBehaviour
         if (cameraTransform != null) currentWeapon.Throw(cameraTransform.forward * throwStrength);
         currentWeapon = null;
         //Jake
-        _armEmpty.SetActive(true);
+        _armEmpty?.SetActive(true);
         _armStapler?.SetActive(false);
         //Jake
+    }
+
+    IEnumerator UseMeleeWeapon()
+    {
+        meleeRuler.SetActive(true);
+        //if (cameraTransform == null) cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        meleeRuler.transform.position = weaponHolder.transform.position;
+        meleeRuler.transform.localEulerAngles = weaponHolder.transform.eulerAngles + new Vector3(0f, -90f, 0f);
+        for (int i = 0; i < 27; i++)
+        {
+            meleeRuler.transform.localEulerAngles += new Vector3(0f, 5f, 0f);
+            yield return new WaitForSeconds(1f / 60f);
+        }
+        meleeRuler.SetActive(false);
     }
     
     private void OnDrawGizmos()

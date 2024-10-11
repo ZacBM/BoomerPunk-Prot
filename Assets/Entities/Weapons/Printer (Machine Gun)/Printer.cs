@@ -47,7 +47,7 @@ public class Printer : MonoBehaviour, RangedWeapon
 
     public void Shoot()
     {
-        Debug.Log("This printer wants to give someone a paper cut!");
+        //Debug.Log("This printer wants to give someone a paper cut!");
         if (ammoHolder.IsEmpty())
         {
             Debug.Log("This printer's out of ammo!");
@@ -62,7 +62,6 @@ public class Printer : MonoBehaviour, RangedWeapon
             {
                 hpComponent.ChangeHealth(-1);
             }
-            Debug.Log("This printer gave" + hit.collider.gameObject.name + "a paper cut!");
         }
         //Debug.DrawRay(bulletOrigin.position, bulletOrigin.forward * shotRange, Color.red, 1.0f);
         InstantiateBullet();

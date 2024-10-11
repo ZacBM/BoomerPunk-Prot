@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
+
 public class EnemyAi : MonoBehaviour
 {
 
@@ -101,9 +104,8 @@ public class EnemyAi : MonoBehaviour
 
         navMeshAgent.SetDestination(shufflePosition);
     }
-
-
-    public void OnDeath()
+    
+    public void Knockback()
     {
         GetComponent<NavMeshAgent>().enabled = false;
         rb.isKinematic = false;
@@ -112,8 +114,23 @@ public class EnemyAi : MonoBehaviour
 
         rb.AddForce(forceDirection * force, ForceMode.Impulse);
         rb.AddForce(Vector3.up * force * 0.2f, ForceMode.Impulse);
-        Invoke("DestroySelf", timeToDie);
+    }
+    
+    public void SmallKnockback()
+    {
+        GetComponent<NavMeshAgent>().enabled = false;
+        rb.isKinematic = false;
 
+        Vector3 forceDirection = (transform.position - player.transform.position).normalized;
+
+        rb.AddForce(forceDirection * (force / 4f), ForceMode.Impulse);
+        //rb.AddForce(Vector3.up * force * 0.2f, ForceMode.Impulse);
+    }
+
+    public void OnDeath()
+    {
+        Knockback();
+        Invoke("DestroySelf", timeToDie);
     }
 
     public void PlayDeathSound()
@@ -152,4 +169,19 @@ public class EnemyAi : MonoBehaviour
         }
     }
 
+    void TrackAgain()
+    {
+        GetComponent<NavMeshAgent>().enabled = true;
+        rb.isKinematic = true;
+    }
+
+    private void OnTriggerEnter(Collider otherCollider)
+    {
+        if (otherCollider.gameObject.tag == "Melee Weapon")
+        {
+            SmallKnockback();
+            PlayDeathSound();
+            Invoke("TrackAgain", (timeToDie / 2f));
+        }
+    }
 }
