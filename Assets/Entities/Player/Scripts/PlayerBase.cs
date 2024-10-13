@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -27,6 +28,10 @@ public class PlayerBase : MonoBehaviour
     [HideInInspector] public bool jumpPerformed;
     [HideInInspector] public bool pickUpPerformed;
     [HideInInspector] public bool shootPerformed;
+    
+    [Header("Weapon Display")]
+    [HideInInspector] public AmmoComponent weapomAmmoComponent;
+    [HideInInspector] public TextMeshProUGUI ammoText;
 
     void OnEnable()
     {
@@ -60,6 +65,20 @@ public class PlayerBase : MonoBehaviour
     {
         ResetSceneIfDead();
         ReceiveInput();
+
+        if (ammoText == null)
+        {
+            ammoText = GameObject.Find("Ammo Text").GetComponent<TextMeshProUGUI>();
+        }
+
+        if (weapomAmmoComponent != null && ammoText != null)
+        {
+            ammoText.text = "Ammo: " + weapomAmmoComponent.ammoLeft.ToString();
+        }
+        else if (ammoText != null)
+        {
+            ammoText.text = "Ammo: 0";
+        }
     }
     
     void ReceiveInput()

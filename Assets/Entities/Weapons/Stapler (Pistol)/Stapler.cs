@@ -29,6 +29,8 @@ public class Stapler : MonoBehaviour, RangedWeapon
 
     protected Recoil recoil;
     
+    private bool isShooting = false;
+    
     void Start()
     {
         // Initialize components.
@@ -48,9 +50,33 @@ public class Stapler : MonoBehaviour, RangedWeapon
             audioSource = gameObject.AddComponent<AudioSource>(); // Ensure AudioSource exists
         }
     }
+    
+    void Update()
+    {
+        if (isShooting)
+        {
+            isShooting = false;
+            Shoot();
+        }
+    }
+
+    public void PrepareToShoot()
+    {
+        isShooting = true;
+    }
+    
+    public void PrepareToStop()
+    {
+        isShooting = false;
+    }
 
     public void Shoot()
     {
+        if (ammoHolder.IsEmpty())
+        {
+            Debug.Log("This printer's out of ammo!");
+            return;
+        }
         ammoHolder.UseAmmo();
         RaycastHit hit;
         Physics.Raycast(bulletOrigin.position, bulletOrigin.forward, out hit, shotRange);

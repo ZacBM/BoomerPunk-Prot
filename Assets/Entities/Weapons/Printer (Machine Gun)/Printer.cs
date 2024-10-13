@@ -28,12 +28,11 @@ public class Printer : MonoBehaviour, RangedWeapon
     public AudioClip pickupAudio;
 
     private Recoil recoil;
-    
-    /*public enum ShotTypes {Hold, Tap}
-    public ShotTypes shotType;
 
+    private bool isShooting = false;
+    
     [HideInInspector] public float shotDelay;
-    public float shotDelaySet = 0.2f;*/
+    public float shotDelaySet = 0.2f;
     
     void Start()
     {
@@ -52,16 +51,30 @@ public class Printer : MonoBehaviour, RangedWeapon
 
     void Update()
     {
-        //shotDelay -= Time.deltaTime;
+        shotDelay -= Time.deltaTime;
+        if (isShooting)
+        {
+            Shoot();
+        }
+    }
+
+    public void PrepareToShoot()
+    {
+        isShooting = true;
+    }
+    
+    public void PrepareToStop()
+    {
+        isShooting = false;
     }
 
     public void Shoot()
     {
-        /*if (shotDelay > 0)
+        if (shotDelay > 0)
         {
             return;
         }
-        shotDelay = shotDelaySet;*/
+        shotDelay = shotDelaySet;
             
         //Debug.Log("This printer wants to give someone a paper cut!");
         if (ammoHolder.IsEmpty())

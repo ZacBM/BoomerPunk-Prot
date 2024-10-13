@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AmmoComponent : MonoBehaviour
 {
-    [SerializeField] private int ammoLeft = 10;
+    public int ammoLeft = 10;
     
     public bool IsEmpty()
     {

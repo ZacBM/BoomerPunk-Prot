@@ -59,7 +59,7 @@ public class PlayerWeapon : MonoBehaviour
         {
             if (holdingAWeapon)
             {
-                currentWeapon.Shoot();
+                currentWeapon.PrepareToShoot();
                 if (_armStapler.activeSelf)
                 {
                     _shootingAnim.TriggerShootAnimation();
@@ -68,6 +68,14 @@ public class PlayerWeapon : MonoBehaviour
             else
             {
                 StartCoroutine(UseMeleeWeapon());
+            }
+        }
+        
+        if (playerBase.shoot.WasReleasedThisFrame())
+        {
+            if (holdingAWeapon)
+            {
+                currentWeapon.PrepareToStop();
             }
         }
     }
@@ -87,6 +95,12 @@ public class PlayerWeapon : MonoBehaviour
                     _armEmpty.SetActive(false);
                     _armStapler.SetActive(true);
                     //Jake
+
+                    if (nearbyObject.TryGetComponent<AmmoComponent>(out AmmoComponent ammoComponent))
+                    {
+                        playerBase.weapomAmmoComponent = ammoComponent;
+                    }
+
                     break;
                 }
             }
@@ -95,12 +109,14 @@ public class PlayerWeapon : MonoBehaviour
 
     void DropCurrentWeapon()
     {
-        currentWeapon.Drop();
+        currentWeapon?.Drop();
         currentWeapon = null;
         //Jake
         _armEmpty?.SetActive(true);
         _armStapler?.SetActive(false);
         //Jake
+        
+        playerBase.weapomAmmoComponent = null;
     }
     
     void ThrowCurrentWeapon()
@@ -119,6 +135,8 @@ public class PlayerWeapon : MonoBehaviour
         _armEmpty?.SetActive(true);
         _armStapler?.SetActive(false);
         //Jake
+        
+        playerBase.weapomAmmoComponent = null;
     }
 
     IEnumerator UseMeleeWeapon()

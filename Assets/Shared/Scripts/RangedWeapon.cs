@@ -9,4 +9,8 @@ public interface RangedWeapon
     public void Throw(Vector3 throwDirection);
     
     public void Shoot();
+
+    public void PrepareToShoot();
+    
+    public void PrepareToStop();
 }
