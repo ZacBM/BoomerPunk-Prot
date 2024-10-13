@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -9,7 +11,7 @@ public class EnemyAi : MonoBehaviour
     GameObject player;
     [SerializeField] float stoppingDistance;
     [SerializeField] float stayAwayDistance;
-    public static List<EnemyAi> enemiesInAttackRange = new List<EnemyAi>();
+    public static List<EnemyAi> enemiesInAttackRange = new();
     public static int maxAttackers = 4;
 
     float shuffleSpeed;
@@ -21,7 +23,16 @@ public class EnemyAi : MonoBehaviour
     [Header("Death Sounds")]
     public AudioClip[] deathSounds;
 
-    void Awake()
+    private void Awake()
+    {
+        NavMeshSurface surface = FindObjectOfType<NavMeshSurface>();
+        if (surface == null)
+        {
+            CreateAndBakeNamMeshSurface();
+        }
+    }
+
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
         //rb.isKinematic = false;
@@ -38,6 +49,19 @@ public class EnemyAi : MonoBehaviour
         {
             Chase();
         }
+    }
+    
+    void CreateAndBakeNamMeshSurface()
+    {
+        NavMeshSurface surface = FindObjectOfType<NavMeshSurface>();
+        if (surface != null)
+        {
+            return;
+        }
+        GameObject newNavMeshSurface = new GameObject();
+        newNavMeshSurface.name = "NavMesh Surface";
+        newNavMeshSurface.AddComponent<NavMeshSurface>();
+        newNavMeshSurface.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
     void Chase()

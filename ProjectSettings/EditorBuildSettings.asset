@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/UI/Title Screen/Title Screen.unity
     guid: 7d24ceae60eaa6cc49697cdc1cb86ff1
   - enabled: 1
-    path: Assets/Locations/Office/Floor 1.unity
-    guid: 99286c7e5042b477aa258083f276398e
+    path: Assets/Locations/Office/Floor 1 V2.unity
+    guid: 6aa1c44ebbf48154ea3bf8eff4cd5f99
+  - enabled: 1
+    path: Assets/Locations/Office/Floor 2.unity
+    guid: dd88daa94f6ab674caa2da3f27157d12
   - enabled: 1
     path: Assets/UI/End Screen/End Screen.unity
     guid: 418ab740c7da01445b895ab4a171ec1f
+  - enabled: 1
+    path: Assets/Locations/Office/Floor 1.unity
+    guid: 99286c7e5042b477aa258083f276398e
   m_configObjects: {}
