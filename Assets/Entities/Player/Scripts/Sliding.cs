@@ -42,7 +42,7 @@ public class Sliding : MonoBehaviour
     void Update()
     {
         horizontalInput = playerBase.movementDirection.x;
-        verticalInput = playerBase.movementDirection.x;
+        verticalInput = playerBase.movementDirection.y;
 
         if (playerBase.dash.triggered && (horizontalInput != 0 || verticalInput != 0))
         {

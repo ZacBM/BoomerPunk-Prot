@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,7 +5,6 @@ using Random = UnityEngine.Random;
 
 public class EnemyAi : MonoBehaviour
 {
-
     NavMeshAgent navMeshAgent;
     GameObject player;
     [SerializeField] float stoppingDistance;
@@ -24,7 +21,6 @@ public class EnemyAi : MonoBehaviour
     [Header("Death Sounds")]
     public AudioClip[] deathSounds;
 
-    // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,14 +28,13 @@ public class EnemyAi : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
         shuffleSpeed = Random.Range(1.0f, 3.0f);
-        shuffleAmplitude = Random.Range(1.0f, 3.0f); ;
-
+        shuffleAmplitude = Random.Range(1.0f, 3.0f);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (navMeshAgent != null && GetComponent<NavMeshAgent>().enabled == true)
+        if (navMeshAgent != null && navMeshAgent.enabled)
         {
             Chase();
         }
@@ -49,38 +44,31 @@ public class EnemyAi : MonoBehaviour
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-
         if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
         {
             if (navMeshAgent != null)
             {
                 navMeshAgent.SetDestination(player.transform.position);
                 return;
-            }
-                
+            } 
         }
-
-
         else if (distanceToPlayer <= stoppingDistance)
         {
-
             if (!enemiesInAttackRange.Contains(this) && enemiesInAttackRange.Count < maxAttackers)
             {
                 enemiesInAttackRange.Add(this);
                 //player.GetComponent<HPComponent>().ChangeHealth(-1);
                 //deal damage on timer
             }
-            else if(enemiesInAttackRange.Contains(this))
+            else if (enemiesInAttackRange.Contains(this))
+            {
                 navMeshAgent.SetDestination(transform.position);
+            }
         }
-
-
         else if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
         {
             StayAway();
-
         }
-
 
         //if player moves out of range then remove from list
         if (enemiesInAttackRange.Contains(this) && distanceToPlayer > stoppingDistance)
@@ -89,10 +77,8 @@ public class EnemyAi : MonoBehaviour
         }
     }
 
-
     void StayAway()
     {
-
         Vector3 positionAwayFromPlayer = (transform.position - player.transform.position).normalized;
         Vector3 stayAwayPosition = player.transform.position + positionAwayFromPlayer * stayAwayDistance;
 
@@ -100,7 +86,6 @@ public class EnemyAi : MonoBehaviour
         float shuffleOffset = Mathf.Sin(Time.time * shuffleSpeed) * shuffleAmplitude;
 
         Vector3 shufflePosition = stayAwayPosition + shuffleDirection * shuffleOffset;
-
 
         navMeshAgent.SetDestination(shufflePosition);
     }
@@ -144,7 +129,6 @@ public class EnemyAi : MonoBehaviour
                 //Debug.Log("Death Sound");
             }
         }
-        
     }
 
     void DestroySelf()

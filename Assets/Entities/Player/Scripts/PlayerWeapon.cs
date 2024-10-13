@@ -36,14 +36,23 @@ public class PlayerWeapon : MonoBehaviour
 
     void Update()
     {
-        if (weaponHolder == null) weaponHolder = GameObject.FindGameObjectWithTag("Weapon Holder");
+        if (weaponHolder == null)
+        {
+            weaponHolder = GameObject.FindGameObjectWithTag("Weapon Holder");
+        }
         //if (gunHolder == null) gunHolder = GameObject.Find("Gun Holder");
         bool holdingAWeapon = currentWeapon != null;
         
         if (playerBase.pickUp.triggered)
         {
-            if (holdingAWeapon) ThrowCurrentWeapon(); //DropCurrentWeapon();
-            else PickUpANearbyWeapon();
+            if (holdingAWeapon)
+            {
+                ThrowCurrentWeapon(); //DropCurrentWeapon();
+            }
+            else
+            {
+                PickUpANearbyWeapon();
+            }
         }
 
         if (playerBase.shoot.triggered)
@@ -65,7 +74,7 @@ public class PlayerWeapon : MonoBehaviour
 
     void PickUpANearbyWeapon()
     {
-        GameObject[] allGameObjects = GameObject.FindObjectsOfType<GameObject>();
+        GameObject[] allGameObjects = FindObjectsOfType<GameObject>();
         foreach (GameObject nearbyObject in allGameObjects)
         {
             if (nearbyObject.TryGetComponent<RangedWeapon>(out RangedWeapon rangedWeapon))
@@ -96,8 +105,15 @@ public class PlayerWeapon : MonoBehaviour
     
     void ThrowCurrentWeapon()
     {
-        if (cameraTransform == null) cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
-        if (cameraTransform != null) currentWeapon.Throw(cameraTransform.forward * throwStrength);
+        if (cameraTransform == null)
+        {
+            cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        }
+
+        if (cameraTransform != null)
+        {
+            currentWeapon.Throw(cameraTransform.forward * throwStrength);
+        }
         currentWeapon = null;
         //Jake
         _armEmpty?.SetActive(true);
@@ -108,7 +124,6 @@ public class PlayerWeapon : MonoBehaviour
     IEnumerator UseMeleeWeapon()
     {
         meleeRuler.SetActive(true);
-        //if (cameraTransform == null) cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
         meleeRuler.transform.position = weaponHolder.transform.position;
         meleeRuler.transform.localEulerAngles = weaponHolder.transform.eulerAngles + new Vector3(0f, -90f, 0f);
         for (int i = 0; i < 27; i++)

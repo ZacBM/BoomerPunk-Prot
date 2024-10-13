@@ -18,14 +18,24 @@ public class HPComponent : MonoBehaviour
     private void Awake()
     {
         enemyAi = GetComponent<EnemyAi>();
-        if (enemyAi != null) healthChange.AddListener(enemyAi.OnDeath);
+        if (enemyAi != null)
+        {
+            healthChange.AddListener(enemyAi.OnDeath);
+        }
     }
 
     public int ChangeHealth(int changeInHealth)
     {
         health += changeInHealth;
-        if (IsDead()) Die();
-        if (health > maxHealth) health = maxHealth;
+        if (IsDead())
+        {
+            Die();
+        }
+
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
         return health;
     }
 
@@ -41,7 +51,14 @@ public class HPComponent : MonoBehaviour
             enemyAi.PlayDeathSound();
             healthChange.Invoke();
         }
-        if (behaviorOnDeath == BehaviorsOnDeath.DEACTIVATE) gameObject.SetActive(false);
-        else if (behaviorOnDeath == BehaviorsOnDeath.DELETE) Destroy(gameObject);
+
+        if (behaviorOnDeath == BehaviorsOnDeath.DEACTIVATE)
+        {
+            gameObject.SetActive(false);
+        }
+        else if (behaviorOnDeath == BehaviorsOnDeath.DELETE)
+        {
+            Destroy(gameObject);
+        }
     }
 }

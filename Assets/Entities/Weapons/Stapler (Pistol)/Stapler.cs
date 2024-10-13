@@ -56,24 +56,28 @@ public class Stapler : MonoBehaviour, RangedWeapon
         Physics.Raycast(bulletOrigin.position, bulletOrigin.forward, out hit, shotRange);
         if (hit.collider != null)
         {
-            if (hit.collider.gameObject.TryGetComponent<HPComponent>(out HPComponent hpc)) hpc.ChangeHealth(-1);
+            if (hit.collider.gameObject.TryGetComponent<HPComponent>(out HPComponent hpc))
+            {
+                hpc.ChangeHealth(-1);
+            }
         }
         //Debug.DrawRay(bulletOrigin.position, bulletOrigin.forward * shotRange, Color.red, 1.0f);
         InstantiateBullet();
-        if (shotVisualEffect != null) CreateVisualEffect();
+        if (shotVisualEffect != null)
+        {
+            CreateVisualEffect();
+        }
 
         recoil.recoil();
-        if (shootAudio != null) audioSource.PlayOneShot(shootAudio);
+        if (shootAudio != null)
+        {
+            audioSource?.PlayOneShot(shootAudio);
+        }
     }
 
     void CreateVisualEffect()
     {
         shotVisualEffect.Play();
-    }
-
-    public float GetBulletForce()
-    {
-        return bulletForce;
     }
     
     public void Drop()
@@ -88,7 +92,10 @@ public class Stapler : MonoBehaviour, RangedWeapon
         transform.SetParent(parent.transform, false);
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-        if (pickupAudio != null) audioSource.PlayOneShot(pickupAudio);
+        if (pickupAudio != null)
+        {
+            audioSource.PlayOneShot(pickupAudio);
+        }
 
         //Jake
         //parent.SetActive(false);
