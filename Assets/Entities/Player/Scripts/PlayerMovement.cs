@@ -4,22 +4,20 @@
  */
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
+[RequireComponent(typeof(PlayerBase))]
 
 public class PlayerMovement : MonoBehaviour
 {
+	private PlayerBase playerBase;
+	
 	[Header("Movement")]
 	public float moveSpeed;
 
 	public float groundDrag;
 
 	public float jumpForce;
-	public float jumpCooldown;
 	public float airMultiplier;
-	bool readyToJump;
-
-	[Header("Keybinds")]
-	public KeyCode jumpKey = KeyCode.Space;
 
 	[Header("Ground Check")]
 	public float playerHeight;
@@ -36,8 +34,6 @@ public class PlayerMovement : MonoBehaviour
 	Rigidbody rigidbody;
 	
 	public LayerMask exitLayer;
-	
-	[SerializeField] private HPComponent hpComponent;
 
 	private Sliding sliding;
 
@@ -45,10 +41,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
 	{
+		playerBase = GetComponent<PlayerBase>();
+		
 		rigidbody = GetComponent<Rigidbody>();
 		rigidbody.freezeRotation = true;
-		
-		readyToJump = true;
 
         sliding = GetComponent<Sliding>();
     }
@@ -62,13 +58,14 @@ public class PlayerMovement : MonoBehaviour
 		SpeedControl();
 
 		//Handling the drag.
-		if (grounded) rigidbody.drag = groundDrag;
-		else rigidbody.drag = 0f;
-
-        if (hpComponent != null && hpComponent.health <= 0)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
+		if (grounded)
+		{
+			rigidbody.drag = groundDrag;
+		}
+		else
+		{
+			rigidbody.drag = 0f;
+		}
     }
 
 	private void FixedUpdate()
@@ -78,17 +75,13 @@ public class PlayerMovement : MonoBehaviour
 
 	private void MyInput()
 	{
-		horizontalInput = Input.GetAxisRaw("Horizontal");
-		verticalInput = Input.GetAxisRaw("Vertical");
+		horizontalInput = playerBase.movementDirection.x;
+		verticalInput = playerBase.movementDirection.y;
 
 		// When to jump.
-		if (Input.GetKey(jumpKey) && readyToJump && grounded)
+		if (playerBase.jump.triggered && grounded)
 		{
-			readyToJump = false;
-
 			Jump();
-
-			Invoke(nameof(ResetJump), jumpCooldown);
 		}
 	}
 
@@ -105,13 +98,22 @@ public class PlayerMovement : MonoBehaviour
 
         float appliedMoveSpeed = moveSpeed;
 
-        if (sliding != null && sliding.sliding) appliedMoveSpeed *= sliding.GetCurrentSpeedMultiplier();
+        if (sliding != null && sliding.sliding)
+        {
+	        appliedMoveSpeed *= sliding.GetCurrentSpeedMultiplier();
+        }
 
         //On Ground
-        if (grounded) rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f, ForceMode.Force);
+        if (grounded)
+        {
+	        rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f, ForceMode.Force);
+        }
 
 		//in air
-		else if (!grounded) rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f * airMultiplier, ForceMode.Force);
+		else if (!grounded)
+		{
+			rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f * airMultiplier, ForceMode.Force);
+		}
         
         ApplyGravity();
     }
@@ -135,10 +137,5 @@ public class PlayerMovement : MonoBehaviour
 		
 		// Send player upwards.
 		rigidbody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-	}
-
-	private void ResetJump()
-	{
-		readyToJump = true;
 	}
 }

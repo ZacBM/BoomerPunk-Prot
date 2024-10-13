@@ -168,7 +168,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: d4d941c096e24d80eb7b263e7c3c067f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: fc0aff5bf547ea404b4a5517f07594e9, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1858529
 Transform:
@@ -5785,6 +5785,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 2101967096}
   playerCameraHolderPrefab: {fileID: 1292106120}
   exitDoorPrefab: {fileID: 1106134776389699879, guid: 5ebbe727f8bbd78299452556504055a7, type: 3}
+  exitDoorLocation: {x: 0, y: 0, z: 0}
   percentOfEnemiesToLeaveAliveToProgress: 25
   numberOfEnemiesToLeaveAliveToProgress: 0
   numberOfEnemiesLeft: 0
@@ -6712,6 +6713,10 @@ PrefabInstance:
       propertyPath: _armStapler
       value: 
       objectReference: {fileID: 1153668858}
+    - target: {fileID: 8209671683749069461, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
+      propertyPath: weaponHolder
+      value: 
+      objectReference: {fileID: 2027338498}
     - target: {fileID: 8209671683749069461, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
       propertyPath: _shootingAnim
       value: 
@@ -7813,13 +7818,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027338498}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.832, z: 1.234}
+  m_LocalRotation: {x: 0, y: -0.08715578, z: 0, w: 0.9961947}
+  m_LocalPosition: {x: 0.873, y: -0.832, z: 0.841}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2076759552}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -10, z: 0}
 --- !u!4 &2041362136 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6921476418745299191, guid: 0e899fa9c2d1f1b4eb2344fdc7856033, type: 3}

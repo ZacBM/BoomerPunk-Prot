@@ -1,8 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerBase))]
+
 public class PlayerWeapon : MonoBehaviour
 {
+    private PlayerBase playerBase;
+    
     [SerializeField] private RangedWeapon currentWeapon;
     [SerializeField] private GameObject weaponHolder;
     //[SerializeField] private GameObject gunHolder;
@@ -11,9 +15,6 @@ public class PlayerWeapon : MonoBehaviour
     
     [SerializeField] private float maximumPickUpDistance = 3.0f;
     [SerializeField] private float throwStrength = 20.0f;
-    
-    [SerializeField] private KeyCode pickupKey = KeyCode.E;
-    [SerializeField] private KeyCode shootKey = KeyCode.Mouse0;
 
     // Jake: IN CASE I FUCKED SOMETHING UP LMK
     public GameObject _armStapler;
@@ -23,6 +24,8 @@ public class PlayerWeapon : MonoBehaviour
 
     void Start()
     {
+        playerBase = GetComponent<PlayerBase>();
+        
         _armEmpty.SetActive(true);
         _armStapler.SetActive(false);
         _shootingAnim = _armStapler.GetComponent<isShooting_animScript>();
@@ -37,13 +40,13 @@ public class PlayerWeapon : MonoBehaviour
         //if (gunHolder == null) gunHolder = GameObject.Find("Gun Holder");
         bool holdingAWeapon = currentWeapon != null;
         
-        if (Input.GetKeyDown(pickupKey))
+        if (playerBase.pickUp.triggered)
         {
             if (holdingAWeapon) ThrowCurrentWeapon(); //DropCurrentWeapon();
             else PickUpANearbyWeapon();
         }
 
-        if (Input.GetKeyDown(shootKey))
+        if (playerBase.shoot.triggered)
         {
             if (holdingAWeapon)
             {

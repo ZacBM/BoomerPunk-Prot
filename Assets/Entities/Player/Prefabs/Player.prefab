@@ -258,7 +258,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4441394877859653043}
+  - component: {fileID: 4651377545059231787}
   - component: {fileID: 8803936039236597799}
+  - component: {fileID: 5065720288726816804}
   - component: {fileID: 1343769782201260372}
   - component: {fileID: 3082709118815886471}
   - component: {fileID: 8209671683749069461}
@@ -266,7 +268,6 @@ GameObject:
   - component: {fileID: 8617928023657092579}
   - component: {fileID: 1713727261427143241}
   - component: {fileID: 7844489650151907763}
-  - component: {fileID: 4651377545059231787}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -293,6 +294,20 @@ Transform:
   - {fileID: 9189253228593812230}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4651377545059231787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4104473781823650616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab362427f916c5f4f952be8374ddd627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitmarker: {fileID: 2936053310130335175, guid: 1ba40e0fc90a4202197b494e2059a405, type: 3}
+  distance: 10
 --- !u!114 &8803936039236597799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,6 +326,141 @@ MonoBehaviour:
   healthChange:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5065720288726816804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4104473781823650616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12bdb162ebd7bd4b2aaa927ae42c9e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpComponent: {fileID: 8803936039236597799}
+  move:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: fe83db7c-0df7-47d4-a7b1-7bdb29119b14
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: WASD
+      m_Id: dee6c9ad-0bcb-413e-9149-5f7f6ef1dcad
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 4
+    - m_Name: up
+      m_Id: 2db2b559-82a0-4a6f-84a5-51634262ae64
+      m_Path: <Keyboard>/w
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: down
+      m_Id: 03adeac6-5a18-4716-92e6-c5c759538acb
+      m_Path: <Keyboard>/s
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: left
+      m_Id: 60aa2ec8-19ec-4fae-8fd9-b340d4778520
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: right
+      m_Id: 37350afe-08d8-4c34-b801-de6200e0bb39
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    m_Flags: 0
+  dash:
+    m_Name: Dash
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 14687b4d-106c-4860-b1e8-0247756566e8
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 8b8adbc2-46a9-49c5-9f72-57a3b37fc44f
+      m_Path: <Keyboard>/leftShift
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Dash
+      m_Flags: 0
+    m_Flags: 0
+  jump:
+    m_Name: Jump
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 673d0a99-e90b-41ac-80df-a358ae9b6bc5
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 9902938c-b65c-4d21-a22c-904d2c9f1eca
+      m_Path: <Keyboard>/space
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Jump
+      m_Flags: 0
+    m_Flags: 0
+  pickUp:
+    m_Name: Pick Up
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 746b7498-1178-4d9c-877f-acbead42a3a1
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 3ffdba59-b99e-44eb-9e8b-b5b2492a2513
+      m_Path: <Keyboard>/f
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pick Up
+      m_Flags: 0
+    m_Flags: 0
+  shoot:
+    m_Name: Shoot
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: ac63fb3d-5655-4969-b26e-0cd8a0a5dc44
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: cf8002c4-225b-467f-84ab-95a79f13bacf
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Shoot
+      m_Flags: 0
+    m_Flags: 0
+  movementDirection: {x: 0, y: 0, z: 0}
+  dashPerformed: 0
+  jumpPerformed: 0
+  pickUpPerformed: 0
+  shootPerformed: 0
 --- !u!114 &1343769782201260372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,9 +494,7 @@ MonoBehaviour:
   moveSpeed: 7
   groundDrag: 12
   jumpForce: 12
-  jumpCooldown: 0.25
   airMultiplier: 1
-  jumpKey: 32
   playerHeight: 2
   groundLayer:
     serializedVersion: 2
@@ -356,7 +504,6 @@ MonoBehaviour:
   exitLayer:
     serializedVersion: 2
     m_Bits: 512
-  hpComponent: {fileID: 8803936039236597799}
   gravityScale: 2
 --- !u!114 &8209671683749069461
 MonoBehaviour:
@@ -374,8 +521,6 @@ MonoBehaviour:
   cameraTransform: {fileID: 0}
   maximumPickUpDistance: 3
   throwStrength: 20
-  pickupKey: 306
-  shootKey: 323
   _armStapler: {fileID: 0}
   _armEmpty: {fileID: 0}
   _shootingAnim: {fileID: 0}
@@ -396,7 +541,6 @@ MonoBehaviour:
   maxSlideTime: 0.75
   slideForce: 200
   slideYScale: 0.5
-  slideKey: 306
   initialSpeedMultiplier: 15
   speedDecay: 0.1
   sliding: 0
@@ -473,20 +617,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &4651377545059231787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4104473781823650616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab362427f916c5f4f952be8374ddd627, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitmarker: {fileID: 2936053310130335175, guid: 1ba40e0fc90a4202197b494e2059a405, type: 3}
-  distance: 10
 --- !u!1 &7747479719841383976
 GameObject:
   m_ObjectHideFlags: 0

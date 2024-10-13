@@ -24,9 +24,14 @@ public class HPComponent : MonoBehaviour
     public int ChangeHealth(int changeInHealth)
     {
         health += changeInHealth;
-        if (health <= 0) Die();
+        if (IsDead()) Die();
         if (health > maxHealth) health = maxHealth;
         return health;
+    }
+
+    public bool IsDead()
+    {
+        return health <= 0;
     }
 
     void Die()
