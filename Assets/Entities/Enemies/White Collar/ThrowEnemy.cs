@@ -45,7 +45,7 @@ public class ThrowEnemy : MonoBehaviour
     void FixedUpdate()
     {
         timer += Time.deltaTime;
-        DrawTrajectory();
+       // DrawTrajectory();
         if (navMeshAgent != null && GetComponent<NavMeshAgent>().enabled == true)
             Chase();      
     }
@@ -142,7 +142,7 @@ public class ThrowEnemy : MonoBehaviour
     }
 
 
-    void DrawTrajectory()
+   /* void DrawTrajectory()
     {
         Vector3 startPosition = spawnPoint.position;
         Vector3 velocity = spawnPoint.forward * explosionImpulse; 
@@ -155,7 +155,7 @@ public class ThrowEnemy : MonoBehaviour
             Vector3 position = CalculatePositionAtTime(startPosition, velocity, t);
             lineRenderer.SetPosition(i, position);
         }
-    }
+    }*/
 
     Vector3 CalculatePositionAtTime(Vector3 startPosition, Vector3 velocity, float time)
     {
