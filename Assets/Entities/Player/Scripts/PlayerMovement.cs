@@ -4,17 +4,19 @@
  */
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
+[RequireComponent(typeof(PlayerBase))]
 
 public class PlayerMovement : MonoBehaviour
 {
+	private PlayerBase playerBase;
+	
 	[Header("Movement")]
 	public float moveSpeed;
 
 	public float groundDrag;
 
 	public float jumpForce;
-	public float jumpCooldown;
 	public float airMultiplier;
 
 	[Header("Ground Check")]
