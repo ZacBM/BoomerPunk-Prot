@@ -9,8 +9,6 @@ using static UnityEngine.GraphicsBuffer;
 public class ThrowEnemy : MonoBehaviour
 {
 
-    [SerializeField] bool showAim = false;
-
     public Transform spawnPoint;
     public float explosionImpulse = 20f;
     public int resolution = 50;

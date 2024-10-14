@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 8617928023657092579}
   - component: {fileID: 1713727261427143241}
   - component: {fileID: 7844489650151907763}
+  - component: {fileID: -2327555742589628215}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -320,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0755fc3b3e081ad5b1e4457b413779a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 12
+  health: 50
   maxHealth: 100
   behaviorOnDeath: 2
   healthChange:
@@ -461,6 +462,8 @@ MonoBehaviour:
   jumpPerformed: 0
   pickUpPerformed: 0
   shootPerformed: 0
+  weapomAmmoComponent: {fileID: 0}
+  ammoText: {fileID: 0}
 --- !u!114 &1343769782201260372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,6 +620,21 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-2327555742589628215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4104473781823650616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd09ef6151340e34c92810ed1ae98781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 0
+  timeToDie: 0
+  deathSounds: []
 --- !u!1 &7747479719841383976
 GameObject:
   m_ObjectHideFlags: 0

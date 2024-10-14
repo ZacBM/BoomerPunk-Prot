@@ -30,6 +30,7 @@ public class OnDeath : MonoBehaviour
         {
             Knockback();
             Invoke("DestroySelf", timeToDie);
+            Debug.Log("---------------");
         }
 
         else if (CompareTag("Player"))
@@ -65,7 +66,7 @@ public class OnDeath : MonoBehaviour
 
     public void PlayDeathSound()
     {
-        if (deathSounds != null)
+        if (deathSounds.Length > 0)
         {
             if (CompareTag("Enemy"))
             {

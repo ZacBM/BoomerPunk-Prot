@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7480956542059763462}
   - component: {fileID: 569977928767599294}
   - component: {fileID: 7829564211482356446}
+  - component: {fileID: -979853105251039976}
   m_Layer: 0
   m_Name: Range_Enemy
   m_TagString: Enemy
@@ -132,7 +133,6 @@ MonoBehaviour:
   tStep: 0.1
   maxTimeBetweenAttacks: 1
   cannonballPrefab: {fileID: 8273746987079810369, guid: bc408ffc33f311346b1b8f278b6f902e, type: 3}
-  target: {fileID: 0}
   aimHigh: 1
   stayAwayDistance: 14
   tooCloseDistance: 8
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   maxHealth: 100
-  behaviorOnDeath: 1
+  behaviorOnDeath: 2
   healthChange:
     m_PersistentCalls:
       m_Calls: []
@@ -295,6 +295,33 @@ MonoBehaviour:
   force: 45
   timeToDie: 1
   deathSounds: []
+--- !u!54 &-979853105251039976
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457009707265986687}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 2
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2563558577655157951
 GameObject:
   m_ObjectHideFlags: 0
