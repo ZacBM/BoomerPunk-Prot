@@ -17,18 +17,16 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private float throwStrength = 20.0f;
 
     // Jake: IN CASE I FUCKED SOMETHING UP LMK
-    public GameObject _armStapler;
-    public GameObject _armEmpty;
+    //jake
+    public GameObject hands;
 
     public isShooting_animScript _shootingAnim;
 
     void Start()
     {
         playerBase = GetComponent<PlayerBase>();
-        
-        _armEmpty.SetActive(true);
-        _armStapler.SetActive(false);
-        _shootingAnim = _armStapler.GetComponent<isShooting_animScript>();
+
+        _shootingAnim = hands.GetComponent<isShooting_animScript>();
 
         meleeRuler = GameObject.FindGameObjectWithTag("Melee Weapon");
         meleeRuler.SetActive(false);
@@ -60,8 +58,11 @@ public class PlayerWeapon : MonoBehaviour
             if (holdingAWeapon)
             {
                 currentWeapon.PrepareToShoot();
-                if (_armStapler.activeSelf)
+                if (hands.activeSelf)
                 {
+                    //jake
+                    _shootingAnim.animator.SetBool("isStapler", true);
+                    //jake
                     _shootingAnim.TriggerShootAnimation();
                 }
             }
@@ -91,10 +92,6 @@ public class PlayerWeapon : MonoBehaviour
                 {
                     rangedWeapon.PickUp(weaponHolder);//rangedWeapon.PickUp(gunHolder);
                     currentWeapon = rangedWeapon;
-                    //Jake
-                    _armEmpty.SetActive(false);
-                    _armStapler.SetActive(true);
-                    //Jake
 
                     if (nearbyObject.TryGetComponent<AmmoComponent>(out AmmoComponent ammoComponent))
                     {
@@ -111,10 +108,6 @@ public class PlayerWeapon : MonoBehaviour
     {
         currentWeapon?.Drop();
         currentWeapon = null;
-        //Jake
-        _armEmpty?.SetActive(true);
-        _armStapler?.SetActive(false);
-        //Jake
         
         playerBase.weapomAmmoComponent = null;
     }
@@ -131,10 +124,6 @@ public class PlayerWeapon : MonoBehaviour
             currentWeapon.Throw(cameraTransform.forward * throwStrength);
         }
         currentWeapon = null;
-        //Jake
-        _armEmpty?.SetActive(true);
-        _armStapler?.SetActive(false);
-        //Jake
         
         playerBase.weapomAmmoComponent = null;
     }
