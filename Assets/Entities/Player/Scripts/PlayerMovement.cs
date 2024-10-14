@@ -64,11 +64,6 @@ public class PlayerMovement : MonoBehaviour
 		//Handling the drag.
 		if (grounded) rigidbody.drag = groundDrag;
 		else rigidbody.drag = 0f;
-
-        if (hpComponent != null && hpComponent.health <= 0)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
     }
 
 	private void FixedUpdate()

@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1540
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: d4d941c096e24d80eb7b263e7c3c067f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 18a1ddd2a10ef45488de006d11440d9e, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1858529
 Transform:
@@ -5785,6 +5785,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 2101967096}
   playerCameraHolderPrefab: {fileID: 1292106120}
   exitDoorPrefab: {fileID: 1106134776389699879, guid: 5ebbe727f8bbd78299452556504055a7, type: 3}
+  exitDoorLocation: {x: 0, y: 0, z: 0}
   percentOfEnemiesToLeaveAliveToProgress: 25
   numberOfEnemiesToLeaveAliveToProgress: 0
   numberOfEnemiesLeft: 0
@@ -6631,6 +6632,10 @@ PrefabInstance:
     - target: {fileID: 1343769782201260372, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
       propertyPath: bobbingAmount
       value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1713727261427143241, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
+      propertyPath: m_Radius
+      value: 0.37
       objectReference: {fileID: 0}
     - target: {fileID: 4104473781823650616, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
       propertyPath: m_Name

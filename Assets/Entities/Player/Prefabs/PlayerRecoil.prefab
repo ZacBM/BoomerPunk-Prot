@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7468103451235829341}
   - component: {fileID: 5627596188240448945}
   - component: {fileID: 8993084247080836755}
+  - component: {fileID: -6329741918980354907}
   m_Layer: 0
   m_Name: PlayerRecoil
   m_TagString: Player
@@ -70,6 +71,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   hpComponent: {fileID: 8993084247080836755}
+  gravityScale: 0
 --- !u!114 &8222435812638440592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,9 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7008e4bc24c4376a306637da8423bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 0}
   weaponHolder: {fileID: 0}
-  gunHolder: {fileID: 0}
   cameraTransform: {fileID: 0}
   maximumPickUpDistance: 3
   throwStrength: 20
@@ -223,6 +223,20 @@ MonoBehaviour:
   healthChange:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-6329741918980354907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132471816338368872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd09ef6151340e34c92810ed1ae98781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 0
+  timeToDie: 0
 --- !u!1 &1781026809823027084
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class EnemyAi : MonoBehaviour
     NavMeshAgent navMeshAgent;
     GameObject player;
     [SerializeField] float stoppingDistance;
+    [SerializeField] float tooCloseDistance;
     [SerializeField] float stayAwayDistance;
     public static List<EnemyAi> enemiesInAttackRange = new List<EnemyAi>();
     public static int maxAttackers = 4;
@@ -21,22 +22,22 @@ public class EnemyAi : MonoBehaviour
     Rigidbody rb;
     [SerializeField] float timeToDie;
 
-    [Header("Death Sounds")]
-    public AudioClip[] deathSounds;
+    [SerializeField] int damage;
+    [SerializeField] float timeBetweenAttacks;
+    
 
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        //rb.isKinematic = false;
         player = GameObject.FindWithTag("Player");
+        if(player == null)
+            Destroy(gameObject);
         navMeshAgent = GetComponent<NavMeshAgent>();
         shuffleSpeed = Random.Range(1.0f, 3.0f);
-        shuffleAmplitude = Random.Range(1.0f, 3.0f); ;
-
+        shuffleAmplitude = Random.Range(1.0f, 3.0f);
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (navMeshAgent != null && GetComponent<NavMeshAgent>().enabled == true)
@@ -60,20 +61,17 @@ public class EnemyAi : MonoBehaviour
                 
         }
 
-
         else if (distanceToPlayer <= stoppingDistance)
         {
 
             if (!enemiesInAttackRange.Contains(this) && enemiesInAttackRange.Count < maxAttackers)
             {
                 enemiesInAttackRange.Add(this);
-                //player.GetComponent<HPComponent>().ChangeHealth(-1);
-                //deal damage on timer
+                StartCoroutine(AttackPlayer());
             }
             else if(enemiesInAttackRange.Contains(this))
                 navMeshAgent.SetDestination(transform.position);
         }
-
 
         else if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
         {
@@ -81,10 +79,10 @@ public class EnemyAi : MonoBehaviour
 
         }
 
-
         //if player moves out of range then remove from list
         if (enemiesInAttackRange.Contains(this) && distanceToPlayer > stoppingDistance)
         {
+            StopAllCoroutines();
             enemiesInAttackRange.Remove(this);
         }
     }
@@ -116,6 +114,7 @@ public class EnemyAi : MonoBehaviour
         rb.AddForce(Vector3.up * force * 0.2f, ForceMode.Impulse);
     }
     
+    //copy and paste of knockback function, they can be the same
     public void SmallKnockback()
     {
         GetComponent<NavMeshAgent>().enabled = false;
@@ -133,19 +132,7 @@ public class EnemyAi : MonoBehaviour
         Invoke("DestroySelf", timeToDie);
     }
 
-    public void PlayDeathSound()
-    {
-        if (deathSounds != null)
-        {
-            if (deathSounds.Length > 0)
-            {
-                int randomIndex = Random.Range(0, deathSounds.Length);
-                AudioSource.PlayClipAtPoint(deathSounds[randomIndex], transform.position);
-                //Debug.Log("Death Sound");
-            }
-        }
-        
-    }
+
 
     void DestroySelf()
     {
@@ -162,7 +149,8 @@ public class EnemyAi : MonoBehaviour
 
     void OnDisable()
     {
-        GameManager.gameManager.numberOfEnemiesLeft--;
+        if(GameManager.gameManager != null)
+            GameManager.gameManager.numberOfEnemiesLeft--;
         if (enemiesInAttackRange.Contains(this))
         {
             enemiesInAttackRange.Remove(this);
@@ -175,19 +163,27 @@ public class EnemyAi : MonoBehaviour
         rb.isKinematic = true;
     }
 
+    //this doesnt do anything
     private void OnTriggerEnter(Collider otherCollider)
     {
         if (otherCollider.gameObject.tag == "Melee Weapon")
         {
             SmallKnockback();
-            PlayDeathSound();
             Invoke("TrackAgain", (timeToDie / 2f));
         }
         if (otherCollider.gameObject.tag == "Thrown Weapon")
         {
             SmallKnockback();
-            PlayDeathSound();
             Invoke("TrackAgain", (timeToDie / 2f));
+        }
+    }
+
+
+    IEnumerator AttackPlayer()
+    {
+        while (enemiesInAttackRange.Contains(this)) {
+            player.GetComponent<HPComponent>().ChangeHealth(-damage);
+            yield return new WaitForSeconds(timeBetweenAttacks);
         }
     }
 }

@@ -31,12 +31,25 @@ public class HPComponent : MonoBehaviour
 
     void Die()
     {
-        if (enemyAi != null)
+        try
+        {
+            gameObject.GetComponent<OnDeath>().Die();
+        }
+        catch
+        {
+            if (behaviorOnDeath == BehaviorsOnDeath.DELETE)
+                Destroy(gameObject);
+            else 
+                gameObject.SetActive(false);
+        }
+
+
+
+        /*if (enemyAi != null)
         {
             enemyAi.PlayDeathSound();
             healthChange.Invoke();
-        }
-        if (behaviorOnDeath == BehaviorsOnDeath.DEACTIVATE) gameObject.SetActive(false);
-        else if (behaviorOnDeath == BehaviorsOnDeath.DELETE) Destroy(gameObject);
+        }*/
+        
     }
 }
