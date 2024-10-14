@@ -27,7 +27,12 @@ public class Printer : MonoBehaviour, RangedWeapon
     public AudioClip shootAudio;
     public AudioClip pickupAudio;
 
-    protected Recoil recoil;
+    private Recoil recoil;
+
+    private bool isShooting = false;
+    
+    [HideInInspector] public float shotDelay;
+    public float shotDelaySet = 0.2f;
     
     void Start()
     {
@@ -41,12 +46,36 @@ public class Printer : MonoBehaviour, RangedWeapon
         audioSource = GetComponent<AudioSource>();
         
         rigidbodyHelper.ActivateRigidbody();
-        //recoil = GetComponent<Recoil>();
         recoil = FindObjectOfType<Recoil>();
+    }
+
+    void Update()
+    {
+        shotDelay -= Time.deltaTime;
+        if (isShooting)
+        {
+            Shoot();
+        }
+    }
+
+    public void PrepareToShoot()
+    {
+        isShooting = true;
+    }
+    
+    public void PrepareToStop()
+    {
+        isShooting = false;
     }
 
     public void Shoot()
     {
+        if (shotDelay > 0)
+        {
+            return;
+        }
+        shotDelay = shotDelaySet;
+            
         //Debug.Log("This printer wants to give someone a paper cut!");
         if (ammoHolder.IsEmpty())
         {
@@ -65,10 +94,16 @@ public class Printer : MonoBehaviour, RangedWeapon
         }
         //Debug.DrawRay(bulletOrigin.position, bulletOrigin.forward * shotRange, Color.red, 1.0f);
         InstantiateBullet();
-        if (shotVisualEffect != null) CreateVisualEffect();
+        if (shotVisualEffect != null)
+        {
+            CreateVisualEffect();
+        }
 
         recoil?.recoil();
-        if (shootAudio != null) audioSource?.PlayOneShot(shootAudio);
+        if (shootAudio != null)
+        {
+            audioSource?.PlayOneShot(shootAudio);
+        }
     }
     
     public void Drop()
@@ -83,7 +118,10 @@ public class Printer : MonoBehaviour, RangedWeapon
         transform.SetParent(parent.transform, false);
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-        if (pickupAudio != null) audioSource.PlayOneShot(pickupAudio);
+        if (pickupAudio != null)
+        {
+            audioSource?.PlayOneShot(pickupAudio);
+        }
 
         //Jake
         //parent.SetActive(false);
@@ -99,7 +137,7 @@ public class Printer : MonoBehaviour, RangedWeapon
     
     void CreateVisualEffect()
     {
-        shotVisualEffect.Play();
+        shotVisualEffect?.Play();
     }
     
     public void InstantiateBullet()

@@ -18,15 +18,30 @@ public class HPComponent : MonoBehaviour
     private void Awake()
     {
         enemyAi = GetComponent<EnemyAi>();
-        if (enemyAi != null) healthChange.AddListener(enemyAi.OnDeath);
+        if (enemyAi != null)
+        {
+            healthChange.AddListener(enemyAi.OnDeath);
+        }
     }
 
     public int ChangeHealth(int changeInHealth)
     {
         health += changeInHealth;
-        if (health <= 0) Die();
-        if (health > maxHealth) health = maxHealth;
+        if (IsDead())
+        {
+            Die();
+        }
+
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
         return health;
+    }
+
+    public bool IsDead()
+    {
+        return health <= 0;
     }
 
     void Die()
@@ -49,7 +64,9 @@ public class HPComponent : MonoBehaviour
         {
             enemyAi.PlayDeathSound();
             healthChange.Invoke();
+
         }*/
         
+
     }
 }

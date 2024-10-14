@@ -1,19 +1,18 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 public class EnemyAi : MonoBehaviour
 {
-
     NavMeshAgent navMeshAgent;
     GameObject player;
     [SerializeField] float stoppingDistance;
     [SerializeField] float tooCloseDistance;
     [SerializeField] float stayAwayDistance;
-    public static List<EnemyAi> enemiesInAttackRange = new List<EnemyAi>();
+    public static List<EnemyAi> enemiesInAttackRange = new();
     public static int maxAttackers = 4;
 
     float shuffleSpeed;
@@ -26,8 +25,16 @@ public class EnemyAi : MonoBehaviour
     [SerializeField] float timeBetweenAttacks;
     
 
-    // Start is called before the first frame update
-    void Awake()
+    private void Awake()
+    {
+        NavMeshSurface surface = FindObjectOfType<NavMeshSurface>();
+        if (surface == null)
+        {
+            CreateAndBakeNamMeshSurface();
+        }
+    }
+
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
         player = GameObject.FindWithTag("Player");
@@ -40,16 +47,28 @@ public class EnemyAi : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (navMeshAgent != null && GetComponent<NavMeshAgent>().enabled == true)
+        if (navMeshAgent != null && navMeshAgent.enabled)
         {
             Chase();
         }
+    }
+    
+    void CreateAndBakeNamMeshSurface()
+    {
+        NavMeshSurface surface = FindObjectOfType<NavMeshSurface>();
+        if (surface != null)
+        {
+            return;
+        }
+        GameObject newNavMeshSurface = new GameObject();
+        newNavMeshSurface.name = "NavMesh Surface";
+        newNavMeshSurface.AddComponent<NavMeshSurface>();
+        newNavMeshSurface.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
     void Chase()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
 
         if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
         {
@@ -57,26 +76,25 @@ public class EnemyAi : MonoBehaviour
             {
                 navMeshAgent.SetDestination(player.transform.position);
                 return;
-            }
-                
+            } 
         }
 
         else if (distanceToPlayer <= stoppingDistance)
         {
-
             if (!enemiesInAttackRange.Contains(this) && enemiesInAttackRange.Count < maxAttackers)
             {
                 enemiesInAttackRange.Add(this);
                 StartCoroutine(AttackPlayer());
             }
-            else if(enemiesInAttackRange.Contains(this))
+            else if (enemiesInAttackRange.Contains(this))
+            {
                 navMeshAgent.SetDestination(transform.position);
+            }
         }
 
         else if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
         {
             StayAway();
-
         }
 
         //if player moves out of range then remove from list
@@ -87,10 +105,8 @@ public class EnemyAi : MonoBehaviour
         }
     }
 
-
     void StayAway()
     {
-
         Vector3 positionAwayFromPlayer = (transform.position - player.transform.position).normalized;
         Vector3 stayAwayPosition = player.transform.position + positionAwayFromPlayer * stayAwayDistance;
 
@@ -98,7 +114,6 @@ public class EnemyAi : MonoBehaviour
         float shuffleOffset = Mathf.Sin(Time.time * shuffleSpeed) * shuffleAmplitude;
 
         Vector3 shufflePosition = stayAwayPosition + shuffleDirection * shuffleOffset;
-
 
         navMeshAgent.SetDestination(shufflePosition);
     }

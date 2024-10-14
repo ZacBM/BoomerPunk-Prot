@@ -1,4 +1,8 @@
-using System.Collections;
+//Why does this script exist?
+
+
+
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,4 +29,4 @@ public class DemoWeaponSwitcher : MonoBehaviour
     {
         
     }
-}
+}*/

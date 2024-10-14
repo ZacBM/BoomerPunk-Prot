@@ -7,6 +7,12 @@ public class TitleScreen : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(startKey)) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        bool pressingStartKey = Input.GetKeyDown(startKey);
+        if (pressingStartKey) LoadNextSceneInBuildSettings();
+    }
+
+    void LoadNextSceneInBuildSettings()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

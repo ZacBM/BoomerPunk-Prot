@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+[RequireComponent(typeof(PlayerBase))]
 
 public class Sliding : MonoBehaviour
 {
+    private PlayerBase playerBase;
+    
     [Header("References")]
     public Transform orientation;
     public Transform playerObj;
     private Rigidbody rb;
-    private PlayerMovement pm;
 
     [Header("Sliding")]
     public float maxSlideTime;
@@ -19,7 +20,6 @@ public class Sliding : MonoBehaviour
     private float startYScale;
 
     [Header("Input")]
-    public KeyCode slideKey = KeyCode.LeftControl;
     private float horizontalInput;
     private float verticalInput;
 
@@ -30,27 +30,29 @@ public class Sliding : MonoBehaviour
 
     public bool sliding;
 
-    private PlayerMovement PlayerMovement;
-
     void Start()
     {
+        playerBase = GetComponent<PlayerBase>();
+        
         rb = GetComponent<Rigidbody>();
-        pm = GetComponent<PlayerMovement>();
 
         startYScale = playerObj.localScale.y;
     }
 
     void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = playerBase.movementDirection.x;
+        verticalInput = playerBase.movementDirection.y;
 
-        if(Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0))
+        if (playerBase.dash.triggered && (horizontalInput != 0 || verticalInput != 0))
+        {
             StartSlide();
+        }
 
-        if (Input.GetKeyUp(slideKey))
+        if (playerBase.dash.WasReleasedThisFrame())
+        {
             StopSlide();
-
+        }
     }
 
     void FixedUpdate()
@@ -61,7 +63,9 @@ public class Sliding : MonoBehaviour
     void StartSlide()
     {
         if (sliding)
+        {
             return;
+        }
 
         sliding = true;
         playerObj.localScale = new Vector3(playerObj.localScale.x, slideYScale, playerObj.localScale.z);
@@ -79,7 +83,9 @@ public class Sliding : MonoBehaviour
         currentSpeedMultiplier -= speedDecay * Time.deltaTime;
 
         if (slideTimer <= 0)
+        {
             StopSlide();
+        }
     }
 
     public float GetCurrentSpeedMultiplier()

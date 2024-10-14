@@ -1,8 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerBase))]
+
 public class PlayerWeapon : MonoBehaviour
 {
+    private PlayerBase playerBase;
+    
     [SerializeField] private RangedWeapon currentWeapon;
     [SerializeField] private GameObject weaponHolder;
     //[SerializeField] private GameObject gunHolder;
@@ -11,9 +15,6 @@ public class PlayerWeapon : MonoBehaviour
     
     [SerializeField] private float maximumPickUpDistance = 3.0f;
     [SerializeField] private float throwStrength = 20.0f;
-    
-    [SerializeField] private KeyCode pickupKey = KeyCode.E;
-    [SerializeField] private KeyCode shootKey = KeyCode.Mouse0;
 
     // Jake: IN CASE I FUCKED SOMETHING UP LMK
     public GameObject _armStapler;
@@ -23,6 +24,8 @@ public class PlayerWeapon : MonoBehaviour
 
     void Start()
     {
+        playerBase = GetComponent<PlayerBase>();
+        
         _armEmpty.SetActive(true);
         _armStapler.SetActive(false);
         _shootingAnim = _armStapler.GetComponent<isShooting_animScript>();
@@ -33,21 +36,30 @@ public class PlayerWeapon : MonoBehaviour
 
     void Update()
     {
-        if (weaponHolder == null) weaponHolder = GameObject.FindGameObjectWithTag("Weapon Holder");
+        if (weaponHolder == null)
+        {
+            weaponHolder = GameObject.FindGameObjectWithTag("Weapon Holder");
+        }
         //if (gunHolder == null) gunHolder = GameObject.Find("Gun Holder");
         bool holdingAWeapon = currentWeapon != null;
         
-        if (Input.GetKeyDown(pickupKey))
-        {
-            if (holdingAWeapon) ThrowCurrentWeapon(); //DropCurrentWeapon();
-            else PickUpANearbyWeapon();
-        }
-
-        if (Input.GetKeyDown(shootKey))
+        if (playerBase.pickUp.triggered)
         {
             if (holdingAWeapon)
             {
-                currentWeapon.Shoot();
+                ThrowCurrentWeapon(); //DropCurrentWeapon();
+            }
+            else
+            {
+                PickUpANearbyWeapon();
+            }
+        }
+
+        if (playerBase.shoot.triggered)
+        {
+            if (holdingAWeapon)
+            {
+                currentWeapon.PrepareToShoot();
                 if (_armStapler.activeSelf)
                 {
                     _shootingAnim.TriggerShootAnimation();
@@ -58,11 +70,19 @@ public class PlayerWeapon : MonoBehaviour
                 StartCoroutine(UseMeleeWeapon());
             }
         }
+        
+        if (playerBase.shoot.WasReleasedThisFrame())
+        {
+            if (holdingAWeapon)
+            {
+                currentWeapon.PrepareToStop();
+            }
+        }
     }
 
     void PickUpANearbyWeapon()
     {
-        GameObject[] allGameObjects = GameObject.FindObjectsOfType<GameObject>();
+        GameObject[] allGameObjects = FindObjectsOfType<GameObject>();
         foreach (GameObject nearbyObject in allGameObjects)
         {
             if (nearbyObject.TryGetComponent<RangedWeapon>(out RangedWeapon rangedWeapon))
@@ -75,6 +95,12 @@ public class PlayerWeapon : MonoBehaviour
                     _armEmpty.SetActive(false);
                     _armStapler.SetActive(true);
                     //Jake
+
+                    if (nearbyObject.TryGetComponent<AmmoComponent>(out AmmoComponent ammoComponent))
+                    {
+                        playerBase.weapomAmmoComponent = ammoComponent;
+                    }
+
                     break;
                 }
             }
@@ -83,29 +109,39 @@ public class PlayerWeapon : MonoBehaviour
 
     void DropCurrentWeapon()
     {
-        currentWeapon.Drop();
+        currentWeapon?.Drop();
         currentWeapon = null;
         //Jake
         _armEmpty?.SetActive(true);
         _armStapler?.SetActive(false);
         //Jake
+        
+        playerBase.weapomAmmoComponent = null;
     }
     
     void ThrowCurrentWeapon()
     {
-        if (cameraTransform == null) cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
-        if (cameraTransform != null) currentWeapon.Throw(cameraTransform.forward * throwStrength);
+        if (cameraTransform == null)
+        {
+            cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        }
+
+        if (cameraTransform != null)
+        {
+            currentWeapon.Throw(cameraTransform.forward * throwStrength);
+        }
         currentWeapon = null;
         //Jake
         _armEmpty?.SetActive(true);
         _armStapler?.SetActive(false);
         //Jake
+        
+        playerBase.weapomAmmoComponent = null;
     }
 
     IEnumerator UseMeleeWeapon()
     {
         meleeRuler.SetActive(true);
-        //if (cameraTransform == null) cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
         meleeRuler.transform.position = weaponHolder.transform.position;
         meleeRuler.transform.localEulerAngles = weaponHolder.transform.eulerAngles + new Vector3(0f, -90f, 0f);
         for (int i = 0; i < 27; i++)
