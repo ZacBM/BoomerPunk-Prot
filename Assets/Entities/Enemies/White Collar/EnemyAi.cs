@@ -24,7 +24,6 @@ public class EnemyAi : MonoBehaviour
 
     [SerializeField] int damage;
     [SerializeField] float timeBetweenAttacks;
-    
 
     private void Awake()
     {
@@ -39,8 +38,11 @@ public class EnemyAi : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         player = GameObject.FindWithTag("Player");
-        if(player == null)
+        if (player == null)
+        {
             Destroy(gameObject);
+        }
+
         navMeshAgent = GetComponent<NavMeshAgent>();
         shuffleSpeed = Random.Range(1.0f, 3.0f);
         shuffleAmplitude = Random.Range(1.0f, 3.0f);
@@ -53,7 +55,7 @@ public class EnemyAi : MonoBehaviour
             Chase();
         }
     }
-    
+
     void CreateAndBakeNamMeshSurface()
     {
         NavMeshSurface surface = FindObjectOfType<NavMeshSurface>();
@@ -61,6 +63,7 @@ public class EnemyAi : MonoBehaviour
         {
             return;
         }
+
         GameObject newNavMeshSurface = new GameObject();
         newNavMeshSurface.name = "NavMesh Surface";
         newNavMeshSurface.AddComponent<NavMeshSurface>();
@@ -77,9 +80,8 @@ public class EnemyAi : MonoBehaviour
             {
                 navMeshAgent.SetDestination(player.transform.position);
                 return;
-            } 
+            }
         }
-
         else if (distanceToPlayer <= stoppingDistance)
         {
             if (!enemiesInAttackRange.Contains(this) && enemiesInAttackRange.Count < maxAttackers)
@@ -92,7 +94,6 @@ public class EnemyAi : MonoBehaviour
                 navMeshAgent.SetDestination(transform.position);
             }
         }
-
         else if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
         {
             StayAway();

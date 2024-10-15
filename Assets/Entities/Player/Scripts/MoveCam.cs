@@ -11,7 +11,14 @@ public class MoveCam : MonoBehaviour
 
 	private void Update()
 	{
-		if (cameraPosition == null) cameraPosition = GameObject.FindGameObjectWithTag("Camera Position").transform;
-		if (cameraPosition != null) transform.position = cameraPosition.position;
+		if (cameraPosition == null)
+		{
+			cameraPosition = GameObject.FindGameObjectWithTag("Camera Position").transform;
+		}
+
+		if (cameraPosition != null)
+		{
+			transform.position = cameraPosition.position;
+		}
 	}
 }

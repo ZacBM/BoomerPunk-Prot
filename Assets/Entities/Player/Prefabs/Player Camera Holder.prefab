@@ -107,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d74d3b22e63042478c41a7490b4ac00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivityX: 450
-  sensitivityY: 450
+  sensitivityX: 300
+  sensitivityY: 300
   playerOrientation: {fileID: 0}
 --- !u!1 &4507269984013135827
 GameObject:
@@ -212,7 +212,7 @@ Transform:
   m_GameObject: {fileID: 8888119987635172533}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.48, z: 1.26}
+  m_LocalPosition: {x: 0, y: -0.3, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

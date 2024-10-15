@@ -8,7 +8,7 @@ public class HPComponent : MonoBehaviour
     [Range(0, 200)]
     public int maxHealth = 100;
     
-    [SerializeField] enum BehaviorsOnDeath {DEACTIVATE, DELETE, NOTHING}
+    enum BehaviorsOnDeath {DEACTIVATE, DELETE, NOTHING}
     [SerializeField] BehaviorsOnDeath behaviorOnDeath = BehaviorsOnDeath.DELETE;
 
     private EnemyAi enemyAi;

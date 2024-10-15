@@ -5912,9 +5912,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 487896289839174225, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2027338499}
     - targetCorrespondingSourceObject: {fileID: 2071021036768950471, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 679185588}
@@ -7099,7 +7096,7 @@ PrefabInstance:
     - target: {fileID: 8209671683749069461, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
       propertyPath: gunHolder
       value: 
-      objectReference: {fileID: 2027338498}
+      objectReference: {fileID: 0}
     - target: {fileID: 8209671683749069461, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
       propertyPath: _armStapler
       value: 
@@ -8124,37 +8121,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021862666}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2027338498
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2027338499}
-  m_Layer: 0
-  m_Name: Temp Gun Holder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2027338499
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2027338498}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.832, z: 1.234}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2076759552}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2041362136 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6921476418745299191, guid: 0e899fa9c2d1f1b4eb2344fdc7856033, type: 3}

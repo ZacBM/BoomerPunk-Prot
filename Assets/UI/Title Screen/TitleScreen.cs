@@ -8,7 +8,10 @@ public class TitleScreen : MonoBehaviour
     void Update()
     {
         bool pressingStartKey = Input.GetKeyDown(startKey);
-        if (pressingStartKey) LoadNextSceneInBuildSettings();
+        if (pressingStartKey)
+        {
+            LoadNextSceneInBuildSettings();
+        }
     }
 
     void LoadNextSceneInBuildSettings()

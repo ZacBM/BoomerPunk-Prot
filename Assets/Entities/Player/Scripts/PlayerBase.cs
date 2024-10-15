@@ -19,15 +19,17 @@ public class PlayerBase : MonoBehaviour
     public InputAction move;
     public InputAction dash;
     public InputAction jump;
+    public InputAction look;
     public InputAction pickUp;
     public InputAction shoot;
     
     [HideInInspector] public Vector3 movementDirection = Vector3.zero;
+    [HideInInspector] public Vector3 lookDirection = Vector3.zero;
 
-    [HideInInspector] public bool dashPerformed;
+    /*[HideInInspector] public bool dashPerformed;
     [HideInInspector] public bool jumpPerformed;
     [HideInInspector] public bool pickUpPerformed;
-    [HideInInspector] public bool shootPerformed;
+    [HideInInspector] public bool shootPerformed;*/
     
     [Header("Weapon Display")]
     [HideInInspector] public AmmoComponent weapomAmmoComponent;
@@ -36,15 +38,16 @@ public class PlayerBase : MonoBehaviour
     void OnEnable()
     {
         move.Enable();
-
         dash.Enable();
-        dash.performed += ctx => dashPerformed = true;
         jump.Enable();
-        jump.performed += ctx => jumpPerformed = true;
+        look.Enable();
         pickUp.Enable();
-        pickUp.performed += ctx => pickUpPerformed = true;
         shoot.Enable();
-        shoot.performed += ctx => shootPerformed = true;
+        
+        /*dash.performed += ctx => dashPerformed = true;
+        jump.performed += ctx => jumpPerformed = true;
+        pickUp.performed += ctx => pickUpPerformed = true;
+        shoot.performed += ctx => shootPerformed = true;*/
     }
 
     void OnDisable()
@@ -52,6 +55,7 @@ public class PlayerBase : MonoBehaviour
         move.Disable();
         dash.Disable();
         jump.Disable();
+        look.Disable();
         pickUp.Disable();
         shoot.Disable();
     }
@@ -73,7 +77,7 @@ public class PlayerBase : MonoBehaviour
 
         if (weapomAmmoComponent != null && ammoText != null)
         {
-            ammoText.text = "Ammo: " + weapomAmmoComponent.ammoLeft.ToString();
+            ammoText.text = "Ammo: " + weapomAmmoComponent.ammoLeft;
         }
         else if (ammoText != null)
         {
@@ -83,6 +87,7 @@ public class PlayerBase : MonoBehaviour
     
     void ReceiveInput()
     {
+        lookDirection = look.ReadValue<Vector2>();
         movementDirection = move.ReadValue<Vector2>();
     }
 

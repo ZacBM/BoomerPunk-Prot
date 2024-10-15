@@ -26,10 +26,10 @@ public class PlayerWeapon : MonoBehaviour
     {
         playerBase = GetComponent<PlayerBase>();
 
-        _shootingAnim = hands.GetComponent<isShooting_animScript>();
-
         meleeRuler = GameObject.FindGameObjectWithTag("Melee Weapon");
         meleeRuler.SetActive(false);
+        
+        _shootingAnim = hands.GetComponent<isShooting_animScript>();
     }
 
     void Update()
@@ -111,7 +111,7 @@ public class PlayerWeapon : MonoBehaviour
         
         playerBase.weapomAmmoComponent = null;
     }
-    
+
     void ThrowCurrentWeapon()
     {
         if (cameraTransform == null)
@@ -119,12 +119,9 @@ public class PlayerWeapon : MonoBehaviour
             cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
         }
 
-        if (cameraTransform != null)
-        {
-            currentWeapon.Throw(cameraTransform.forward * throwStrength);
-        }
+        currentWeapon?.Throw(cameraTransform.forward * throwStrength);
+
         currentWeapon = null;
-        
         playerBase.weapomAmmoComponent = null;
     }
 
@@ -138,9 +135,10 @@ public class PlayerWeapon : MonoBehaviour
             meleeRuler.transform.localEulerAngles += new Vector3(0f, 5f, 0f);
             yield return new WaitForSeconds(1f / 60f);
         }
+
         meleeRuler.SetActive(false);
     }
-    
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, maximumPickUpDistance);

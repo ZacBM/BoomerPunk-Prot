@@ -66,7 +66,6 @@ public class PlayerMovement : MonoBehaviour
 		{
 			rigidbody.drag = 0f;
 		}
-
     }
 
 	private void FixedUpdate()
@@ -95,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
 	private void MovePlayer()
 	{
 		// Calculate movement direction.
-		moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+		moveDirection = (orientation.right * horizontalInput) + (orientation.forward * verticalInput);
 
         float appliedMoveSpeed = moveSpeed;
 
@@ -107,13 +106,13 @@ public class PlayerMovement : MonoBehaviour
         //On Ground
         if (grounded)
         {
-	        rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f, ForceMode.Force);
+	        rigidbody.AddForce(moveDirection/*.normalized*/ * appliedMoveSpeed * 10f, ForceMode.Force);
         }
 
 		//in air
 		else if (!grounded)
 		{
-			rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f * airMultiplier, ForceMode.Force);
+			rigidbody.AddForce(moveDirection/*.normalized*/ * appliedMoveSpeed * 10f * airMultiplier, ForceMode.Force);
 		}
         
         ApplyGravity();
