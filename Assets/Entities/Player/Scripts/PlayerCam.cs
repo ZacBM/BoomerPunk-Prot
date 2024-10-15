@@ -13,7 +13,7 @@ public class PlayerCam : MonoBehaviour
 	[SerializeField] private float sensitivityX = 450.0f;
 	[SerializeField] private float sensitivityY = 450.0f;
 
-	public Transform playerOrientation;
+	private Transform playerTransform;
 
 	private float cameraXRotation;
 	private float cameraYRotation;
@@ -26,6 +26,7 @@ public class PlayerCam : MonoBehaviour
 
 	private void Start()
 	{
+		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 		playerBase = FindObjectOfType<PlayerBase>();
 	}
 
@@ -40,16 +41,8 @@ public class PlayerCam : MonoBehaviour
 		
 		cameraXRotation = Mathf.Clamp(cameraXRotation, -90f, 90f); // Prevents looking up or down more than is natural.
 
-		//Rotatation of cam and orientation.
-		transform.rotation = Quaternion.Euler(cameraXRotation, cameraYRotation, 0f);
-		if (playerOrientation == null)
-		{
-			playerOrientation = GameObject.FindGameObjectWithTag("Player Orientation").transform;
-		}
-
-		if (playerOrientation != null)
-		{
-			playerOrientation.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
-		}
+		//Rotation of cam and orientation.
+		transform.localRotation = Quaternion.Euler(cameraXRotation, 0f, 0f);
+		playerTransform.rotation = Quaternion.Euler(0f, cameraYRotation, 0f);
 	}
 }

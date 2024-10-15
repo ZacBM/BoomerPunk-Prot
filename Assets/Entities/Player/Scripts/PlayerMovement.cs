@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 	public LayerMask groundLayer;
 	public bool grounded;
 
-	public Transform orientation;
+	public Transform playerTransform;
 
 	float horizontalInput;
 	float verticalInput;
@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
 	private void MovePlayer()
 	{
 		// Calculate movement direction.
-		moveDirection = (orientation.right * horizontalInput) + (orientation.forward * verticalInput);
+		moveDirection = (playerTransform.right * horizontalInput) + (playerTransform.forward * verticalInput);
 
         float appliedMoveSpeed = moveSpeed;
 
