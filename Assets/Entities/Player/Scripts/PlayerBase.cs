@@ -34,6 +34,7 @@ public class PlayerBase : MonoBehaviour
     [Header("Weapon Display")]
     [HideInInspector] public AmmoComponent weapomAmmoComponent;
     [HideInInspector] public TextMeshProUGUI ammoText;
+    [HideInInspector] public TextMeshProUGUI healthText;
 
     void OnEnable()
     {
@@ -82,6 +83,20 @@ public class PlayerBase : MonoBehaviour
         else if (ammoText != null)
         {
             ammoText.text = "Ammo: 0";
+        }
+        
+        if (healthText == null)
+        {
+            healthText = GameObject.Find("Health Text").GetComponent<TextMeshProUGUI>();
+        }
+
+        if (hpComponent != null && healthText != null)
+        {
+            healthText.text = "Health: " + hpComponent.health;
+        }
+        else if (healthText != null)
+        {
+            healthText.text = "Health: 0";
         }
     }
     
