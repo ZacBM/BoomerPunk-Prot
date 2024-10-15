@@ -14,6 +14,11 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
+    public void SwapScene()
+    {
+        LoadNextSceneInBuildSettings();
+    }
+
     void LoadNextSceneInBuildSettings()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
