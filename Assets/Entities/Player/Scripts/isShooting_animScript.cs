@@ -58,7 +58,7 @@ public class isShooting_animScript : MonoBehaviour
     IEnumerator WaitForAnimationToPlay()
     {
         animator.SetBool("isShooting", true);
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.1f);
         animator.SetBool("isShooting", false);
     }
 }

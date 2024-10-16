@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/UI/End Screen/End Screen.unity
     guid: 418ab740c7da01445b895ab4a171ec1f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Locations/Office/Floor 1.unity
     guid: 99286c7e5042b477aa258083f276398e
   m_configObjects: {}
