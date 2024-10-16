@@ -13,4 +13,6 @@ public interface RangedWeapon
     public void PrepareToShoot();
     
     public void PrepareToStop();
+
+
 }

@@ -94,7 +94,7 @@ public class Stapler : MonoBehaviour, RangedWeapon
             CreateVisualEffect();
         }
 
-        recoil.recoil();
+        //recoil.recoil();
         if (shootAudio != null)
         {
             audioSource?.PlayOneShot(shootAudio);

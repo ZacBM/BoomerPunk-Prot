@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab362427f916c5f4f952be8374ddd627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitmarker: {fileID: 2936053310130335175, guid: 1ba40e0fc90a4202197b494e2059a405, type: 3}
+  hitmarker: {fileID: 0}
   distance: 10
 --- !u!114 &8803936039236597799
 MonoBehaviour:
@@ -622,6 +622,7 @@ MonoBehaviour:
   lookDirection: {x: 0, y: 0, z: 0}
   weapomAmmoComponent: {fileID: 0}
   ammoText: {fileID: 0}
+  healthText: {fileID: 0}
 --- !u!114 &1343769782201260372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -634,8 +635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 300b9e5e8592ca145bfa7e812037b426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bobbingSpeed: 12.5
-  bobbingAmount: 0.1
+  bobbingSpeed: 11.5
+  bobbingAmount: 0.15
   idleBobbingSpeed: 4
   idleBobbingAmount: 0.02
   playerCamera: {fileID: 99884191516539126}
@@ -701,8 +702,8 @@ MonoBehaviour:
   maxSlideTime: 0.75
   slideForce: 200
   slideYScale: 0.5
-  initialSpeedMultiplier: 15
-  speedDecay: 0.1
+  initialSpeedMultiplier: 30
+  speedDecay: 25
   sliding: 0
 --- !u!54 &8617928023657092579
 Rigidbody:
@@ -750,7 +751,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.37
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}

@@ -24,7 +24,7 @@ public class Printer : MonoBehaviour, RangedWeapon
     [SerializeField] protected VisualEffect shotVisualEffect;
 
     private AudioSource audioSource;
-    public AudioClip shootAudio;
+    public AudioClip[] shootAudio;
     public AudioClip pickupAudio;
 
     private Recoil recoil;
@@ -102,7 +102,7 @@ public class Printer : MonoBehaviour, RangedWeapon
         recoil?.recoil();
         if (shootAudio != null)
         {
-            audioSource?.PlayOneShot(shootAudio);
+            audioSource?.PlayOneShot(shootAudio[Random.Range(0, shootAudio.Length)]);
         }
     }
     

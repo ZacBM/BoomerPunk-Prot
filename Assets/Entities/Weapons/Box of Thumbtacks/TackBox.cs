@@ -92,6 +92,7 @@ public class TackBox : MonoBehaviour, RangedWeapon
             FirePellet();
         }
 
+
         // Trigger visual effects and audio
         if (shotVisualEffect != null)
         {
@@ -126,6 +127,7 @@ public class TackBox : MonoBehaviour, RangedWeapon
         }
 
         Debug.DrawRay(bulletOrigin.position, direction * shotRange, Color.red, 1.0f);
+        InstantiateBullet(direction);
     }
 
     Vector3 GetRandomSpread()
@@ -168,15 +170,15 @@ public class TackBox : MonoBehaviour, RangedWeapon
         GetComponent<Rigidbody>().AddForce(throwDirection, ForceMode.Impulse);
     }
 
-    public void InstantiateBullet()
+    public void InstantiateBullet(Vector3 direction)
     {
         if (bullet != null)
         {
-            GameObject spawnedBullet = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
+            GameObject spawnedBullet = Instantiate(bullet, bulletOrigin.position, Quaternion.LookRotation(direction));
 
             // Apply force to the bullet in the correct direction
             Rigidbody bulletRigidbody = spawnedBullet?.GetComponent<Rigidbody>();
-            bulletRigidbody?.AddForce(bulletOrigin.forward * bulletForce, ForceMode.Impulse);
+            bulletRigidbody?.AddForce(direction * bulletForce, ForceMode.Impulse);
         }
     }
 

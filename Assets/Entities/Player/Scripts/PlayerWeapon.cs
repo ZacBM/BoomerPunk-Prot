@@ -29,6 +29,7 @@ public class PlayerWeapon : MonoBehaviour
         meleeRuler = GameObject.FindGameObjectWithTag("Melee Weapon");
         meleeRuler.SetActive(false);
         
+        hands = GameObject.Find("Hands");
         _shootingAnim = hands.GetComponent<isShooting_animScript>();
     }
 
@@ -60,9 +61,7 @@ public class PlayerWeapon : MonoBehaviour
                 currentWeapon.PrepareToShoot();
                 if (hands.activeSelf)
                 {
-                    //jake
-                    _shootingAnim.animator.SetBool("isStapler", true);
-                    //jake
+                    
                     _shootingAnim.TriggerShootAnimation();
                 }
             }
@@ -93,6 +92,17 @@ public class PlayerWeapon : MonoBehaviour
                     rangedWeapon.PickUp(weaponHolder);//rangedWeapon.PickUp(gunHolder);
                     currentWeapon = rangedWeapon;
 
+                    GameObject weaponGameObject = (currentWeapon as MonoBehaviour).gameObject;
+
+                    if (weaponGameObject.name.Contains("Stapler"))
+                    {
+                        _shootingAnim.EquipStapler();
+                    }
+                    else if (weaponGameObject.name.Contains("Tack"))
+                    {
+                        _shootingAnim.EquipTac();
+                    }
+
                     if (nearbyObject.TryGetComponent<AmmoComponent>(out AmmoComponent ammoComponent))
                     {
                         playerBase.weapomAmmoComponent = ammoComponent;
@@ -120,6 +130,17 @@ public class PlayerWeapon : MonoBehaviour
         }
 
         currentWeapon?.Throw(cameraTransform.forward * throwStrength);
+
+        GameObject weaponGameObject = (currentWeapon as MonoBehaviour).gameObject;
+
+        if (weaponGameObject.name.Contains("Stapler"))
+        {
+            _shootingAnim.UnequipStapler();
+        }
+        else if (weaponGameObject.name.Contains("Tack"))
+        {
+            _shootingAnim.UnequipTac();
+        }
 
         currentWeapon = null;
         playerBase.weapomAmmoComponent = null;
