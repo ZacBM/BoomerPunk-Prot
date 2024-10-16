@@ -38,12 +38,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // This will receive fixes & refinements later.
-        if (currentScene != SceneManager.GetActiveScene().buildIndex)
+        /*if (currentScene != SceneManager.GetActiveScene().buildIndex)
         {
             currentScene = SceneManager.GetActiveScene().buildIndex;
             Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
             Instantiate(playerCameraHolderPrefab, Vector3.zero, Quaternion.identity);
-        }
+        }*/
 
         if (!canProgressToNextFloor && startingEnemyCount > 0 &&
             numberOfEnemiesKilled >= numberOfEnemiesToKillToProgress)
