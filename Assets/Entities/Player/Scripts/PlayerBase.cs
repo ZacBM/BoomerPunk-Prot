@@ -110,7 +110,7 @@ public class PlayerBase : MonoBehaviour
     {
         if (hpComponent.IsDead())
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            GameManager.gameManager.ReloadScene();
         }
     }
 }

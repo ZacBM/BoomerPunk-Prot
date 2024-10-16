@@ -15,31 +15,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 exitDoorLocation;
     private int currentScene;
 
-    private GameObject[] enemies;
-    [SerializeField] private float percentOfEnemiesToLeaveAliveToProgress;
-    [SerializeField] private int numberOfEnemiesToLeaveAliveToProgress;
-    public int numberOfEnemiesLeft;
-    public bool canProgressToNextFloor = false;
+    [Header("Enemy Tracking")]
+    [SerializeField] private float percentageOfEnemiesToKillToProgress;
+
+    private int numberOfEnemiesToKillToProgress;
+    private int startingEnemyCount;
+    [HideInInspector] public bool canProgressToNextFloor = false;
+    [HideInInspector] public int numberOfEnemiesKilled;
     private bool dingPlayed = false;
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource elevatorDing;
+    [Header("Audio")] [SerializeField] private AudioSource elevatorDing;
 
     void Awake()
     {
         if (gameManager != null && gameManager != this) Destroy(gameObject);
         else gameManager = this;
         DontDestroyOnLoad(gameObject);
-    }
 
-    void Start()
-    {
-        currentScene = SceneManager.GetActiveScene().buildIndex;
-
-        //StartCoroutine(DetermineAmountOfEnemiesToLeaveAlive());
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        numberOfEnemiesLeft = enemies.Length;
-        numberOfEnemiesToLeaveAliveToProgress = Mathf.CeilToInt((float)numberOfEnemiesLeft * (percentOfEnemiesToLeaveAliveToProgress / 100f));
+        SceneManager.activeSceneChanged += ActiveSceneChanged;
     }
 
     void Update()
@@ -52,28 +45,19 @@ public class GameManager : MonoBehaviour
             Instantiate(playerCameraHolderPrefab, Vector3.zero, Quaternion.identity);
         }
 
-        if (!canProgressToNextFloor && numberOfEnemiesLeft <= numberOfEnemiesToLeaveAliveToProgress)
+        if (!canProgressToNextFloor && startingEnemyCount > 0 &&
+            numberOfEnemiesKilled >= numberOfEnemiesToKillToProgress)
         {
             canProgressToNextFloor = true;
             GameObject exitDoor = Instantiate(exitDoorPrefab, exitDoorLocation, Quaternion.identity);
             elevatorDing = exitDoor.GetComponent<AudioSource>();
         }
 
-        if(canProgressToNextFloor && elevatorDing != null && !dingPlayed)
+        if (canProgressToNextFloor && elevatorDing != null && !dingPlayed)
         {
-            dingPlayed = true;  
+            dingPlayed = true;
             StartCoroutine(PlayDing());
         }
-
-        IEnumerator DetermineAmountOfEnemiesToLeaveAlive()
-        {
-            yield return new WaitForSeconds(0.1f);
-            enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            numberOfEnemiesLeft = enemies.Length;
-            yield return new WaitForSeconds(1f);
-            numberOfEnemiesToLeaveAliveToProgress = Mathf.CeilToInt((float)numberOfEnemiesLeft * (percentOfEnemiesToLeaveAliveToProgress / 100f));
-        }
-        
     }
 
     IEnumerator PlayDing()
@@ -84,5 +68,26 @@ public class GameManager : MonoBehaviour
             elevatorDing.Play();
             Debug.Log("DING!");
         }
+    }
+
+    private void ActiveSceneChanged(Scene current, Scene next)
+    {
+        GetEnemyStatistics();
+    }
+
+    public void GetEnemyStatistics()
+    {
+        canProgressToNextFloor = false;
+        numberOfEnemiesKilled = 0;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        startingEnemyCount = enemies.Length;
+        numberOfEnemiesToKillToProgress =
+            Mathf.FloorToInt(startingEnemyCount * (percentageOfEnemiesToKillToProgress / 100f));
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GetEnemyStatistics();
     }
 }

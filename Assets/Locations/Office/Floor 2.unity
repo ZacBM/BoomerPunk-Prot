@@ -20972,45 +20972,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1150937575}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1153668858 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9164208007474296032, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
-  m_PrefabInstance: {fileID: 1440423353}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1153668860
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1153668858}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1dc4b97c7363302409ffcb18bddf5ef2, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1153668861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1153668858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9435a2baa273c748b1484c49112f4d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1153668860}
 --- !u!1 &1161346822
 GameObject:
   m_ObjectHideFlags: 0
@@ -26188,15 +26149,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8888119987635172533, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1290927264}
-    - targetCorrespondingSourceObject: {fileID: 2762899756217816826, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1515081372}
-    - targetCorrespondingSourceObject: {fileID: 9164208007474296032, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1153668860}
-    - targetCorrespondingSourceObject: {fileID: 9164208007474296032, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1153668861}
   m_SourcePrefab: {fileID: 100100000, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
 --- !u!1 &1456335836
 GameObject:
@@ -28001,32 +27953,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e899fa9c2d1f1b4eb2344fdc7856033, type: 3}
---- !u!1 &1515081370 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2762899756217816826, guid: 4c0861ad6ee30b478ad8c2e7963b98cc, type: 3}
-  m_PrefabInstance: {fileID: 1440423353}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1515081372
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1515081370}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ace406a76eb52ec42957b9f54c15913e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1519909901
 GameObject:
   m_ObjectHideFlags: 0
@@ -30162,11 +30088,10 @@ MonoBehaviour:
   playerPrefab: {fileID: 2101967096}
   playerCameraHolderPrefab: {fileID: 1292106120}
   exitDoorPrefab: {fileID: 1106134776389699879, guid: 5ebbe727f8bbd78299452556504055a7, type: 3}
-  exitDoorLocation: {x: 0, y: 0, z: 0}
-  percentOfEnemiesToLeaveAliveToProgress: 25
-  numberOfEnemiesToLeaveAliveToProgress: 0
-  numberOfEnemiesLeft: 0
+  exitDoorLocation: {x: 0, y: 0, z: -1}
+  percentageOfEnemiesToKillToProgress: 75
   canProgressToNextFloor: 0
+  numberOfEnemiesKilled: 0
 --- !u!4 &1617979924
 Transform:
   m_ObjectHideFlags: 0
@@ -32617,7 +32542,7 @@ PrefabInstance:
     - target: {fileID: 8209671683749069461, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
       propertyPath: _armEmpty
       value: 
-      objectReference: {fileID: 1515081370}
+      objectReference: {fileID: 0}
     - target: {fileID: 8209671683749069461, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
       propertyPath: gunHolder
       value: 
@@ -32625,11 +32550,11 @@ PrefabInstance:
     - target: {fileID: 8209671683749069461, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
       propertyPath: _armStapler
       value: 
-      objectReference: {fileID: 1153668858}
+      objectReference: {fileID: 0}
     - target: {fileID: 8209671683749069461, guid: c4afc12ea1f00eafd97e7dd5eb53dd41, type: 3}
       propertyPath: _shootingAnim
       value: 
-      objectReference: {fileID: 1153668861}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

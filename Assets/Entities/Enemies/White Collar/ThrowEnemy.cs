@@ -162,6 +162,14 @@ public class ThrowEnemy : MonoBehaviour
         Vector3 position = startPosition + velocity * time + 0.5f * gravity * time * time;
         return position;
     }
+    
+    void OnDestroy()
+    {
+        if (GameManager.gameManager != null)
+        {
+            GameManager.gameManager.numberOfEnemiesKilled++;
+        }
+    }
 }
 
 
