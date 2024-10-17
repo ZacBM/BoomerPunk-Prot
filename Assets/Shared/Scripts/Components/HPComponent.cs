@@ -11,16 +11,16 @@ public class HPComponent : MonoBehaviour
     enum BehaviorsOnDeath {DEACTIVATE, DELETE, NOTHING}
     [SerializeField] BehaviorsOnDeath behaviorOnDeath = BehaviorsOnDeath.DELETE;
 
-    private EnemyAi enemyAi;
+    private MeleeEnemy _meleeEnemy;
 
     public UnityEvent healthChange;
 
     private void Awake()
     {
-        enemyAi = GetComponent<EnemyAi>();
-        if (enemyAi != null)
+        _meleeEnemy = GetComponent<MeleeEnemy>();
+        if (_meleeEnemy != null)
         {
-            healthChange.AddListener(enemyAi.OnDeath);
+            healthChange.AddListener(_meleeEnemy.OnDeath);
         }
     }
 

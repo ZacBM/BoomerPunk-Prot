@@ -6,38 +6,32 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class EnemyAi : MonoBehaviour
+public class MeleeEnemy : MonoBehaviour, Enemy
 {
+    [Header("Navigation")]
+    NavigationComponent navigationComponent;
     NavMeshAgent navMeshAgent;
+    
+    [Header("Physics")]
+    PhysicsComponent physicsComponent;
+    Rigidbody rigidbody;
+    
     GameObject player;
-    [SerializeField] float stoppingDistance;
-    [SerializeField] float tooCloseDistance;
-    [SerializeField] float stayAwayDistance;
-    public static List<EnemyAi> enemiesInAttackRange = new();
+    
+    //[SerializeField] float stayAwayDistance;
+    public static List<Enemy> enemiesInAttackRange = new();
     public static int maxAttackers = 4;
 
     float shuffleSpeed;
     float shuffleAmplitude;
     [SerializeField] float force;
-    Rigidbody rb;
+    
     [SerializeField] float timeToDie;
-
-    [SerializeField] int damage;
-    [SerializeField] float timeBetweenAttacks;
-
-    private void Awake()
-    {
-        NavMeshSurface surface = FindObjectOfType<NavMeshSurface>();
-        if (surface == null)
-        {
-            CreateAndBakeNamMeshSurface();
-        }
-    }
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        player = GameObject.FindWithTag("Player");
+        rigidbody = GetComponent<Rigidbody>();
+        navigationComponent.target = GameObject.FindWithTag("Player").transform;
         if (player == null)
         {
             Destroy(gameObject);
@@ -50,31 +44,17 @@ public class EnemyAi : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (navMeshAgent != null && navMeshAgent.enabled)
+        if (navMeshAgent.enabled)
         {
             Chase();
         }
-    }
-
-    void CreateAndBakeNamMeshSurface()
-    {
-        NavMeshSurface surface = FindObjectOfType<NavMeshSurface>();
-        if (surface != null)
-        {
-            return;
-        }
-
-        GameObject newNavMeshSurface = new GameObject();
-        newNavMeshSurface.name = "NavMesh Surface";
-        newNavMeshSurface.AddComponent<NavMeshSurface>();
-        newNavMeshSurface.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
     void Chase()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-        if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
+        if (distanceToPlayer > navMeshAgent.stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
         {
             if (navMeshAgent != null)
             {
@@ -82,7 +62,7 @@ public class EnemyAi : MonoBehaviour
                 return;
             }
         }
-        else if (distanceToPlayer <= stoppingDistance)
+        else if (distanceToPlayer <= navMeshAgent.stoppingDistance)
         {
             if (!enemiesInAttackRange.Contains(this) && enemiesInAttackRange.Count < maxAttackers)
             {
@@ -94,13 +74,13 @@ public class EnemyAi : MonoBehaviour
                 navMeshAgent.SetDestination(transform.position);
             }
         }
-        else if (distanceToPlayer > stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
+        else if (distanceToPlayer > navMeshAgent.stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
         {
             StayAway();
         }
 
         //if player moves out of range then remove from list
-        if (enemiesInAttackRange.Contains(this) && distanceToPlayer > stoppingDistance)
+        if (enemiesInAttackRange.Contains(this) && distanceToPlayer > navMeshAgent.stoppingDistance)
         {
             StopAllCoroutines();
             enemiesInAttackRange.Remove(this);
@@ -119,37 +99,12 @@ public class EnemyAi : MonoBehaviour
 
         navMeshAgent.SetDestination(shufflePosition);
     }
-    
-    public void Knockback()
-    {
-        GetComponent<NavMeshAgent>().enabled = false;
-        rb.isKinematic = false;
-
-        Vector3 forceDirection = (transform.position - player.transform.position).normalized;
-
-        rb.AddForce(forceDirection * force, ForceMode.Impulse);
-        rb.AddForce(Vector3.up * force * 0.2f, ForceMode.Impulse);
-    }
-    
-    //copy and paste of knockback function, they can be the same
-    public void SmallKnockback()
-    {
-        GetComponent<NavMeshAgent>().enabled = false;
-        rb.isKinematic = false;
-
-        Vector3 forceDirection = (transform.position - player.transform.position).normalized;
-
-        rb.AddForce(forceDirection * (force / 4f), ForceMode.Impulse);
-        //rb.AddForce(Vector3.up * force * 0.2f, ForceMode.Impulse);
-    }
 
     public void OnDeath()
     {
-        Knockback();
+        physicsComponent.Knockback(10f, 2f, player.transform.position);
         Invoke("DestroySelf", timeToDie);
     }
-
-
 
     void DestroySelf()
     {
@@ -174,12 +129,6 @@ public class EnemyAi : MonoBehaviour
         }
     }
 
-    void TrackAgain()
-    {
-        GetComponent<NavMeshAgent>().enabled = true;
-        rb.isKinematic = true;
-    }
-
     //this doesnt do anything
     private void OnTriggerEnter(Collider otherCollider)
     {
@@ -192,15 +141,6 @@ public class EnemyAi : MonoBehaviour
         {
             SmallKnockback();
             Invoke("TrackAgain", (timeToDie / 2f));
-        }
-    }
-
-
-    IEnumerator AttackPlayer()
-    {
-        while (enemiesInAttackRange.Contains(this)) {
-            player.GetComponent<HPComponent>().ChangeHealth(-damage);
-            yield return new WaitForSeconds(timeBetweenAttacks);
         }
     }
 }

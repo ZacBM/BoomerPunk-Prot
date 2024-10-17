@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.Rendering.UI;
 using static UnityEngine.GraphicsBuffer;
 
-public class ThrowEnemy : MonoBehaviour
+public class RangedEnemy : MonoBehaviour, Enemy
 {
 
     public Transform spawnPoint;
