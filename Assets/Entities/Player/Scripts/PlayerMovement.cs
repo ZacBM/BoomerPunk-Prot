@@ -106,13 +106,13 @@ public class PlayerMovement : MonoBehaviour
         //On Ground
         if (grounded)
         {
-	        rigidbody.AddForce(moveDirection/*.normalized*/ * appliedMoveSpeed * 10f, ForceMode.Force);
+	        rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f, ForceMode.Force);
         }
 
 		//in air
 		else if (!grounded)
 		{
-			rigidbody.AddForce(moveDirection/*.normalized*/ * appliedMoveSpeed * 10f * airMultiplier, ForceMode.Force);
+			rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f * airMultiplier, ForceMode.Force);
 		}
         
         ApplyGravity();

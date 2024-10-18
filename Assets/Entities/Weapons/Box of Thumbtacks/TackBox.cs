@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
 [RequireComponent(typeof(AmmoComponent))]
 [RequireComponent(typeof(HitComponent))]
-[RequireComponent(typeof(RigidbodyHelperComponent))]
+[RequireComponent(typeof(PhysicsComponent))]
 [RequireComponent(typeof(SpawnComponent))]
 
 [RequireComponent(typeof(AudioSource))]
@@ -13,10 +11,10 @@ using UnityEngine.VFX;
 
 public class TackBox : MonoBehaviour, RangedWeapon
 {
-    // Custom components.
+    [Header("Custom Components")]
     private AmmoComponent ammoHolder;
     private HitComponent hitbox;
-    private RigidbodyHelperComponent rigidbodyHelper;
+    private PhysicsComponent rigidbodyHelper;
 
     [SerializeField] public Transform bulletOrigin;
     [SerializeField] protected GameObject bullet;
@@ -42,7 +40,7 @@ public class TackBox : MonoBehaviour, RangedWeapon
         // Initialize components.
         ammoHolder = GetComponent<AmmoComponent>();
         hitbox = GetComponent<HitComponent>();
-        rigidbodyHelper = GetComponent<RigidbodyHelperComponent>();
+        rigidbodyHelper = GetComponent<PhysicsComponent>();
 
         hitbox.isActive = false;
 

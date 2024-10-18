@@ -9,11 +9,11 @@ public class NavigationComponent : MonoBehaviour
     [SerializeField] private bool willGenerateMissingNavMesh = true;
     public Transform target;
 
-    private NavMeshAgent navMeshAgent;
+    public NavMeshAgent navAgent;
 
     private void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        navAgent = GetComponent<NavMeshAgent>();
 
         CreateAndBakeMissingNavMeshSurface();
     }
@@ -30,12 +30,22 @@ public class NavigationComponent : MonoBehaviour
         newNavMeshSurface.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
+    public float DistanceToTarget()
+    {
+        return Vector3.Distance(transform.position, target.transform.position);
+    }
+
     public void EnableTracking()
     {
-        navMeshAgent.enabled = true;
+        navAgent.enabled = true;
         if (TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
         {
             rigidbody.isKinematic = true;
         }
+    }
+
+    public Vector3 TargetPosition()
+    {
+        return target.transform.position;
     }
 }

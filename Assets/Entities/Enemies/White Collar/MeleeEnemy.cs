@@ -9,78 +9,60 @@ using Random = UnityEngine.Random;
 public class MeleeEnemy : MonoBehaviour, Enemy
 {
     [Header("Navigation")]
-    NavigationComponent navigationComponent;
-    NavMeshAgent navMeshAgent;
+    NavigationComponent navComponent;
     
     [Header("Physics")]
     PhysicsComponent physicsComponent;
-    Rigidbody rigidbody;
     
-    GameObject player;
-    
-    //[SerializeField] float stayAwayDistance;
+    [SerializeField] private float stayAwayDistance;
     public static List<Enemy> enemiesInAttackRange = new();
     public static int maxAttackers = 4;
 
-    float shuffleSpeed;
-    float shuffleAmplitude;
-    [SerializeField] float force;
+    private float shuffleSpeed;
+    private float shuffleAmplitude;
     
-    [SerializeField] float timeToDie;
+    [SerializeField] private float secondsUntilDeath;
 
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        navigationComponent.target = GameObject.FindWithTag("Player").transform;
-        if (player == null)
-        {
-            Destroy(gameObject);
-        }
+        navComponent.target = GameObject.FindWithTag("Player").transform;
 
-        navMeshAgent = GetComponent<NavMeshAgent>();
         shuffleSpeed = Random.Range(1.0f, 3.0f);
         shuffleAmplitude = Random.Range(1.0f, 3.0f);
     }
 
     void FixedUpdate()
     {
-        if (navMeshAgent.enabled)
-        {
-            Chase();
-        }
+        Chase();
     }
 
     void Chase()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
-        if (distanceToPlayer > navMeshAgent.stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
+        if (navComponent.DistanceToTarget() > navComponent.navAgent.stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
         {
-            if (navMeshAgent != null)
-            {
-                navMeshAgent.SetDestination(player.transform.position);
-                return;
-            }
+            navComponent.navAgent.SetDestination(navComponent.target.transform.position);
+            return;
         }
-        else if (distanceToPlayer <= navMeshAgent.stoppingDistance)
+        
+        if (navComponent.DistanceToTarget() <= navComponent.navAgent.stoppingDistance)
         {
             if (!enemiesInAttackRange.Contains(this) && enemiesInAttackRange.Count < maxAttackers)
             {
                 enemiesInAttackRange.Add(this);
-                StartCoroutine(AttackPlayer());
+                //StartCoroutine(AttackPlayer());
             }
             else if (enemiesInAttackRange.Contains(this))
             {
-                navMeshAgent.SetDestination(transform.position);
+                navComponent.navAgent.SetDestination(transform.position);
             }
         }
-        else if (distanceToPlayer > navMeshAgent.stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
+        else if (navComponent.DistanceToTarget() > navComponent.navAgent.stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
         {
             StayAway();
         }
 
         //if player moves out of range then remove from list
-        if (enemiesInAttackRange.Contains(this) && distanceToPlayer > navMeshAgent.stoppingDistance)
+        if (enemiesInAttackRange.Contains(this) && navComponent.DistanceToTarget() > navComponent.navAgent.stoppingDistance)
         {
             StopAllCoroutines();
             enemiesInAttackRange.Remove(this);
@@ -89,21 +71,21 @@ public class MeleeEnemy : MonoBehaviour, Enemy
 
     void StayAway()
     {
-        Vector3 positionAwayFromPlayer = (transform.position - player.transform.position).normalized;
-        Vector3 stayAwayPosition = player.transform.position + positionAwayFromPlayer * stayAwayDistance;
+        Vector3 positionAwayFromPlayer = (transform.position - navComponent.target.transform.position).normalized;
+        Vector3 stayAwayPosition = navComponent.target.transform.position + positionAwayFromPlayer * stayAwayDistance;
 
         Vector3 shuffleDirection = Vector3.Cross(positionAwayFromPlayer, Vector3.up).normalized;
         float shuffleOffset = Mathf.Sin(Time.time * shuffleSpeed) * shuffleAmplitude;
 
         Vector3 shufflePosition = stayAwayPosition + shuffleDirection * shuffleOffset;
 
-        navMeshAgent.SetDestination(shufflePosition);
+        navComponent.navAgent.SetDestination(shufflePosition);
     }
 
     public void OnDeath()
     {
-        physicsComponent.Knockback(10f, 2f, player.transform.position);
-        Invoke("DestroySelf", timeToDie);
+        physicsComponent.Knockback(10f, 2f, navComponent.target.transform.position);
+        Invoke("DestroySelf", secondsUntilDeath);
     }
 
     void DestroySelf()
@@ -121,26 +103,25 @@ public class MeleeEnemy : MonoBehaviour, Enemy
 
     void OnDisable()
     {
-        if(GameManager.gameManager != null)
+        if (GameManager.gameManager != null)
+        {
             GameManager.gameManager.numberOfEnemiesLeft--;
+        }
         if (enemiesInAttackRange.Contains(this))
         {
             enemiesInAttackRange.Remove(this);
         }
     }
 
-    //this doesnt do anything
     private void OnTriggerEnter(Collider otherCollider)
     {
         if (otherCollider.gameObject.tag == "Melee Weapon")
         {
-            SmallKnockback();
-            Invoke("TrackAgain", (timeToDie / 2f));
+            physicsComponent.Knockback(5f, 4f, navComponent.target.transform.position);
         }
         if (otherCollider.gameObject.tag == "Thrown Weapon")
         {
-            SmallKnockback();
-            Invoke("TrackAgain", (timeToDie / 2f));
+            physicsComponent.Knockback(5f, 4f, navComponent.target.transform.position);
         }
     }
 }

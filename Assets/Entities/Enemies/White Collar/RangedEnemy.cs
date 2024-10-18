@@ -4,145 +4,139 @@ using System.Drawing;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.UI;
+using UnityEngine.Serialization;
 using static UnityEngine.GraphicsBuffer;
 
 public class RangedEnemy : MonoBehaviour, Enemy
 {
+    [Header("Navigation")]
+    NavigationComponent navComponent;
+    
+    [Header("Physics")]
+    PhysicsComponent physicsComponent;
+    
+    public Transform projectileOriginTransform;
+    public float explosionImpulse = 20f; // What is this? Could this be given a better name?
 
-    public Transform spawnPoint;
-    public float explosionImpulse = 20f;
+    [Header("Projectile Trajectory Rendering")]
+    private LineRenderer lineRenderer;
+    
     public int resolution = 50;
     public float tStep = 0.1f;
 
-    private LineRenderer lineRenderer;
-    private Vector3 gravity;
-
-    [SerializeField] float maxTimeBetweenAttacks;
-    float timer;
+    [Header("Other")]
+    [SerializeField] private float projectileSpawnDelaySet;
+    private float projectileSpawnDelay;
 
     public GameObject cannonballPrefab;
-
-    private float targetRotationY;
-
-    public bool aimHigh = true;
-
-    private float targetRotationCannonX;
+    [SerializeField] private bool aimHigh = true;
 
     [SerializeField] float stayAwayDistance;
     [SerializeField] float tooCloseDistance;
-    NavMeshAgent navMeshAgent;
-    GameObject player;
-
 
     void Awake()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        navComponent.target = GameObject.FindWithTag("Player").transform;
+        
         lineRenderer = GetComponent<LineRenderer>();
-        gravity = Physics.gravity;
-        player = GameObject.FindWithTag("Player");
+    }
+
+    void Update()
+    {
+        projectileSpawnDelay -= Time.deltaTime;
     }
 
     void FixedUpdate()
     {
-        timer += Time.deltaTime;
        // DrawTrajectory();
-        if (navMeshAgent != null && GetComponent<NavMeshAgent>().enabled == true)
-            Chase();      
+       if (GetComponent<NavMeshAgent>().enabled)
+       {
+           Chase();
+       }      
     }
 
     void Chase()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
-        if(distanceToPlayer > stayAwayDistance)
+        if (navComponent.DistanceToTarget() > stayAwayDistance)
         {
-            navMeshAgent.SetDestination(player.transform.position);
+            navComponent.navAgent.SetDestination(navComponent.TargetPosition());
+        }
+        else if (navComponent.DistanceToTarget() <= tooCloseDistance)
+        {
+            Vector3 directionAwayFromPlayer = (transform.position - navComponent.TargetPosition()).normalized;
+            Vector3 movePosition = navComponent.TargetPosition() + directionAwayFromPlayer * stayAwayDistance;
+            navComponent.navAgent.SetDestination(movePosition);
         }
 
-        else if (distanceToPlayer <= tooCloseDistance)
-        {
-            Vector3 directionAwayFromPlayer = (transform.position - player.transform.position).normalized;
-            Vector3 movePosition = player.transform.position + directionAwayFromPlayer * stayAwayDistance;
-            navMeshAgent.SetDestination(movePosition);
-
-        }
-
-        if (distanceToPlayer <= tooCloseDistance && timer > maxTimeBetweenAttacks)
+        if (navComponent.DistanceToTarget() <= tooCloseDistance && projectileSpawnDelay <= 0f)
         {
             aimHigh = false;
             Attack();
         }
-
-        else if (distanceToPlayer <= stayAwayDistance + 1.5f && timer > maxTimeBetweenAttacks)
+        else if (navComponent.DistanceToTarget() <= stayAwayDistance + 1.5f && projectileSpawnDelay <= 0f)
         {
-            navMeshAgent.SetDestination(transform.position);
+            navComponent.navAgent.SetDestination(transform.position);
             aimHigh = true;
             Attack();
         }
     }
 
-
-
     void Attack()
     {
         AimAtTarget();
-        timer = 0;
-        GameObject cannonball = Instantiate(cannonballPrefab, spawnPoint.position, spawnPoint.rotation);
-        Rigidbody cannonballRb = cannonball.GetComponent<Rigidbody>();
-        Vector3 direction = spawnPoint.forward;
-        cannonballRb.velocity = direction * explosionImpulse;
+        projectileSpawnDelay = projectileSpawnDelaySet;
+        GameObject cannonball = Instantiate(cannonballPrefab, projectileOriginTransform.position, projectileOriginTransform.rotation);
+        cannonball.GetComponent<Rigidbody>().velocity = projectileOriginTransform.forward * explosionImpulse;
     }
 
     void AimAtTarget()
     {
-        Vector3 planeTarget = player.transform.position;
-        planeTarget.y = spawnPoint.position.y;
+        Vector3 planeTarget = navComponent.TargetPosition();
+        planeTarget.y = projectileOriginTransform.position.y;
 
-        Vector3 direction = (planeTarget - spawnPoint.position).normalized;
+        Vector3 direction = (planeTarget - projectileOriginTransform.position).normalized;
 
-        targetRotationY = Vector3.SignedAngle(Vector3.forward, direction, Vector3.up);
+        transform.rotation = Quaternion.Euler(0, Vector3.SignedAngle(Vector3.forward, direction, Vector3.up), 0);
 
-        transform.rotation = Quaternion.Euler(0, targetRotationY, 0);
-
-        GetAngleToTarget(planeTarget, player.transform.position);
-
+        GetAngleToTarget(planeTarget, navComponent.TargetPosition());
     }
-
+    
     public void GetAngleToTarget(Vector3 planeTarget, Vector3 targetPos)
     {
         float v = explosionImpulse;
-        float g = Mathf.Abs(Physics.gravity.y);
+        float gravity = Mathf.Abs(Physics.gravity.y);
 
-        float x = Vector3.Distance(spawnPoint.position, planeTarget);
+        float x = Vector3.Distance(projectileOriginTransform.position, planeTarget);
 
-        float y = targetPos.y - spawnPoint.position.y;
+        float y = targetPos.y - projectileOriginTransform.position.y;
 
         float v2 = v * v;
         float v4 = v2 * v2;
         float x2 = x * x;
 
-        float sq = (v4 - g * ((g * x2) + (2.0f * y * v2)));
+        float sq = (v4 - gravity * ((gravity * x2) + (2.0f * y * v2)));
 
-        if (sq <= 0) 
+        if (sq <= 0)
+        {
             return;
+        }
 
         if (aimHigh)
+        {
             sq = Mathf.Sqrt(sq);
+        }
         else
+        {
             sq = -Mathf.Sqrt(sq);
+        }
 
-        float angle = Mathf.Atan2((v2 + sq), (g * x));
-        targetRotationCannonX = Mathf.Rad2Deg * angle;
+        float angle = Mathf.Atan2((v2 + sq), (gravity * x));
 
-
-        Quaternion currentRotation = spawnPoint.transform.rotation; 
-        spawnPoint.transform.rotation = Quaternion.Euler(-targetRotationCannonX, currentRotation.eulerAngles.y, currentRotation.eulerAngles.z);
-
-
+        Quaternion currentRotation = projectileOriginTransform.transform.rotation; 
+        projectileOriginTransform.transform.rotation = Quaternion.Euler(Mathf.Rad2Deg * angle, currentRotation.eulerAngles.y, currentRotation.eulerAngles.z);
     }
 
-
-   /* void DrawTrajectory()
+    /* void DrawTrajectory()
     {
         Vector3 startPosition = spawnPoint.position;
         Vector3 velocity = spawnPoint.forward * explosionImpulse; 
@@ -159,18 +153,7 @@ public class RangedEnemy : MonoBehaviour, Enemy
 
     Vector3 CalculatePositionAtTime(Vector3 startPosition, Vector3 velocity, float time)
     {
-        Vector3 position = startPosition + velocity * time + 0.5f * gravity * time * time;
+        Vector3 position = startPosition + velocity * time + 0.5f * Physics.gravity * time * time;
         return position;
     }
 }
-
-
-
-
-
-
-
-
-
-
-

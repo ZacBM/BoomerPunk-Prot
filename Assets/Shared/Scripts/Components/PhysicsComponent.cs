@@ -5,7 +5,9 @@ using UnityEngine.AI;
 
 public class PhysicsComponent : MonoBehaviour
 {
-    private Rigidbody rigidbody;
+    public Rigidbody rigidbody;
+
+    public float secondsToRecoverFromKnockback;
 
     private void Start()
     {
@@ -26,15 +28,28 @@ public class PhysicsComponent : MonoBehaviour
     
     public void Knockback(float horizontalKnockbackStrength, float verticalKnockbackStrength, Vector3 knockbackerPosition)
     {
-        if (TryGetComponent<NavMeshAgent>(out NavMeshAgent navMeshAgent))
-        {
-            navMeshAgent.enabled = false;
-        }
         rigidbody.isKinematic = false;
 
         Vector3 forceDirection = (transform.position - knockbackerPosition).normalized;
 
         rigidbody.AddForce(forceDirection * horizontalKnockbackStrength, ForceMode.Impulse);
         rigidbody.AddForce(Vector3.up * verticalKnockbackStrength, ForceMode.Impulse);
+        
+        if (TryGetComponent<NavMeshAgent>(out NavMeshAgent navMeshAgent))
+        {
+            navMeshAgent.enabled = false;
+        }
+        
+        Invoke(nameof(RecoverFromKnockback), secondsToRecoverFromKnockback);
+    }
+
+    public void RecoverFromKnockback()
+    {
+        rigidbody.isKinematic = true;
+        
+        if (TryGetComponent<NavMeshAgent>(out NavMeshAgent navMeshAgent))
+        {
+            navMeshAgent.enabled = true;
+        }
     }
 }
