@@ -398,13 +398,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletOrigin: {fileID: 7512944021397190666}
-  bullet: {fileID: 7779226012565987470, guid: 00d9100596a182948bbc5b27b0b0a3f5, type: 3}
+  bulletPrefab: {fileID: 7779226012565987470, guid: 00d9100596a182948bbc5b27b0b0a3f5, type: 3}
   shotRange: 10
   bulletForce: 50
   shotVisualEffect: {fileID: 0}
-  audioSource: {fileID: 8740199670998951337}
   shootAudio: {fileID: 8300000, guid: 1bb8ebcb0d1305449b77ce0faf7b9fc1, type: 3}
   pickupAudio: {fileID: 8300000, guid: f3d9fe73e3ac7ee4dbeba1591a72eab8, type: 3}
+  shotDelay: 0
+  shotDelaySet: 0.2
 --- !u!114 &9028802620987130873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +446,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2604d9a67b0c25606a138d7fd986cebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  secondsToRecoverFromKnockback: 0
 --- !u!114 &3444273940593462891
 MonoBehaviour:
   m_ObjectHideFlags: 0

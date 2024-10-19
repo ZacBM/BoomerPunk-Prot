@@ -6,16 +6,12 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class MeleeEnemy : MonoBehaviour, Enemy
+[RequireComponent(typeof(NavigationComponent))]
+[RequireComponent(typeof(PhysicsComponent))]
+
+public class MeleeEnemy : Enemy
 {
-    [Header("Navigation")]
-    NavigationComponent navComponent;
-    
-    [Header("Physics")]
-    PhysicsComponent physicsComponent;
-    
-    [SerializeField] private float stayAwayDistance;
-    public static List<Enemy> enemiesInAttackRange = new();
+    public static List<Enemy> enemiesInAttackRange = new(); // I wonder if this can be moved to a more logical location.
     public static int maxAttackers = 4;
 
     private float shuffleSpeed;
@@ -25,18 +21,13 @@ public class MeleeEnemy : MonoBehaviour, Enemy
 
     void Start()
     {
-        navComponent.target = GameObject.FindWithTag("Player").transform;
-
+        base.Start();
+        
         shuffleSpeed = Random.Range(1.0f, 3.0f);
         shuffleAmplitude = Random.Range(1.0f, 3.0f);
     }
 
-    void FixedUpdate()
-    {
-        Chase();
-    }
-
-    void Chase()
+    protected override void Chase()
     {
         if (navComponent.DistanceToTarget() > navComponent.navAgent.stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
         {

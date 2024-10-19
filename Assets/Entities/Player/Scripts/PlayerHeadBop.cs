@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerBase))]
+
 public class PlayerHeadBop : MonoBehaviour
 {
     //head bop variables
@@ -8,37 +10,42 @@ public class PlayerHeadBop : MonoBehaviour
     public float idleBobbingSpeed = 4.0f;
     public float idleBobbingAmount = 0.02f;
 
-    public GameObject playerCamera;
-    public GameObject cameraRig;
+    public GameObject camera;
 
     private float defaultBobbingAmount;
     private float defaultBobbingSpeed;
     private Vector3 originalCameraPosition;
 
+    private PlayerBase playerBase;
     private PlayerMovement playerMovement;
-    private Sliding sliding;
+    private PlayerSliding playerSliding;
+
+    private void Awake()
+    {
+        playerBase = GetComponent<PlayerBase>();
+        playerMovement = GetComponent<PlayerMovement>();
+        playerSliding = GetComponent<PlayerSliding>();
+    }
 
     private void Start()
     {
-        originalCameraPosition = cameraRig.transform.localPosition;
+        originalCameraPosition = camera.transform.localPosition;
 
         defaultBobbingAmount = bobbingAmount;
         defaultBobbingSpeed = bobbingSpeed;
-
-        playerMovement = GetComponent<PlayerMovement>();
-        sliding = GetComponent<Sliding>();
     }
 
     void Update()
     {
-        if (sliding.sliding == true || !playerMovement.grounded)
+        bool isAirborne = !playerMovement.IsGrounded();
+        if (playerSliding.isSliding || isAirborne)
         {
-            cameraRig.transform.localPosition = originalCameraPosition;
+            camera.transform.localPosition = originalCameraPosition;
             return;
         }
 
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = playerBase.movementDirection.x;
+        float vertical = playerBase.movementDirection.y;
 
         bool isMoving = Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0;
         float waveslice = Mathf.Sin(Time.time * bobbingSpeed);
@@ -48,7 +55,7 @@ public class PlayerHeadBop : MonoBehaviour
         {
             //Bobbing Math
             // Increase bobbing when the player moves
-            waveslice = Mathf.Sin(Time.time * bobbingSpeed);
+            //waveslice = Mathf.Sin(Time.time * bobbingSpeed);
             translateChange = waveslice * bobbingAmount;
 
             float totalAxes = Mathf.Clamp(Mathf.Abs(horizontal) + Mathf.Abs(vertical), 0.0f, 1.0f);
@@ -62,6 +69,6 @@ public class PlayerHeadBop : MonoBehaviour
         }
 
         // Actually moves the camera
-        cameraRig.transform.localPosition = new Vector3(originalCameraPosition.x, originalCameraPosition.y + translateChange, originalCameraPosition.z);
+        camera.transform.localPosition = new Vector3(originalCameraPosition.x, originalCameraPosition.y + translateChange, originalCameraPosition.z);
     }
 }

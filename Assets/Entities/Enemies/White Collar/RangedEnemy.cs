@@ -7,14 +7,8 @@ using UnityEngine.Rendering.UI;
 using UnityEngine.Serialization;
 using static UnityEngine.GraphicsBuffer;
 
-public class RangedEnemy : MonoBehaviour, Enemy
+public class RangedEnemy : Enemy
 {
-    [Header("Navigation")]
-    NavigationComponent navComponent;
-    
-    [Header("Physics")]
-    PhysicsComponent physicsComponent;
-    
     public Transform projectileOriginTransform;
     public float explosionImpulse = 20f; // What is this? Could this be given a better name?
 
@@ -31,12 +25,11 @@ public class RangedEnemy : MonoBehaviour, Enemy
     public GameObject cannonballPrefab;
     [SerializeField] private bool aimHigh = true;
 
-    [SerializeField] float stayAwayDistance;
     [SerializeField] float tooCloseDistance;
 
     void Awake()
     {
-        navComponent.target = GameObject.FindWithTag("Player").transform;
+        base.Start();
         
         lineRenderer = GetComponent<LineRenderer>();
     }
@@ -46,16 +39,7 @@ public class RangedEnemy : MonoBehaviour, Enemy
         projectileSpawnDelay -= Time.deltaTime;
     }
 
-    void FixedUpdate()
-    {
-       // DrawTrajectory();
-       if (GetComponent<NavMeshAgent>().enabled)
-       {
-           Chase();
-       }      
-    }
-
-    void Chase()
+    protected override void Chase()
     {
         if (navComponent.DistanceToTarget() > stayAwayDistance)
         {

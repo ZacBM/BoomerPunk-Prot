@@ -20,16 +20,19 @@ public class PlayerWeapon : MonoBehaviour
     //jake
     public GameObject hands;
 
-    public isShooting_animScript _shootingAnim;
+    public PlayerAnimation _shootingAnim;
+
+    private void Awake()
+    {
+        playerBase = GetComponent<PlayerBase>();
+        meleeRuler = GameObject.FindGameObjectWithTag("Melee Weapon");
+        hands = GameObject.Find("Hands");
+        _shootingAnim = hands?.GetComponent<PlayerAnimation>();
+    }
 
     void Start()
     {
-        playerBase = GetComponent<PlayerBase>();
-
-        meleeRuler = GameObject.FindGameObjectWithTag("Melee Weapon");
         meleeRuler.SetActive(false);
-        
-        _shootingAnim = hands.GetComponent<isShooting_animScript>();
     }
 
     void Update()
@@ -58,12 +61,12 @@ public class PlayerWeapon : MonoBehaviour
             if (holdingAWeapon)
             {
                 currentWeapon.PrepareToShoot();
-                if (hands.activeSelf)
+                if (hands != null && hands.activeSelf)
                 {
                     //jake
-                    _shootingAnim.animator.SetBool("isStapler", true);
+                    _shootingAnim?.animator.SetBool("isStapler", true);
                     //jake
-                    _shootingAnim.TriggerShootAnimation();
+                    _shootingAnim?.TriggerShootAnimation();
                 }
             }
             else
@@ -92,12 +95,23 @@ public class PlayerWeapon : MonoBehaviour
                 {
                     rangedWeapon.PickUp(weaponHolder);//rangedWeapon.PickUp(gunHolder);
                     currentWeapon = rangedWeapon;
-
+   
+                    GameObject weaponGameObject = (currentWeapon as MonoBehaviour).gameObject;
+   
+                    if (weaponGameObject.name.Contains("Stapler"))
+                    {
+                        _shootingAnim?.EquipStapler();
+                    }
+                    else if (weaponGameObject.name.Contains("Tack"))
+                    {
+                        _shootingAnim?.EquipTac();
+                    }
+   
                     if (nearbyObject.TryGetComponent<AmmoComponent>(out AmmoComponent ammoComponent))
                     {
                         playerBase.weapomAmmoComponent = ammoComponent;
                     }
-
+   
                     break;
                 }
             }
@@ -118,9 +132,20 @@ public class PlayerWeapon : MonoBehaviour
         {
             cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
         }
-
+   
         currentWeapon?.Throw(cameraTransform.forward * throwStrength);
-
+   
+        GameObject weaponGameObject = (currentWeapon as MonoBehaviour).gameObject;
+   
+        if (weaponGameObject.name.Contains("Stapler"))
+        {
+            _shootingAnim?.UnequipStapler();
+        }
+        else if (weaponGameObject.name.Contains("Tack"))
+        {
+            _shootingAnim?.UnequipTac();
+        }
+   
         currentWeapon = null;
         playerBase.weapomAmmoComponent = null;
     }

@@ -11,10 +11,13 @@ public class NavigationComponent : MonoBehaviour
 
     public NavMeshAgent navAgent;
 
-    private void Start()
+    private void Awake()
     {
         navAgent = GetComponent<NavMeshAgent>();
+    }
 
+    private void Start()
+    {
         CreateAndBakeMissingNavMeshSurface();
     }
     

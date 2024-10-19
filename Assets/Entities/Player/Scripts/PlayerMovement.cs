@@ -22,12 +22,8 @@ public class PlayerMovement : MonoBehaviour
 	[Header("Ground Check")]
 	public float playerHeight;
 	public LayerMask groundLayer;
-	public bool grounded;
 
-	public Transform playerTransform;
-
-	float horizontalInput;
-	float verticalInput;
+	public Transform cameraTransform;
 
 	Vector3 moveDirection;
 
@@ -35,54 +31,40 @@ public class PlayerMovement : MonoBehaviour
 	
 	public LayerMask exitLayer;
 
-	private Sliding sliding;
+	private PlayerSliding playerSliding;
 
 	[SerializeField] private float gravityScale;
 
-    private void Start()
+	private void Awake()
 	{
 		playerBase = GetComponent<PlayerBase>();
-		
+		playerSliding = GetComponent<PlayerSliding>();
 		rigidbody = GetComponent<Rigidbody>();
-		rigidbody.freezeRotation = true;
-
-        sliding = GetComponent<Sliding>();
-    }
+	}
 	
-	private void Update()
+	private void Start()
 	{
-		// Check to see if the player is touching the ground.
-		grounded = Physics.Raycast(transform.position + Vector3.up, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
-
-		MyInput();
-		SpeedControl();
-
-		//Handling the drag.
-		if (grounded)
-		{
-			rigidbody.drag = groundDrag;
-		}
-		else
-		{
-			rigidbody.drag = 0f;
-		}
+		rigidbody.freezeRotation = true;
     }
 
-	private void FixedUpdate()
+    private void Update()
+    {
+	    SpeedControl();
+
+	    if (IsGrounded() && playerBase.jump.triggered)
+	    {
+		    Jump();
+	    }
+    }
+
+    private void FixedUpdate()
 	{
 		MovePlayer();
 	}
 
-	private void MyInput()
+	public bool IsGrounded()
 	{
-		horizontalInput = playerBase.movementDirection.x;
-		verticalInput = playerBase.movementDirection.y;
-
-		// When to jump.
-		if (playerBase.jump.triggered && grounded)
-		{
-			Jump();
-		}
+		return Physics.Raycast(transform.position + Vector3.up, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
 	}
 
 	private void ApplyGravity()
@@ -93,29 +75,28 @@ public class PlayerMovement : MonoBehaviour
 
 	private void MovePlayer()
 	{
-		// Calculate movement direction.
-		moveDirection = (playerTransform.right * horizontalInput) + (playerTransform.forward * verticalInput);
+		float inputX = playerBase.movementDirection.x;
+		float inputZ = playerBase.movementDirection.y;
+		moveDirection = (cameraTransform.right * inputX) + (cameraTransform.forward * inputZ);
 
         float appliedMoveSpeed = moveSpeed;
 
-        if (sliding != null && sliding.sliding)
+        if (playerSliding != null && playerSliding.isSliding)
         {
-	        appliedMoveSpeed *= sliding.GetCurrentSpeedMultiplier();
+	        appliedMoveSpeed *= playerSliding.GetCurrentSpeedMultiplier();
         }
 
         //On Ground
-        if (grounded)
+        if (IsGrounded())
         {
 	        rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f, ForceMode.Force);
         }
-
-		//in air
-		else if (!grounded)
+		else
 		{
 			rigidbody.AddForce(moveDirection.normalized * appliedMoveSpeed * 10f * airMultiplier, ForceMode.Force);
 		}
         
-        ApplyGravity();
+		ApplyGravity();
     }
 
 	private void SpeedControl()
@@ -132,10 +113,9 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Jump()
 	{
-		// Reset vertical velocity.
-		rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+		Vector3 zeroVerticalVelocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+		rigidbody.velocity = zeroVerticalVelocity;
 		
-		// Send player upwards.
 		rigidbody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 	}
 }

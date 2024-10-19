@@ -1,56 +1,15 @@
 using UnityEngine;
-using UnityEngine.VFX;
 
-[RequireComponent(typeof(AmmoComponent))]
-[RequireComponent(typeof(HitComponent))]
-[RequireComponent(typeof(PhysicsComponent))]
-[RequireComponent(typeof(SpawnComponent))]
-
-[RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(Collider))]
-
-public class Printer : MonoBehaviour, RangedWeapon
+public class Printer : RangedWeapon
 {
-    [Header("Custom Components")]
-    private AmmoComponent ammoHolder;
-    private HitComponent hitbox;
-    private PhysicsComponent rigidbodyHelper;
-    
-    [SerializeField] public Transform bulletOrigin;
-    [SerializeField] protected GameObject bullet;
-    [SerializeField] protected float shotRange = 10.0f;
-    [SerializeField] protected float bulletForce = 50.0f;
-    
-    [SerializeField] protected VisualEffect shotVisualEffect;
-
-    private AudioSource audioSource;
-    public AudioClip shootAudio;
-    public AudioClip pickupAudio;
-
-    private Recoil recoil;
-
-    private bool isShooting = false;
-    
-    [HideInInspector] public float shotDelay;
-    public float shotDelaySet = 0.2f;
-    
-    void Start()
+    protected override void Start()
     {
-        // Initialize components.
-        ammoHolder = GetComponent<AmmoComponent>();
-        hitbox = GetComponent<HitComponent>();
-        rigidbodyHelper = GetComponent<PhysicsComponent>();
-        
-        hitbox.isActive = false;
-        
-        audioSource = GetComponent<AudioSource>();
-        
-        rigidbodyHelper.ActivateRigidbody();
-        recoil = FindObjectOfType<Recoil>();
+        base.Start();
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         shotDelay -= Time.deltaTime;
         if (isShooting)
         {
@@ -58,31 +17,16 @@ public class Printer : MonoBehaviour, RangedWeapon
         }
     }
 
-    public void PrepareToShoot()
-    {
-        isShooting = true;
-    }
-    
-    public void PrepareToStop()
-    {
-        isShooting = false;
-    }
-
-    public void Shoot()
+    public override void Shoot()
     {
         if (shotDelay > 0)
         {
             return;
         }
         shotDelay = shotDelaySet;
-            
-        //Debug.Log("This printer wants to give someone a paper cut!");
-        if (ammoHolder.IsEmpty())
-        {
-            Debug.Log("This printer's out of ammo!");
-            return;
-        }
-        ammoHolder.UseAmmo();
+        
+        base.Shoot();
+        
         RaycastHit hit;
         Physics.Raycast(bulletOrigin.position, bulletOrigin.forward, out hit, shotRange);
         if (hit.collider != null)
@@ -92,69 +36,5 @@ public class Printer : MonoBehaviour, RangedWeapon
                 hpComponent.ChangeHealth(-1);
             }
         }
-        //Debug.DrawRay(bulletOrigin.position, bulletOrigin.forward * shotRange, Color.red, 1.0f);
-        InstantiateBullet();
-        if (shotVisualEffect != null)
-        {
-            CreateVisualEffect();
-        }
-
-        recoil?.recoil();
-        if (shootAudio != null)
-        {
-            audioSource?.PlayOneShot(shootAudio);
-        }
-    }
-    
-    public void Drop()
-    {
-        transform.SetParent(null);
-        rigidbodyHelper.ActivateRigidbody();
-    }
-    
-    public void PickUp(GameObject parent)
-    {
-        rigidbodyHelper.DectivateRigidbody();
-        transform.SetParent(parent.transform, false);
-        transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-
-        if (pickupAudio != null)
-        {
-            audioSource?.PlayOneShot(pickupAudio);
-        }
-
-        //Jake
-        //parent.SetActive(false);
-        //Jake
-    }
-    
-    public void Throw(Vector3 throwDirection)
-    {
-        transform.SetParent(null);
-        rigidbodyHelper.ActivateRigidbody();
-        GetComponent<Rigidbody>().AddForce(throwDirection, ForceMode.Impulse);
-    }
-    
-    void CreateVisualEffect()
-    {
-        shotVisualEffect?.Play();
-    }
-    
-    public void InstantiateBullet()
-    {
-        if (bullet != null)
-        {
-            GameObject spawnedBullet = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
-
-            // Apply force to the bullet in the correct direction
-            Rigidbody bulletRigidbody = spawnedBullet?.GetComponent<Rigidbody>();
-            bulletRigidbody?.AddForce(bulletOrigin.forward * bulletForce, ForceMode.Impulse);
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(bulletOrigin.position, shotRange);
-        Gizmos.DrawLine(bulletOrigin.position, bulletOrigin.position + (bulletOrigin.forward * shotRange));
     }
 }

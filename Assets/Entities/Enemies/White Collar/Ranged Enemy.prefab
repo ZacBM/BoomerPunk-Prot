@@ -18,8 +18,10 @@ GameObject:
   - component: {fileID: 569977928767599294}
   - component: {fileID: 7829564211482356446}
   - component: {fileID: -979853105251039976}
+  - component: {fileID: 6503134148611775247}
+  - component: {fileID: 1165126444296265225}
   m_Layer: 0
-  m_Name: Range_Enemy
+  m_Name: Ranged Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,15 +128,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b4b54b937fb3140989f193b836f400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showAim: 1
-  spawnPoint: {fileID: 258626265077291777}
+  stayAwayDistance: 14
+  projectileOriginTransform: {fileID: 258626265077291777}
   explosionImpulse: 12
   resolution: 10
   tStep: 0.1
-  maxTimeBetweenAttacks: 1
+  projectileSpawnDelaySet: 2
   cannonballPrefab: {fileID: 8273746987079810369, guid: bc408ffc33f311346b1b8f278b6f902e, type: 3}
   aimHigh: 1
-  stayAwayDistance: 14
   tooCloseDistance: 8
 --- !u!120 &863331334075342278
 LineRenderer:
@@ -322,6 +323,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6503134148611775247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457009707265986687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b26fe588d3494343b3f073ed524cfb32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  willGenerateMissingNavMesh: 1
+  target: {fileID: 0}
+  navAgent: {fileID: 0}
+--- !u!114 &1165126444296265225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457009707265986687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2604d9a67b0c25606a138d7fd986cebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  secondsToRecoverFromKnockback: 0
 --- !u!1 &2563558577655157951
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,7 +377,7 @@ Transform:
   m_GameObject: {fileID: 2563558577655157951}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

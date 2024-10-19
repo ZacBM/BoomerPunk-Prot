@@ -9,23 +9,23 @@ public class PhysicsComponent : MonoBehaviour
 
     public float secondsToRecoverFromKnockback;
 
-    private void Start()
+    private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
     }
-    
+
     public void ActivateRigidbody()
     {
         rigidbody.detectCollisions = true;
         rigidbody.isKinematic = false;
     }
-    
+
     public void DectivateRigidbody()
     {
         rigidbody.detectCollisions = false;
         rigidbody.isKinematic = true;
     }
-    
+
     public void Knockback(float horizontalKnockbackStrength, float verticalKnockbackStrength, Vector3 knockbackerPosition)
     {
         rigidbody.isKinematic = false;
@@ -34,19 +34,19 @@ public class PhysicsComponent : MonoBehaviour
 
         rigidbody.AddForce(forceDirection * horizontalKnockbackStrength, ForceMode.Impulse);
         rigidbody.AddForce(Vector3.up * verticalKnockbackStrength, ForceMode.Impulse);
-        
+
         if (TryGetComponent<NavMeshAgent>(out NavMeshAgent navMeshAgent))
         {
             navMeshAgent.enabled = false;
         }
-        
+
         Invoke(nameof(RecoverFromKnockback), secondsToRecoverFromKnockback);
     }
 
     public void RecoverFromKnockback()
     {
         rigidbody.isKinematic = true;
-        
+
         if (TryGetComponent<NavMeshAgent>(out NavMeshAgent navMeshAgent))
         {
             navMeshAgent.enabled = true;
