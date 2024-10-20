@@ -2,16 +2,10 @@ using UnityEngine;
 
 public class Printer : RangedWeapon
 {
-    protected override void Start()
+    private void Update()
     {
-        base.Start();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
         shotDelay -= Time.deltaTime;
-        if (isShooting)
+        if (_isShooting)
         {
             Shoot();
         }

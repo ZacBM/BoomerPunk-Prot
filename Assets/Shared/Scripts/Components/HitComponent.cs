@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HitComponent : MonoBehaviour
 {
-    public Collider hitboxCollider;
+    //public Collider hitboxCollider;
     
     public bool isActive = true;
     public int hitStrength = 1;

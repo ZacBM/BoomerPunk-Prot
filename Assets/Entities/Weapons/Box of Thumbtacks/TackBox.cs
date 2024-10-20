@@ -5,21 +5,16 @@ public class TackBox : RangedWeapon
     [SerializeField] private int pelletCount = 10;
     [SerializeField] private float spreadAngleDegrees = 15.0f;
 
-    protected override void Start()
+    private void Update()
     {
-        base.Start();
-    }
-
-    void Update()
-    {
-        if (isShooting)
+        if (_isShooting)
         {
-            isShooting = false;
+            _isShooting = false;
             Shoot();
         }
     }
 
-    public void Shoot()
+    public override void Shoot()
     {
         base.Shoot();
 

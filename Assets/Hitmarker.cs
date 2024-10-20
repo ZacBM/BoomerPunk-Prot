@@ -2,18 +2,14 @@ using UnityEngine;
 
 public class Hitmarker : MonoBehaviour
 {
-    //Setting up variables for the hitmarker here.
     public GameObject hitmarker;
     public float distance;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         hitmarker.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -36,7 +32,6 @@ public class Hitmarker : MonoBehaviour
         }
     }
 
-    //Activate hitmarker in scene, and turning it off.
     private void HitActive()
     {
         hitmarker.SetActive(true);

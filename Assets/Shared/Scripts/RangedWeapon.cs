@@ -4,16 +4,16 @@ using UnityEngine.VFX;
 [RequireComponent(typeof(AmmoComponent))]
 [RequireComponent(typeof(HitComponent))]
 [RequireComponent(typeof(PhysicsComponent))]
-[RequireComponent(typeof(SpawnComponent))]
+[RequireComponent(typeof(SpawningComponent))]
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Collider))]
 
 public abstract class RangedWeapon : MonoBehaviour
 {
-    protected AmmoComponent ammoHolder;
-    protected HitComponent hitbox;
-    protected PhysicsComponent rigidbodyHelper;
+    protected AmmoComponent _ammoHolder;
+    protected HitComponent _hitbox;
+    protected PhysicsComponent _rigidbodyHelper;
     
     [SerializeField] public Transform bulletOrigin;
     [SerializeField] protected GameObject bulletPrefab;
@@ -22,54 +22,49 @@ public abstract class RangedWeapon : MonoBehaviour
     
     [SerializeField] protected VisualEffect shotVisualEffect;
 
-    protected AudioSource audioSource;
+    protected AudioSource _audioSource;
     public AudioClip shootAudio;
     public AudioClip pickupAudio;
 
-    protected Recoil recoil;
+    protected Recoil _recoil;
 
-    protected bool isShooting = false;
+    protected bool _isShooting = false;
     
     [HideInInspector] public float shotDelay;
     public float shotDelaySet = 0.2f;
     
     protected virtual void Awake()
     {
-        ammoHolder = GetComponent<AmmoComponent>();
-        hitbox = GetComponent<HitComponent>();
-        rigidbodyHelper = GetComponent<PhysicsComponent>();
+        _ammoHolder = GetComponent<AmmoComponent>();
+        _hitbox = GetComponent<HitComponent>();
+        _rigidbodyHelper = GetComponent<PhysicsComponent>();
         
-        audioSource = GetComponent<AudioSource>();
-        recoil = FindObjectOfType<Recoil>();
+        _audioSource = GetComponent<AudioSource>();
+        _recoil = FindObjectOfType<Recoil>();
     }
     
     protected virtual void Start()
     {
-        hitbox.isActive = false;
+        _hitbox.isActive = false;
         
-        rigidbodyHelper.ActivateRigidbody();
-    }
-
-    protected virtual void Update()
-    {
-        
+        _rigidbodyHelper.ActivateRigidbody();
     }
     
     public void Drop()
     {
         transform.SetParent(null);
-        rigidbodyHelper.ActivateRigidbody();
+        _rigidbodyHelper.ActivateRigidbody();
     }
     
     public void PickUp(GameObject parent)
     {
-        rigidbodyHelper.DectivateRigidbody();
+        _rigidbodyHelper.DectivateRigidbody();
         transform.SetParent(parent.transform, false);
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
         if (pickupAudio != null)
         {
-            audioSource?.PlayOneShot(pickupAudio);
+            _audioSource?.PlayOneShot(pickupAudio);
         }
 
         //Jake
@@ -80,7 +75,7 @@ public abstract class RangedWeapon : MonoBehaviour
     public void Throw(Vector3 throwDirection)
     {
         transform.SetParent(null);
-        rigidbodyHelper.ActivateRigidbody();
+        _rigidbodyHelper.ActivateRigidbody();
         GetComponent<Rigidbody>().AddForce(throwDirection, ForceMode.Impulse);
     }
     
@@ -109,12 +104,12 @@ public abstract class RangedWeapon : MonoBehaviour
 
     public virtual void Shoot()
     {
-        if (ammoHolder.IsEmpty())
+        if (_ammoHolder.IsEmpty())
         {
             Debug.Log("This weapon's out of ammo!");
             return;
         }
-        ammoHolder.UseAmmo();
+        _ammoHolder.UseAmmo();
         
         InstantiateBullet();
         if (shotVisualEffect != null)
@@ -122,20 +117,20 @@ public abstract class RangedWeapon : MonoBehaviour
             CreateVisualEffect();
         }
 
-        recoil.recoil();
+        _recoil.recoil();
         if (shootAudio != null)
         {
-            audioSource?.PlayOneShot(shootAudio);
+            _audioSource?.PlayOneShot(shootAudio);
         }
     }
 
     public void PrepareToShoot()
     {
-        isShooting = true;
+        _isShooting = true;
     }
     
     public void PrepareToStop()
     {
-        isShooting = false;
+        _isShooting = false;
     }
 }

@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class AmmoComponent : MonoBehaviour
 {
-    public int ammoLeft = 10;
+    [SerializeField] private int ammoLeft = 10;
     
-    public bool IsEmpty()
-    {
-        return ammoLeft <= 0;
-    }
+    public int GetAmmoLeft() => ammoLeft;
+    
+    public bool IsEmpty() => ammoLeft == 0;
 
     public int UseAmmo(int amountOfAmmoToUse = 1)
     {

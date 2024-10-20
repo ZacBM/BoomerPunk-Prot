@@ -14,28 +14,28 @@ public class MeleeEnemy : Enemy
     public static List<Enemy> enemiesInAttackRange = new(); // I wonder if this can be moved to a more logical location.
     public static int maxAttackers = 4;
 
-    private float shuffleSpeed;
-    private float shuffleAmplitude;
+    private float _shuffleSpeed;
+    private float _shuffleAmplitude;
     
     [SerializeField] private float secondsUntilDeath;
 
-    void Start()
+    protected override void Start()
     {
         base.Start();
         
-        shuffleSpeed = Random.Range(1.0f, 3.0f);
-        shuffleAmplitude = Random.Range(1.0f, 3.0f);
+        _shuffleSpeed = Random.Range(1.0f, 3.0f);
+        _shuffleAmplitude = Random.Range(1.0f, 3.0f);
     }
 
     protected override void Chase()
     {
-        if (navComponent.DistanceToTarget() > navComponent.navAgent.stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
+        if (_navComponent.DistanceToTarget() > _navComponent.navAgent.stoppingDistance && enemiesInAttackRange.Count < maxAttackers)
         {
-            navComponent.navAgent.SetDestination(navComponent.target.transform.position);
+            _navComponent.navAgent.SetDestination(_navComponent.target.transform.position);
             return;
         }
         
-        if (navComponent.DistanceToTarget() <= navComponent.navAgent.stoppingDistance)
+        if (_navComponent.DistanceToTarget() <= _navComponent.navAgent.stoppingDistance)
         {
             if (!enemiesInAttackRange.Contains(this) && enemiesInAttackRange.Count < maxAttackers)
             {
@@ -44,16 +44,16 @@ public class MeleeEnemy : Enemy
             }
             else if (enemiesInAttackRange.Contains(this))
             {
-                navComponent.navAgent.SetDestination(transform.position);
+                _navComponent.navAgent.SetDestination(transform.position);
             }
         }
-        else if (navComponent.DistanceToTarget() > navComponent.navAgent.stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
+        else if (_navComponent.DistanceToTarget() > _navComponent.navAgent.stoppingDistance && enemiesInAttackRange.Count >= maxAttackers)
         {
             StayAway();
         }
 
         //if player moves out of range then remove from list
-        if (enemiesInAttackRange.Contains(this) && navComponent.DistanceToTarget() > navComponent.navAgent.stoppingDistance)
+        if (enemiesInAttackRange.Contains(this) && _navComponent.DistanceToTarget() > _navComponent.navAgent.stoppingDistance)
         {
             StopAllCoroutines();
             enemiesInAttackRange.Remove(this);
@@ -62,20 +62,20 @@ public class MeleeEnemy : Enemy
 
     void StayAway()
     {
-        Vector3 positionAwayFromPlayer = (transform.position - navComponent.target.transform.position).normalized;
-        Vector3 stayAwayPosition = navComponent.target.transform.position + positionAwayFromPlayer * stayAwayDistance;
+        Vector3 positionAwayFromPlayer = (transform.position - _navComponent.target.transform.position).normalized;
+        Vector3 stayAwayPosition = _navComponent.target.transform.position + positionAwayFromPlayer * stayAwayDistance;
 
         Vector3 shuffleDirection = Vector3.Cross(positionAwayFromPlayer, Vector3.up).normalized;
-        float shuffleOffset = Mathf.Sin(Time.time * shuffleSpeed) * shuffleAmplitude;
+        float shuffleOffset = Mathf.Sin(Time.time * _shuffleSpeed) * _shuffleAmplitude;
 
         Vector3 shufflePosition = stayAwayPosition + shuffleDirection * shuffleOffset;
 
-        navComponent.navAgent.SetDestination(shufflePosition);
+        _navComponent.navAgent.SetDestination(shufflePosition);
     }
 
     public void OnDeath()
     {
-        physicsComponent.Knockback(10f, 2f, navComponent.target.transform.position);
+        _physicsComponent.Knockback(10f, 2f, _navComponent.target.transform.position);
         Invoke("DestroySelf", secondsUntilDeath);
     }
 
@@ -108,11 +108,11 @@ public class MeleeEnemy : Enemy
     {
         if (otherCollider.gameObject.tag == "Melee Weapon")
         {
-            physicsComponent.Knockback(5f, 4f, navComponent.target.transform.position);
+            _physicsComponent.Knockback(5f, 4f, _navComponent.target.transform.position);
         }
         if (otherCollider.gameObject.tag == "Thrown Weapon")
         {
-            physicsComponent.Knockback(5f, 4f, navComponent.target.transform.position);
+            _physicsComponent.Knockback(5f, 4f, _navComponent.target.transform.position);
         }
     }
 }

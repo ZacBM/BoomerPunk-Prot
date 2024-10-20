@@ -2,16 +2,11 @@ using UnityEngine;
 
 public class Stapler : RangedWeapon
 {
-    protected override void Start()
+    private void Update()
     {
-        base.Start();
-    }
-    
-    protected override void Update()
-    {
-        if (isShooting)
+        if (_isShooting)
         {
-            isShooting = false;
+            _isShooting = false;
             Shoot();
         }
     }

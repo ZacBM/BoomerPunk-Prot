@@ -7,19 +7,23 @@ using UnityEngine.AI;
 public abstract class Enemy : MonoBehaviour
 {
     [Header("Navigation")]
-    protected NavigationComponent navComponent;
+    protected NavigationComponent _navComponent;
     
     [Header("Physics")]
-    protected PhysicsComponent physicsComponent;
+    protected PhysicsComponent _physicsComponent;
     
     [SerializeField] protected float stayAwayDistance;
     
+    protected virtual void Awake()
+    {
+        _navComponent = GetComponent<NavigationComponent>();
+        
+        _physicsComponent = GetComponent<PhysicsComponent>();
+    }
+    
     protected virtual void Start()
     {
-        navComponent = GetComponent<NavigationComponent>();
-        navComponent.target = GameObject.FindWithTag("Player").transform;
-        
-        physicsComponent = GetComponent<PhysicsComponent>();
+        _navComponent.target = GameObject.FindWithTag("Player").transform;
     }
     
     protected virtual void FixedUpdate()

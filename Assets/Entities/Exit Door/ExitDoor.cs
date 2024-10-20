@@ -4,13 +4,16 @@ using UnityEngine.SceneManagement;
 public class ExitDoor : MonoBehaviour
 {
     [SerializeField] private float exitDistance;
-    Transform player;
+    private Transform _player;
 
     void Update()
     {
-        if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
+        if (_player == null)
+        {
+            _player = GameObject.FindGameObjectWithTag("Player").transform;
+        }
 
-        Vector2 playerPosition = new Vector2(player.position.x, player.position.z);
+        Vector2 playerPosition = new Vector2(_player.position.x, _player.position.z);
         if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), playerPosition) <= exitDistance)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

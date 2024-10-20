@@ -13,9 +13,9 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private GameObject exitDoorPrefab;
     [SerializeField] private Vector3 exitDoorLocation;
-    private int currentScene;
+    private int _currentScene;
     
-    private GameObject[] enemies;
+    private GameObject[] _enemies;
     [SerializeField] private float percentOfEnemiesToLeaveAliveToProgress;
     [SerializeField] private int numberOfEnemiesToLeaveAliveToProgress;
     public int numberOfEnemiesLeft;
@@ -30,11 +30,11 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        currentScene = SceneManager.GetActiveScene().buildIndex;
+        _currentScene = SceneManager.GetActiveScene().buildIndex;
 
         //StartCoroutine(DetermineAmountOfEnemiesToLeaveAlive());
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        numberOfEnemiesLeft = enemies.Length;
+        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        numberOfEnemiesLeft = _enemies.Length;
         numberOfEnemiesToLeaveAliveToProgress = Mathf.CeilToInt((float)numberOfEnemiesLeft * (percentOfEnemiesToLeaveAliveToProgress / 100f));
     }
 
@@ -50,8 +50,8 @@ public class GameManager : MonoBehaviour
     IEnumerator DetermineAmountOfEnemiesToLeaveAlive()
     {
         yield return new WaitForSeconds(0.1f);
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        numberOfEnemiesLeft = enemies.Length;
+        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        numberOfEnemiesLeft = _enemies.Length;
         yield return new WaitForSeconds(1f);
         numberOfEnemiesToLeaveAliveToProgress = Mathf.CeilToInt((float)numberOfEnemiesLeft * (percentOfEnemiesToLeaveAliveToProgress / 100f));
     }

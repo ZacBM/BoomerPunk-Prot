@@ -13,53 +13,53 @@ public class RangedEnemy : Enemy
     public float explosionImpulse = 20f; // What is this? Could this be given a better name?
 
     [Header("Projectile Trajectory Rendering")]
-    private LineRenderer lineRenderer;
+    private LineRenderer _lineRenderer;
     
-    public int resolution = 50;
-    public float tStep = 0.1f;
+    [SerializeField] private int resolution = 50;
+    [SerializeField] private float tStep = 0.1f;
 
     [Header("Other")]
     [SerializeField] private float projectileSpawnDelaySet;
-    private float projectileSpawnDelay;
+    private float _projectileSpawnDelay;
 
     public GameObject cannonballPrefab;
     [SerializeField] private bool aimHigh = true;
 
-    [SerializeField] float tooCloseDistance;
+    [SerializeField] private float tooCloseDistance;
 
-    void Awake()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         
-        lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer = GetComponent<LineRenderer>();
     }
 
-    void Update()
+    private void Update()
     {
-        projectileSpawnDelay -= Time.deltaTime;
+        _projectileSpawnDelay -= Time.deltaTime;
     }
 
     protected override void Chase()
     {
-        if (navComponent.DistanceToTarget() > stayAwayDistance)
+        if (_navComponent.DistanceToTarget() > stayAwayDistance)
         {
-            navComponent.navAgent.SetDestination(navComponent.TargetPosition());
+            _navComponent.navAgent.SetDestination(_navComponent.TargetPosition());
         }
-        else if (navComponent.DistanceToTarget() <= tooCloseDistance)
+        else if (_navComponent.DistanceToTarget() <= tooCloseDistance)
         {
-            Vector3 directionAwayFromPlayer = (transform.position - navComponent.TargetPosition()).normalized;
-            Vector3 movePosition = navComponent.TargetPosition() + directionAwayFromPlayer * stayAwayDistance;
-            navComponent.navAgent.SetDestination(movePosition);
+            Vector3 directionAwayFromPlayer = (transform.position - _navComponent.TargetPosition()).normalized;
+            Vector3 movePosition = _navComponent.TargetPosition() + directionAwayFromPlayer * stayAwayDistance;
+            _navComponent.navAgent.SetDestination(movePosition);
         }
 
-        if (navComponent.DistanceToTarget() <= tooCloseDistance && projectileSpawnDelay <= 0f)
+        if (_navComponent.DistanceToTarget() <= tooCloseDistance && _projectileSpawnDelay <= 0f)
         {
             aimHigh = false;
             Attack();
         }
-        else if (navComponent.DistanceToTarget() <= stayAwayDistance + 1.5f && projectileSpawnDelay <= 0f)
+        else if (_navComponent.DistanceToTarget() <= stayAwayDistance + 1.5f && _projectileSpawnDelay <= 0f)
         {
-            navComponent.navAgent.SetDestination(transform.position);
+            _navComponent.navAgent.SetDestination(transform.position);
             aimHigh = true;
             Attack();
         }
@@ -68,21 +68,21 @@ public class RangedEnemy : Enemy
     void Attack()
     {
         AimAtTarget();
-        projectileSpawnDelay = projectileSpawnDelaySet;
+        _projectileSpawnDelay = projectileSpawnDelaySet;
         GameObject cannonball = Instantiate(cannonballPrefab, projectileOriginTransform.position, projectileOriginTransform.rotation);
         cannonball.GetComponent<Rigidbody>().velocity = projectileOriginTransform.forward * explosionImpulse;
     }
 
     void AimAtTarget()
     {
-        Vector3 planeTarget = navComponent.TargetPosition();
+        Vector3 planeTarget = _navComponent.TargetPosition();
         planeTarget.y = projectileOriginTransform.position.y;
 
         Vector3 direction = (planeTarget - projectileOriginTransform.position).normalized;
 
         transform.rotation = Quaternion.Euler(0, Vector3.SignedAngle(Vector3.forward, direction, Vector3.up), 0);
 
-        GetAngleToTarget(planeTarget, navComponent.TargetPosition());
+        GetAngleToTarget(planeTarget, _navComponent.TargetPosition());
     }
     
     public void GetAngleToTarget(Vector3 planeTarget, Vector3 targetPos)
