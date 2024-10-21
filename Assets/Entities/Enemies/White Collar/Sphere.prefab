@@ -160,6 +160,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70532f9b5028d9a4bb49b5cf80ae2cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitboxCollider: {fileID: 0}
-  isActive: 1
+  isActive: 0
   hitStrength: 2
