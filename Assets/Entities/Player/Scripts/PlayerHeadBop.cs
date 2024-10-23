@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class PlayerHeadBop : MonoBehaviour
 {
+    /// <summary>
+    /// Code to imitate a person's head moving up & down while walking.
+    ///
+    /// - Joshua
+    /// </summary>
+  
+    /// <remarks>
+    /// This code could arguably be moved to the PlayerMovement script.
+    /// 
+    /// - Joshua  
+    /// </remarks>
+    
     //head bop variables
     public float bobbingSpeed = 12.5f;
     public float bobbingAmount = 0.115f;

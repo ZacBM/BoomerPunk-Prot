@@ -2,6 +2,12 @@ using UnityEngine;
 
 public interface RangedWeapon
 {
+    /// <summary>
+    /// An interface that denotes ranged weapons, & defines common methods for weapons.
+    ///
+    /// - Joshua
+    /// </summary>
+    
     public void Drop();
     
     public void PickUp(GameObject parent);
@@ -13,6 +19,4 @@ public interface RangedWeapon
     public void PrepareToShoot();
     
     public void PrepareToStop();
-
-
 }

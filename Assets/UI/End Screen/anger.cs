@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class anger : MonoBehaviour
 {
+    /// <remarks>
+    /// Changes to make:
+    /// - Rename to "EndScreen"
+    /// 
+    /// - Joshua  
+    /// </remarks>
 
     // Update is called once per frame
     void Update()

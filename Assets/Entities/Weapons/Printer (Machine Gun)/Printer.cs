@@ -11,6 +11,18 @@ using UnityEngine.VFX;
 
 public class Printer : MonoBehaviour, RangedWeapon
 {
+    /// <summary>
+    /// The printer weapon.
+    ///
+    /// - Joshua
+    /// </summary>
+  
+    /// <remarks>
+    /// I would like to further abstract the weapon code to make it D.R.Y.er, but I'm not quite sure how to.
+    /// 
+    /// - Joshua  
+    /// </remarks>
+    
     // Custom components.
     private AmmoComponent ammoHolder;
     private HitComponent hitbox;

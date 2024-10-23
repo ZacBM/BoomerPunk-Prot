@@ -7,6 +7,12 @@ using UnityEngine;
 
 public class MoveCam : MonoBehaviour
 {
+	/// <remarks>
+	/// This script should get deleted once the Player Camera Holder prefab is removed.
+	///  
+	/// - Joshua  
+	/// </remarks>
+	
 	public Transform cameraPosition;
 
 	private void Update()

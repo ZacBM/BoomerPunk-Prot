@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class isShooting_animScript : MonoBehaviour
 {
+    /// <summary>  
+    /// The logic for player character animation.
+    /// /// - Joshua  
+    /// </summary>  
+  
+    /// <remarks>
+    /// In the future, this script should synchronize with the player character's state machine.
+    /// 
+    /// Changes to make:
+    /// - Create one method that sets all the animation booleans.
+    ///  
+    /// - Joshua  
+    /// </remarks>
+    
     public Animator animator;
     public bool isStapler = false; 
     public bool isTac = false;

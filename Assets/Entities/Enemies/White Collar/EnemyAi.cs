@@ -8,6 +8,21 @@ using Random = UnityEngine.Random;
 
 public class EnemyAi : MonoBehaviour
 {
+    /// <summary>  
+    /// The logic for the melee enemy type.  
+    /// /// - Joshua  
+    /// </summary>  
+  
+    /// <remarks>  
+    /// Changes to make:
+    /// - Implement the state pattern
+    /// - Move all aspects of navigation to a "NavigationComponent"
+    /// - Move all aspects of navigation to a "PhysicsComponent"
+    /// - Rename to "MeleeEnemy"
+    ///  
+    /// - Joshua  
+    /// </remarks>
+    
     NavMeshAgent navMeshAgent;
     GameObject player;
     [SerializeField] float stoppingDistance;

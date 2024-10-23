@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class RigidbodyHelperComponent : MonoBehaviour
 {
+    /// <summary>
+    /// Helper methods for objects with Rigidbodies.
+    ///
+    /// - Joshua
+    /// </summary>
+  
+    /// <remarks>
+    /// Changes to make:
+    /// - Rename to "PhysicsComponent"
+    /// 
+    /// - Joshua  
+    /// </remarks>
+    
     public void ActivateRigidbody()
     {
         GetComponent<Rigidbody>().detectCollisions = true;

@@ -7,6 +7,18 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
+	/// <summary>
+	/// The "main" player character script. The player character "brain".
+	///
+	/// - Joshua
+	/// </summary>
+  
+	/// <remarks>
+	/// The idea is that this script should house the logic & behavior that other player scripts shouldn't care about.
+	/// 
+	/// - Joshua  
+	/// </remarks>
+	
 	private PlayerBase playerBase;
 	
 	// Sensitivity values for both the X & Y axes.

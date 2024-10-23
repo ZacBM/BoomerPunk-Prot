@@ -5,6 +5,19 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
+    /// <summary>
+    /// The "main" player character script. The player character "brain".
+    ///
+    /// - Joshua
+    /// </summary>
+  
+    /// <remarks>
+    /// Changes to make:
+    /// - Remove script & move logic to the PlayerMovement script
+    /// 
+    /// - Joshua  
+    /// </remarks>
+    
     private PlayerBase playerBase;
     
     [SerializeField] private RangedWeapon currentWeapon;

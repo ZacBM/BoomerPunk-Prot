@@ -8,9 +8,16 @@ using UnityEngine.SceneManagement;
 public class PlayerBase : MonoBehaviour
 {
     /// <summary>
-    /// The "main" player script. The idea place for logic & behavior that other player scripts shouldn't care
-    /// about.
+    /// The "main" player character script. The player character "brain".
+    ///
+    /// - Joshua
     /// </summary>
+  
+    /// <remarks>
+    /// The idea is that this script should house the logic & behavior that other player scripts shouldn't care about.
+    /// 
+    /// - Joshua  
+    /// </remarks>
     
     [Header("Components")]
     [SerializeField] private HPComponent hpComponent;

@@ -2,6 +2,19 @@ using UnityEngine;
 
 public class Hitmarker : MonoBehaviour
 {
+    /// <summary>
+    /// Hitmarker logic. Activates a UI graphic when the player hits an enemy.
+    ///
+    /// - Joshua
+    /// </summary>
+  
+    /// <remarks>
+    /// Changes to make:
+    /// - Fix to limit range & not trigger when there's no ammo.
+    /// 
+    /// - Joshua  
+    /// </remarks>
+    
     //Setting up variables for the hitmarker here.
     public GameObject hitmarker;
     public float distance;

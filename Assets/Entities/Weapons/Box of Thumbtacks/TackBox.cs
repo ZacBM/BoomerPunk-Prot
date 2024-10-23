@@ -13,6 +13,20 @@ using UnityEngine.VFX;
 
 public class TackBox : MonoBehaviour, RangedWeapon
 {
+    /// <summary>
+    /// The tackbox weapon.
+    ///
+    /// Imitates a shotgun.
+    ///
+    /// - Joshua
+    /// </summary>
+  
+    /// <remarks>
+    /// I would like to further abstract the weapon code to make it D.R.Y.er, but I'm not quite sure how to.
+    /// 
+    /// - Joshua  
+    /// </remarks>
+    
     // Custom components.
     private AmmoComponent ammoHolder;
     private HitComponent hitbox;

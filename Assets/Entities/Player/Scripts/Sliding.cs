@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Sliding : MonoBehaviour
 {
+    /// <remarks>
+    /// Changes to make:
+    /// - Remove script & move logic to the PlayerMovement script
+    /// 
+    /// - Joshua  
+    /// </remarks>
+    
     private PlayerBase playerBase;
     
     [Header("References")]

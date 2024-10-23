@@ -9,6 +9,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+	/// <summary>
+	/// The player character movement script.
+	///
+	/// Houses all the logic for moving the player character.
+	///
+	/// - Joshua
+	/// </summary>
+	
 	private PlayerBase playerBase;
 	
 	[Header("Movement")]

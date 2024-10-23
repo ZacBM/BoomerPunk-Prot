@@ -8,7 +8,21 @@ using static UnityEngine.GraphicsBuffer;
 
 public class ThrowEnemy : MonoBehaviour
 {
-
+    /// <summary>  
+    /// The logic for the ranged enemy type.  
+    /// /// - Joshua  
+    /// </summary>  
+  
+    /// <remarks>  
+    /// Changes to make:
+    /// - Implement the state pattern
+    /// - Move all aspects of navigation to a "NavigationComponent"
+    /// - Move all aspects of navigation to a "PhysicsComponent"
+    /// - Rename to "RangedEnemy"
+    ///  
+    /// - Joshua  
+    /// </remarks>
+    
     public Transform spawnPoint;
     public float explosionImpulse = 20f;
     public int resolution = 50;

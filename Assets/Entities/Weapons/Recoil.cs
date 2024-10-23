@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class Recoil : MonoBehaviour
 {
+    /// <summary>
+    /// Logic to move the player back when firing a weapon.
+    ///
+    /// - Joshua
+    /// </summary>
+  
+    /// <remarks>
+    /// This logic can be moved to the PlayerMovement script.
+    /// 
+    /// - Joshua  
+    /// </remarks>
+    
     Vector3 currentRotation, targetRotation, targetPosition, currentPosition, initialGunPosition;
     public Transform cam;
 

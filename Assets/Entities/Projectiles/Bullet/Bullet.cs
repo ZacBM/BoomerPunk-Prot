@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    /// <summary>
+    /// Bullet logic.
+    ///
+    /// - Joshua
+    /// </summary>
+    
     [SerializeField] private float lifetime = 5.0f;
 
     void Start()

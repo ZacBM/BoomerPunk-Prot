@@ -3,6 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class ExitDoor : MonoBehaviour
 {
+    /// <summary>  
+    /// The exit door object.  
+    ///  
+    /// Spawns when a certain amount of enemies are killed  Transitions to an elevator scene.
+    /// /// - Joshua  
+    /// </summary>  
+    
     [SerializeField] private float exitDistance;
     Transform player;
 

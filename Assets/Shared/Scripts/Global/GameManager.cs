@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    /// <remarks>
+    /// I would actually like to remove the all-encompassing Game Manager, & move the logic to pre-existing scripts or
+    /// new, specialized singletons.
+    /// 
+    /// - Joshua  
+    /// </remarks>
+    
     // Allows for Singleton.
     public static GameManager gameManager;
 
