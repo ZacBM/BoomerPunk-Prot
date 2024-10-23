@@ -6,6 +6,18 @@ using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
+    /// <summary>
+    /// The logic for the base Enemy class.
+    /// 
+    /// - Joshua
+    /// </summary>
+    
+    /// <remarks>
+    /// In the future, I'd prefer this base class be removed, & the shared enemy code be held by components.
+    ///
+    /// - Joshua
+    /// </remarks>
+    
     [Header("Navigation")]
     protected NavigationComponent _navComponent;
     

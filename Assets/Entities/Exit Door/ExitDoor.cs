@@ -3,6 +3,29 @@ using UnityEngine.SceneManagement;
 
 public class ExitDoor : MonoBehaviour
 {
+    /// <summary>
+    /// The exit door object.
+    ///
+    /// Spawns when a certain amount of enemies
+    /// 
+    /// - Joshua
+    /// </summary>
+    
+    /// <remarks>
+    /// I would prefer that the Enemy base class be completely replace by components & unique state behaviors, but for
+    /// the moment, the abstract base class Enemy has been created to make the codebase D.R.Y.er.
+    ///
+    /// Changes made after Prototype 2:
+    /// - Some functions & variables moved to NavigationComponent & PhysicsComponent
+    /// - Some variables renamed to improved clarity
+    ///
+    /// Changes to make:
+    /// - State pattern implementation
+    /// - Increased composition
+    ///
+    /// - Joshua
+    /// </remarks>
+    
     [SerializeField] private float exitDistance;
     private Transform _player;
 

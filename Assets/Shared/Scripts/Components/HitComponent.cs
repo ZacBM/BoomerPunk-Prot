@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class HitComponent : MonoBehaviour
 {
+    /// <summary>
+    /// Hitbox functionality.
+    ///
+    /// When an object with a hitbox component comes into contact with an object with an HPComponent, the
+    /// HPComponent's health value will decrease.
+    /// </summary>
+    
     //public Collider hitboxCollider;
     
     public bool isActive = true;
