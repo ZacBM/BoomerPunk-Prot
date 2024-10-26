@@ -6,6 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class OnDeath : MonoBehaviour
 {
+    /// <remarks>  
+    /// I feel like there's a way to access a function called "OnDeath()" on the main script of an entity, rather than
+    /// having a dedicated script that needs to be tuned for each entity with desired death effects. In short, this
+    /// script should be deleted if & when a more elegant solution is found.
+    ///  
+    /// - Joshua  
+    /// </remarks>
+    
     Rigidbody rb;
     GameObject player;
     [SerializeField] float force;

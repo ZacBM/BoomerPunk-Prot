@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class HurtComponent : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    /// <summary>  
+    /// A component that acts as an entity's hortbox (something that allows the entity to take damage).
+    /// 
+    /// - Joshua  
+    /// </summary>  
+  
+    /// <remarks>  
+    /// Changes to make:
+    /// - Make the component
+    ///  
+    /// - Joshua  
+    /// </remarks>
 }

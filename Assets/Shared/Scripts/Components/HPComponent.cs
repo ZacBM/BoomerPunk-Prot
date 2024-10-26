@@ -3,6 +3,24 @@ using UnityEngine.Events;
 
 public class HPComponent : MonoBehaviour
 {
+    /// <summary>  
+    /// A component that manages the vitality of the object that possess it.
+    ///
+    /// The HPComponent acts as the health of the object. If health reaches zero, an appropriate & specified action
+    /// takes place.
+    /// /// - Joshua  
+    /// </summary>  
+  
+    /// <remarks>  
+    /// Changes to make:
+    /// - Remove the EnemyAi field
+    /// - - As it stands, the component references & mutates the user, which is fundamentally incorrect, and makes both
+    /// - - parties tougher to reason about & debug
+    /// - Make "health" read only to improve reasonability
+    ///  
+    /// - Joshua  
+    /// </remarks>
+    
     [Range(0, 200)]
     public int health = 100;
     [Range(0, 200)]

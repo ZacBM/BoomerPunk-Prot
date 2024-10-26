@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class SpawnComponent : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    /// <summary>  
+    /// A component that allows an entity to spawn another object.
+    ///
+    /// Standardizes the process of spawning an object, such as a projectile.
+    /// 
+    /// - Joshua  
+    /// </summary>  
+  
+    /// <remarks>  
+    /// Changes to make:
+    /// - Make the component
+    ///  
+    /// - Joshua  
+    /// </remarks>
 }

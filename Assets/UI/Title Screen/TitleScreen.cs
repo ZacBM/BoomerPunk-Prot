@@ -3,6 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class TitleScreen : MonoBehaviour
 {
+    /// <summary>  
+    /// The functionality for the title screen.
+    /// 
+    /// - Joshua  
+    /// </summary>
+    
     [SerializeField] private KeyCode startKey = KeyCode.Space;
 
     void Update()
